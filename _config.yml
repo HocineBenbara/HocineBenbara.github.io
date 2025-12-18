@@ -1,2 +1,5 @@
 title: QA Portfolio – Hocine Benbara
 markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
