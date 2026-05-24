@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Articles de Hocine Benbara – QA, automatisation de tests, Playwright, Selenium, Cypress, FlaUI.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Articles – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .page-wrapper { max-width: 900px; margin: 0 auto; padding: 7rem 2rem 6rem; position: relative; z-index: 1; }
+    .page-header { margin-bottom: 3rem; }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+      color: var(--accent); letter-spacing: .15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem;
+    }
+    .page-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+    .page-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: .75rem; }
+    .page-subtitle { font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: var(--muted); line-height: 1.8; }
+    .page-divider { height: 1px; background: var(--border); margin: 2.5rem 0; position: relative; }
+    .page-divider::before { content: ''; position: absolute; left: 0; top: -1px; width: 48px; height: 2px; background: var(--accent); }
+
+    /* FILTER */
+    .filter-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .filter-btn {
+      font-family: 'JetBrains Mono', monospace; font-size: .67rem;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .3rem .9rem; border-radius: 5px;
+      border: 1px solid var(--border); background: var(--surface2);
+      color: var(--muted); cursor: pointer; transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+
+    /* ARTICLES LIST */
+    .articles-list { display: flex; flex-direction: column; gap: 1rem; }
+    .article-row {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.75rem 2rem;
+      display: grid; grid-template-columns: 90px 1fr auto;
+      gap: 2rem; align-items: center;
+      text-decoration: none; color: inherit; box-shadow: var(--shadow);
+      transition: border-color .2s, transform .2s;
+    }
+    .article-row:hover { border-color: var(--accent); transform: translateX(5px); }
+    .article-row-date {
+      font-family: 'JetBrains Mono', monospace; font-size: .67rem; color: var(--muted);
+      text-align: center; line-height: 1.5;
+    }
+    .article-row-date .month { font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+    .article-row-date .year  { font-size: .8rem; color: var(--accent); font-weight: 700; }
+    .article-row-body {}
+    .article-row-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .55rem; }
+    .article-row-title { font-size: 1rem; font-weight: 700; margin-bottom: .4rem; letter-spacing: -.01em; }
+    .article-row-desc { font-family: 'JetBrains Mono', monospace; font-size: .73rem; color: var(--muted); line-height: 1.65; }
+    .article-row-arrow { color: var(--muted); font-size: 1.2rem; transition: color .2s, transform .2s; flex-shrink: 0; }
+    .article-row:hover .article-row-arrow { color: var(--accent); transform: translateX(4px); }
+
+    /* FEATURED */
+    .article-row.featured { border-color: rgba(0,229,160,.18); background: linear-gradient(135deg, var(--surface), rgba(0,229,160,.03)); }
+    .featured-badge {
+      font-family: 'JetBrains Mono', monospace; font-size: .6rem; letter-spacing: .12em;
+      text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--accent);
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem 2rem; margin-bottom: 2.5rem;
+    }
+    .stats-bar-item { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--muted); }
+    .stats-bar-item span { color: var(--accent); font-weight: 700; margin-right: 4px; }
+
+    /* NAV */
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    @media(max-width:600px){
+      .page-wrapper { padding: 6rem 1.25rem 4rem; }
+      .article-row { grid-template-columns: 1fr auto; }
+      .article-row-date { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Back to Portfolio</span><span class="fr">Retour au portfolio</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <header class="page-header reveal">
+    <div class="page-eyebrow">
+      <span class="en">Knowledge base</span><span class="fr">Base de connaissances</span>
+    </div>
+    <h1 class="page-title">
+      <span class="en">All Articles</span>
+      <span class="fr">Tous les articles</span>
+    </h1>
+    <p class="page-subtitle">
+      <span class="en">Practical write-ups on test automation, QA tooling and software quality — from real projects.</span>
+      <span class="fr">Des retours concrets sur l'automatisation de tests, les outils QA et la qualité logicielle — issus de vrais projets.</span>
+    </p>
+  </header>
+
+  <div class="page-divider"></div>
+
+  <!-- STATS -->
+  <div class="stats-bar reveal">
+    <div class="stats-bar-item"><span>5</span> <span class="en">Articles</span><span class="fr">Articles</span></div>
+    <div class="stats-bar-item"><span>3</span> <span class="en">Frameworks covered</span><span class="fr">Frameworks couverts</span></div>
+    <div class="stats-bar-item"><span>EN / FR</span> <span class="en">Bilingual</span><span class="fr">Bilingue</span></div>
+    <div class="stats-bar-item"><span>2025–2026</span></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-row reveal">
+    <button class="filter-btn active" onclick="filterArticles('all', this)">
+      <span class="en">All</span><span class="fr">Tous</span>
+    </button>
+    <button class="filter-btn" onclick="filterArticles('playwright', this)">Playwright</button>
+    <button class="filter-btn" onclick="filterArticles('selenium', this)">Selenium</button>
+    <button class="filter-btn" onclick="filterArticles('cypress', this)">Cypress</button>
+    <button class="filter-btn" onclick="filterArticles('flaui', this)">FlaUI</button>
+    <button class="filter-btn" onclick="filterArticles('tools', this)">
+      <span class="en">Tools</span><span class="fr">Outils</span>
+    </button>
+  </div>
+
+  <!-- ARTICLES LIST -->
+  <div class="articles-list">
+
+    <!-- Playwright API -->
+    <a href="api-testing-playwright.html" class="article-row featured reveal" data-tags="playwright api">
+      <div class="article-row-date">
+        <div class="month">May</div>
+        <div class="year">2025</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">Playwright</span>
+          <span class="tag blue">REST API</span>
+          <span class="tag amber">Zephyr</span>
+          <span class="featured-badge"><span class="en">Latest</span><span class="fr">Récent</span></span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">How I Tested a REST API Using Playwright</span>
+          <span class="fr">Comment j'ai testé une API REST avec Playwright</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Bearer token auth · CRUD validation (200/201/400) · Test isolation · Zephyr reporting</span>
+          <span class="fr">Auth Bearer token · Validation CRUD (200/201/400) · Isolation · Rapport Zephyr</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+    <!-- Lighthouse -->
+    <a href="lighthouse.html" class="article-row reveal" data-tags="tools">
+      <div class="article-row-date">
+        <div class="month">May</div>
+        <div class="year">2025</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">Chrome DevTools</span>
+          <span class="tag blue">Performance</span>
+          <span class="tag blue">SEO</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">Introduction to Lighthouse</span>
+          <span class="fr">Présentation de Lighthouse</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Automated analysis tool · Performance · Accessibility · SEO · Best practices</span>
+          <span class="fr">Outil d'analyse automatisée · Performance · Accessibilité · SEO · Bonnes pratiques</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+    <!-- Selenium -->
+    <a href="selenium-framework.html" class="article-row reveal" data-tags="selenium">
+      <div class="article-row-date">
+        <div class="month">Jan</div>
+        <div class="year">2025</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">Selenium</span>
+          <span class="tag blue">Java</span>
+          <span class="tag amber">TestNG</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">My Selenium Automation Framework Explained</span>
+          <span class="fr">Mon framework d'automatisation Selenium expliqué</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Page Object Model · Reusable utilities · Data-driven tests · Full isolation</span>
+          <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+    <!-- FlaUI -->
+    <a href="flaui.html" class="article-row reveal" data-tags="flaui">
+      <div class="article-row-date">
+        <div class="month">Jan</div>
+        <div class="year">2026</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">FlaUI</span>
+          <span class="tag blue">C#</span>
+          <span class="tag blue">WPF</span>
+          <span class="tag amber">UIA3</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">Desktop App Automation with FlaUI</span>
+          <span class="fr">Automatisation d'apps Desktop avec FlaUI</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
+          <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+    <!-- Cypress -->
+    <a href="cypress.html" class="article-row reveal" data-tags="cypress">
+      <div class="article-row-date">
+        <div class="month">Feb</div>
+        <div class="year">2026</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">Cypress</span>
+          <span class="tag blue">JavaScript</span>
+          <span class="tag blue">E2E</span>
+          <span class="tag amber">GitHub Actions</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">End-to-End Testing with Cypress</span>
+          <span class="fr">Tests End-to-End avec Cypress</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Real browser · Automatic waiting · Network interception · CI integration</span>
+          <span class="fr">Vrai navigateur · Attente automatique · Interception réseau · Intégration CI</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+  </div><!-- /articles-list -->
+</div><!-- /page-wrapper -->
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  function filterArticles(tag, btn) {
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    document.querySelectorAll('.article-row').forEach(function(row){
+      if(tag === 'all' || (row.dataset.tags && row.dataset.tags.includes(tag))){
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

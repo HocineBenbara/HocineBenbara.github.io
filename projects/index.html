@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Projets QA de Hocine Benbara – Frameworks Playwright, FlaUI, Selenium et tests API.">
+  <meta name="author" content="Hocine Benbara">
+  <title>QA Projects – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .page-wrapper { max-width: 1000px; margin: 0 auto; padding: 7rem 2rem 6rem; position: relative; z-index: 1; }
+    .page-header  { margin-bottom: 3rem; }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+      color: var(--accent); letter-spacing: .15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem;
+    }
+    .page-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+    .page-title   { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: .75rem; }
+    .page-subtitle { font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: var(--muted); line-height: 1.8; }
+    .page-divider { height: 1px; background: var(--border); margin: 2.5rem 0; position: relative; }
+    .page-divider::before { content: ''; position: absolute; left: 0; top: -1px; width: 48px; height: 2px; background: var(--accent); }
+
+    /* PROJECTS GRID */
+    .projects-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .proj-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s;
+      text-decoration: none; color: inherit;
+    }
+    .proj-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .proj-card.featured { grid-column: 1 / -1; flex-direction: row; }
+
+    .proj-card-visual {
+      background: var(--surface2); min-height: 160px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; position: relative; overflow: hidden;
+    }
+    .proj-card.featured .proj-card-visual { width: 42%; flex-shrink: 0; min-height: auto; }
+    .proj-card-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,160,.05), transparent);
+    }
+    .proj-visual-code {
+      font-family: 'JetBrains Mono', monospace; font-size: .67rem;
+      color: var(--muted); line-height: 1.85; z-index: 1; position: relative;
+    }
+    .proj-visual-icon { font-size: 3.5rem; z-index: 1; }
+
+    .proj-card-body { padding: 1.75rem; flex: 1; display: flex; flex-direction: column; gap: .6rem; }
+    .proj-card-type {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      color: var(--accent); letter-spacing: .12em; text-transform: uppercase;
+    }
+    .proj-card-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -.01em; }
+    .proj-card-desc {
+      font-family: 'JetBrains Mono', monospace; font-size: .76rem;
+      color: var(--muted); line-height: 1.85; flex: 1;
+    }
+    .proj-card-stack { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .proj-card-links { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: .25rem; }
+
+    /* METRICS */
+    .metrics-row {
+      display: flex; gap: .75rem; flex-wrap: wrap; margin-top: .5rem;
+    }
+    .metric {
+      font-family: 'JetBrains Mono', monospace; font-size: .67rem;
+      display: flex; align-items: center; gap: 5px; color: var(--muted);
+    }
+    .metric-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .metric-dot.blue  { background: var(--accent2); }
+    .metric-dot.amber { background: var(--accent3); }
+
+    /* NAV */
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    @media(max-width:700px){
+      .page-wrapper { padding: 6rem 1.25rem 4rem; }
+      .projects-list { grid-template-columns: 1fr; }
+      .proj-card.featured { flex-direction: column; }
+      .proj-card.featured .proj-card-visual { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#projects" class="nav-back">← <span class="en">Back to Portfolio</span><span class="fr">Retour au portfolio</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <header class="page-header reveal">
+    <div class="page-eyebrow">
+      <span class="en">Portfolio</span><span class="fr">Portfolio</span>
+    </div>
+    <h1 class="page-title">
+      <span class="en">QA Projects</span>
+      <span class="fr">Projets QA</span>
+    </h1>
+    <p class="page-subtitle">
+      <span class="en">Production-grade automation frameworks and test suites — web, desktop and API.</span>
+      <span class="fr">Frameworks d'automatisation et suites de tests prêts pour la production — web, desktop et API.</span>
+    </p>
+  </header>
+
+  <div class="page-divider"></div>
+
+  <div class="projects-list">
+
+    <!-- ── PLAYWRIGHT – FEATURED ── -->
+    <a href="playwright-framework.html" class="proj-card featured reveal">
+      <div class="proj-card-visual">
+        <div class="proj-visual-code">
+<span style="color:#f97583">import</span> { test <span style="color:#f97583">as</span> base } <span style="color:#f97583">from</span> <span style="color:#9ecbff">'@playwright/test'</span>;
+<span style="color:#f97583">import</span> { <span style="color:#f0c27f">LoginPage</span> } <span style="color:#f97583">from</span> <span style="color:#9ecbff">'../pages/LoginPage'</span>;
+
+<span style="color:#f97583">export const</span> test = base.<span style="color:#b392f0">extend</span>({
+  loginPage: <span style="color:#f97583">async</span> ({ page }, use) => {
+    <span style="color:#f97583">const</span> lp = <span style="color:#f97583">new</span> <span style="color:#f0c27f">LoginPage</span>(page);
+    <span style="color:#f97583">await</span> <span style="color:#b392f0">use</span>(lp);
+  },
+});
+        </div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-card-type">🎭 Playwright · TypeScript · Web</div>
+        <div class="proj-card-title">
+          <span class="en">Playwright Web Test Framework</span>
+          <span class="fr">Framework de tests web Playwright</span>
+        </div>
+        <div class="proj-card-desc">
+          <span class="en">Production-ready framework with TypeScript, Page Object Model, custom fixtures,
+          data-driven testing via JSON, Zephyr Scale integration, multi-browser execution
+          and automatic screenshot on failure.</span>
+          <span class="fr">Framework prêt pour la production avec TypeScript, Page Object Model, fixtures
+          personnalisées, tests data-driven via JSON, intégration Zephyr Scale, exécution
+          multi-navigateur et capture d'écran automatique sur échec.</span>
+        </div>
+        <div class="metrics-row">
+          <div class="metric"><div class="metric-dot"></div><span class="en">Page Object Model</span><span class="fr">Page Object Model</span></div>
+          <div class="metric"><div class="metric-dot blue"></div><span class="en">Custom Fixtures</span><span class="fr">Fixtures personnalisées</span></div>
+          <div class="metric"><div class="metric-dot amber"></div>Zephyr Scale</div>
+        </div>
+        <div class="proj-card-stack">
+          <span class="tag">Playwright</span><span class="tag">TypeScript</span>
+          <span class="tag blue">POM</span><span class="tag blue">Data-Driven</span>
+          <span class="tag amber">Zephyr Scale</span><span class="tag amber">GitHub Actions</span>
+        </div>
+        <div class="proj-card-links">
+          <span class="link-btn link-btn-primary"><span class="en">→ View Details</span><span class="fr">→ Voir le détail</span></span>
+          <a href="https://github.com/hocinebenbara" class="link-btn link-btn-secondary" target="_blank" onclick="event.stopPropagation()">↗ GitHub</a>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── FLAUI ── -->
+    <a href="flaui-wpf-automation.html" class="proj-card reveal">
+      <div class="proj-card-visual">
+        <div class="proj-visual-icon">🖥️</div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-card-type">🖥️ FlaUI · C# · WPF Desktop</div>
+        <div class="proj-card-title">
+          <span class="en">WPF Desktop Automation (FlaUI)</span>
+          <span class="fr">Automatisation WPF Desktop (FlaUI)</span>
+        </div>
+        <div class="proj-card-desc">
+          <span class="en">NUnit automation framework for Windows WPF apps using FlaUI UIA3. Auto screenshot on failure,
+          Zephyr Scale via [ZephyrTest] attribute, and GitHub Actions CI on windows-latest runner.</span>
+          <span class="fr">Framework NUnit pour apps WPF via FlaUI UIA3. Screenshot automatique sur échec,
+          Zephyr Scale via attribut [ZephyrTest], et CI GitHub Actions sur runner windows-latest.</span>
+        </div>
+        <div class="proj-card-stack">
+          <span class="tag">FlaUI / UIA3</span><span class="tag">C# / NUnit</span>
+          <span class="tag blue">POM</span><span class="tag amber">Zephyr Scale</span>
+          <span class="tag">.NET 8</span>
+        </div>
+        <div class="proj-card-links">
+          <span class="link-btn link-btn-primary"><span class="en">→ View Details</span><span class="fr">→ Voir le détail</span></span>
+          <a href="https://github.com/hocinebenbara" class="link-btn link-btn-secondary" target="_blank" onclick="event.stopPropagation()">↗ GitHub</a>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── API REST ── -->
+    <a href="../articles/api-testing-playwright.html" class="proj-card reveal">
+      <div class="proj-card-visual">
+        <div class="proj-visual-icon">🔌</div>
+      </div>
+      <div class="proj-card-body">
+        <div class="proj-card-type">🔌 Playwright · REST API · Backend</div>
+        <div class="proj-card-title">
+          <span class="en">REST API Test Suite</span>
+          <span class="fr">Suite de tests API REST</span>
+        </div>
+        <div class="proj-card-desc">
+          <span class="en">Automated API tests using Playwright's API context. Bearer token auth,
+          CRUD validation (200/201/400), full test isolation and post-execution cleanup.</span>
+          <span class="fr">Tests API automatisés avec le contexte API de Playwright. Auth Bearer token,
+          validation CRUD (200/201/400), isolation complète et nettoyage post-exécution.</span>
+        </div>
+        <div class="proj-card-stack">
+          <span class="tag">Playwright API</span><span class="tag blue">Bearer Auth</span>
+          <span class="tag blue">CRUD</span><span class="tag amber">Zephyr</span>
+        </div>
+        <div class="proj-card-links">
+          <span class="link-btn link-btn-primary"><span class="en">→ Read Article</span><span class="fr">→ Lire l'article</span></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

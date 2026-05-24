@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="End-to-End Testing with Cypress – real browser testing, automatic waiting, network interception and CI integration.">
+  <meta name="author" content="Hocine Benbara">
+  <title>End-to-End Testing with Cypress – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .article-wrapper { max-width:760px; margin:0 auto; padding:7rem 2rem 6rem; position:relative; z-index:1; }
+    .article-header { margin-bottom:2.5rem; }
+    .article-meta { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; margin-bottom:1.25rem; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+    .article-meta .sep { color:var(--border); }
+    .article-tag { padding:2px 10px; border-radius:4px; background:var(--tag-bg); border:1px solid var(--tag-border); color:var(--accent); }
+    .article-title { font-size:clamp(1.9rem,5vw,2.8rem); font-weight:800; letter-spacing:-.02em; line-height:1.15; margin-bottom:1rem; }
+    .article-subtitle { font-family:'JetBrains Mono',monospace; font-size:.87rem; color:var(--muted); line-height:1.85; }
+    .article-tags { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 2rem; }
+    .article-divider { height:1px; background:var(--border); margin:2rem 0; position:relative; }
+    .article-divider::before { content:''; position:absolute; left:0; top:-1px; width:48px; height:2px; background:var(--accent); }
+    .article-body { line-height:1.85; }
+    .article-body h2 { font-size:1.2rem; font-weight:700; letter-spacing:-.01em; margin:2.5rem 0 1rem; display:flex; align-items:center; gap:10px; }
+    .article-body h2::before { content:''; width:3px; height:1.2rem; background:var(--accent); border-radius:2px; flex-shrink:0; }
+    .article-body p { font-family:'JetBrains Mono',monospace; font-size:.84rem; color:var(--muted); margin-bottom:1.1rem; line-height:1.95; }
+    .article-body strong { color:var(--text); font-weight:700; }
+    .code-snippet { background:#060809; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:1.5rem 0; }
+    .code-snippet-header { display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem; background:var(--surface2); border-bottom:1px solid var(--border); }
+    .code-snippet-label { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    .code-dots { display:flex; gap:5px; }
+    .code-dots span { width:10px; height:10px; border-radius:50%; }
+    .code-dots .d1 { background:#ff5f57; } .code-dots .d2 { background:#febc2e; } .code-dots .d3 { background:#28c840; }
+    .code-snippet pre { padding:1.25rem 1.5rem; margin:0; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:1.85; color:#c9d1d9; overflow-x:auto; white-space:pre; }
+    .feature-list { list-style:none; margin:1rem 0 1.5rem; }
+    .feature-list li { display:flex; gap:12px; align-items:flex-start; padding:.75rem 0; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .feature-list li:last-child { border-bottom:none; }
+    .f-icon { width:24px; height:24px; border-radius:5px; background:var(--tag-bg); border:1px solid var(--tag-border); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+    .callout { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:1rem 1.25rem; margin:1.75rem 0; }
+    .callout.warning { border-left-color:var(--accent3); }
+    .callout p { margin:0; }
+    .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.25rem 0; }
+    .compare-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1rem; }
+    .compare-card h4 { font-family:'JetBrains Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; margin-bottom:.75rem; }
+    .compare-card.good h4 { color:var(--accent); }
+    .compare-card.bad h4  { color:#f87171; }
+    .compare-card ul { list-style:none; }
+    .compare-card ul li { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); padding:.3rem 0; border-bottom:1px solid var(--border); display:flex; gap:8px; }
+    .compare-card ul li:last-child { border-bottom:none; }
+    .nav-back { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); text-decoration:none; letter-spacing:.08em; text-transform:uppercase; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    .article-footer { margin-top:4rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .footer-back { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); text-decoration:none; text-transform:uppercase; letter-spacing:.08em; transition:color .2s; }
+    .footer-back:hover { color:var(--accent); }
+    .footer-sig { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); }
+    .footer-sig span { color:var(--accent); }
+    @media(max-width:600px){ .article-wrapper{padding:6rem 1.25rem 4rem;} .compare-grid{grid-template-columns:1fr;} .article-footer{flex-direction:column;gap:1rem;} }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="article-wrapper">
+  <header class="article-header reveal">
+    <div class="article-meta">
+      <span class="article-tag">Cypress · E2E</span>
+      <span class="sep">·</span>
+      <span class="en">2025</span><span class="fr">2025</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+    <h1 class="article-title">
+      <span class="en">End-to-End Testing with Cypress</span>
+      <span class="fr">Tests End-to-End avec Cypress</span>
+    </h1>
+    <p class="article-subtitle">
+      <span class="en">Real browser · Automatic waiting · Network interception · CI integration</span>
+      <span class="fr">Vrai navigateur · Attente automatique · Interception réseau · Intégration CI</span>
+    </p>
+    <div class="article-tags">
+      <span class="tag">Cypress</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag blue">E2E</span>
+      <span class="tag blue">Mocha</span>
+      <span class="tag amber">GitHub Actions</span>
+      <span class="tag amber">cy.intercept</span>
+    </div>
+  </header>
+
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+
+    <section class="reveal">
+      <h2><span class="en">What makes Cypress different</span><span class="fr">Ce qui rend Cypress différent</span></h2>
+      <p>
+        <span class="en">Most E2E tools drive a browser from the outside — they send commands over a protocol
+        and wait for responses. Cypress runs <strong>inside the browser</strong>, in the same execution context
+        as the application. This architectural choice is what makes it fast, reliable, and debuggable in a way
+        that Selenium-based tools simply aren't.</span>
+        <span class="fr">La plupart des outils E2E pilotent un navigateur depuis l'extérieur — ils envoient des
+        commandes via un protocole et attendent des réponses. Cypress tourne <strong>à l'intérieur du navigateur</strong>,
+        dans le même contexte d'exécution que l'application. Ce choix architectural le rend rapide, fiable et
+        débogable d'une façon que les outils basés sur Selenium ne permettent tout simplement pas.</span>
+      </p>
+      <p>
+        <span class="en">The result: no more <code style="color:var(--accent);font-size:.8rem">sleep()</code> calls,
+        no more flaky timeouts, and a time-travel debugger that shows a snapshot of the DOM at every command.</span>
+        <span class="fr">Le résultat : plus d'appels <code style="color:var(--accent);font-size:.8rem">sleep()</code>,
+        plus de timeouts instables, et un débogueur time-travel qui montre un snapshot du DOM à chaque commande.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Project structure</span><span class="fr">Structure du projet</span></h2>
+      <p>
+        <span class="en">Cypress has an opinionated folder structure. Respecting it keeps tests organized
+        and makes onboarding new team members straightforward.</span>
+        <span class="fr">Cypress a une structure de dossiers imposée. La respecter garde les tests organisés
+        et facilite l'intégration de nouveaux membres dans l'équipe.</span>
+      </p>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">project layout</span>
+        </div>
+        <pre><span style="color:#3b82f6">cypress/</span>
+├── <span style="color:#3b82f6">e2e/</span>
+│   ├── <span style="color:#c9d1d9">login.cy.js</span>
+│   └── <span style="color:#c9d1d9">dashboard.cy.js</span>
+├── <span style="color:#3b82f6">fixtures/</span>
+│   └── <span style="color:#c9d1d9">users.json</span>          <span style="color:#8b949e">// test data</span>
+├── <span style="color:#3b82f6">support/</span>
+│   ├── <span style="color:#c9d1d9">commands.js</span>         <span style="color:#8b949e">// custom cy.* commands</span>
+│   └── <span style="color:#c9d1d9">e2e.js</span>              <span style="color:#8b949e">// global hooks / imports</span>
+└── <span style="color:#c9d1d9">cypress.config.js</span>       <span style="color:#8b949e">// baseUrl, timeouts, env vars</span></pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Writing a real test</span><span class="fr">Écrire un vrai test</span></h2>
+      <p>
+        <span class="en">Cypress tests read like plain English. Commands are chained, assertions are built in,
+        and the automatic waiting means you never have to think about timing.</span>
+        <span class="fr">Les tests Cypress se lisent comme de l'anglais courant. Les commandes se chaînent,
+        les assertions sont intégrées, et l'attente automatique signifie que tu n'as jamais à penser au timing.</span>
+      </p>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">cypress/e2e/login.cy.js</span>
+        </div>
+        <pre><span style="color:#8b949e">// Load test data from fixture</span>
+<span style="color:#ff7b72">import</span> users <span style="color:#ff7b72">from</span> <span style="color:#a5d6ff">'../fixtures/users.json'</span>;
+
+<span style="color:#d2a8ff">describe</span>(<span style="color:#a5d6ff">'Login page'</span>, () => {
+
+  <span style="color:#d2a8ff">beforeEach</span>(() => {
+    cy.<span style="color:#d2a8ff">visit</span>(<span style="color:#a5d6ff">'/login'</span>);            <span style="color:#8b949e">// baseUrl from config</span>
+  });
+
+  <span style="color:#d2a8ff">it</span>(<span style="color:#a5d6ff">'logs in with valid credentials'</span>, () => {
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'#username'</span>).<span style="color:#d2a8ff">type</span>(users.valid.email);
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'#password'</span>).<span style="color:#d2a8ff">type</span>(users.valid.password);
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="submit"]'</span>).<span style="color:#d2a8ff">click</span>();
+
+    cy.<span style="color:#d2a8ff">url</span>().<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'include'</span>, <span style="color:#a5d6ff">'/dashboard'</span>);
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="welcome"]'</span>).<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'be.visible'</span>);
+  });
+
+  <span style="color:#d2a8ff">it</span>(<span style="color:#a5d6ff">'shows error on wrong password'</span>, () => {
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'#username'</span>).<span style="color:#d2a8ff">type</span>(users.valid.email);
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'#password'</span>).<span style="color:#d2a8ff">type</span>(<span style="color:#a5d6ff">'wrong-password'</span>);
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="submit"]'</span>).<span style="color:#d2a8ff">click</span>();
+
+    cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="error"]'</span>)
+      .<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'be.visible'</span>)
+      .<span style="color:#d2a8ff">and</span>(<span style="color:#a5d6ff">'contain'</span>, <span style="color:#a5d6ff">'Invalid credentials'</span>);
+  });
+});</pre>
+      </div>
+      <div class="callout">
+        <p>
+          <span class="en">💡 <strong>Best practice :</strong> always use <code style="color:var(--accent);font-size:.8rem">data-cy</code>
+          attributes as selectors. They are immune to CSS changes, class renames, and refactoring —
+          the test never breaks because a designer changed a class name.</span>
+          <span class="fr">💡 <strong>Bonne pratique :</strong> toujours utiliser les attributs
+          <code style="color:var(--accent);font-size:.8rem">data-cy</code> comme sélecteurs. Ils sont immunisés
+          contre les changements CSS, les renommages de classes et les refactorisations —
+          le test ne casse jamais parce qu'un designer a changé un nom de classe.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Network interception with cy.intercept</span><span class="fr">Interception réseau avec cy.intercept</span></h2>
+      <p>
+        <span class="en">One of Cypress's most powerful features is the ability to intercept, inspect,
+        and stub HTTP requests — without a proxy, without a separate mock server, just one line of code.</span>
+        <span class="fr">L'une des fonctionnalités les plus puissantes de Cypress est la capacité d'intercepter,
+        inspecter et stubber les requêtes HTTP — sans proxy, sans serveur mock séparé, juste une ligne de code.</span>
+      </p>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">network interception</span>
+        </div>
+        <pre><span style="color:#d2a8ff">it</span>(<span style="color:#a5d6ff">'loads user list from API'</span>, () => {
+  <span style="color:#8b949e">// Intercept the real API call</span>
+  cy.<span style="color:#d2a8ff">intercept</span>(<span style="color:#a5d6ff">'GET'</span>, <span style="color:#a5d6ff">'/api/users'</span>).<span style="color:#d2a8ff">as</span>(<span style="color:#a5d6ff">'getUsers'</span>);
+
+  cy.<span style="color:#d2a8ff">visit</span>(<span style="color:#a5d6ff">'/users'</span>);
+  cy.<span style="color:#d2a8ff">wait</span>(<span style="color:#a5d6ff">'@getUsers'</span>).<span style="color:#d2a8ff">its</span>(<span style="color:#a5d6ff">'response.statusCode'</span>).<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'eq'</span>, <span style="color:#79c0ff">200</span>);
+  cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="user-row"]'</span>).<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'have.length.gt'</span>, <span style="color:#79c0ff">0</span>);
+});
+
+<span style="color:#d2a8ff">it</span>(<span style="color:#a5d6ff">'shows empty state when API returns no users'</span>, () => {
+  <span style="color:#8b949e">// Stub the response to control the test scenario</span>
+  cy.<span style="color:#d2a8ff">intercept</span>(<span style="color:#a5d6ff">'GET'</span>, <span style="color:#a5d6ff">'/api/users'</span>, { body: [] }).<span style="color:#d2a8ff">as</span>(<span style="color:#a5d6ff">'emptyUsers'</span>);
+
+  cy.<span style="color:#d2a8ff">visit</span>(<span style="color:#a5d6ff">'/users'</span>);
+  cy.<span style="color:#d2a8ff">wait</span>(<span style="color:#a5d6ff">'@emptyUsers'</span>);
+  cy.<span style="color:#d2a8ff">get</span>(<span style="color:#a5d6ff">'[data-cy="empty-state"]'</span>).<span style="color:#d2a8ff">should</span>(<span style="color:#a5d6ff">'be.visible'</span>);
+});</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Custom commands</span><span class="fr">Commandes personnalisées</span></h2>
+      <p>
+        <span class="en">Repetitive sequences — like logging in before every test — should become custom commands.
+        They live in <code style="color:var(--accent);font-size:.8rem">support/commands.js</code> and are
+        available globally as <code style="color:var(--accent);font-size:.8rem">cy.*</code>.</span>
+        <span class="fr">Les séquences répétitives — comme se connecter avant chaque test — doivent devenir des
+        commandes personnalisées. Elles vivent dans <code style="color:var(--accent);font-size:.8rem">support/commands.js</code>
+        et sont disponibles globalement en tant que <code style="color:var(--accent);font-size:.8rem">cy.*</code>.</span>
+      </p>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">cypress/support/commands.js</span>
+        </div>
+        <pre><span style="color:#8b949e">// Reusable login via API — bypasses the UI, much faster</span>
+Cypress.Commands.<span style="color:#d2a8ff">add</span>(<span style="color:#a5d6ff">'loginByApi'</span>, (email, password) => {
+  cy.<span style="color:#d2a8ff">request</span>({
+    method: <span style="color:#a5d6ff">'POST'</span>,
+    url:    <span style="color:#a5d6ff">'/api/auth/login'</span>,
+    body:   { email, password },
+  }).<span style="color:#d2a8ff">then</span>(({ body }) => {
+    window.localStorage.<span style="color:#d2a8ff">setItem</span>(<span style="color:#a5d6ff">'token'</span>, body.token);
+  });
+});
+
+<span style="color:#8b949e">// Usage in any test:</span>
+<span style="color:#8b949e">// cy.loginByApi('user@example.com', 'pass123');</span></pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Cypress vs Selenium — honest comparison</span><span class="fr">Cypress vs Selenium — comparaison honnête</span></h2>
+      <div class="compare-grid">
+        <div class="compare-card good">
+          <h4><span class="en">✓ Cypress strengths</span><span class="fr">✓ Points forts Cypress</span></h4>
+          <ul>
+            <li>⚡ <span class="en">Automatic waiting — no flaky timeouts</span><span class="fr">Attente automatique — pas de timeout instable</span></li>
+            <li>🔍 <span class="en">Time-travel debugger</span><span class="fr">Débogueur time-travel</span></li>
+            <li>🌐 <span class="en">Built-in network interception</span><span class="fr">Interception réseau intégrée</span></li>
+            <li>📸 <span class="en">Auto screenshots &amp; videos on failure</span><span class="fr">Screenshots et vidéos auto en échec</span></li>
+            <li>🚀 <span class="en">Fast setup, zero config to start</span><span class="fr">Setup rapide, zéro config pour démarrer</span></li>
+          </ul>
+        </div>
+        <div class="compare-card bad">
+          <h4><span class="en">✗ Known limitations</span><span class="fr">✗ Limitations connues</span></h4>
+          <ul>
+            <li>🪟 <span class="en">No multi-tab / multi-window support</span><span class="fr">Pas de multi-onglets / multi-fenêtres</span></li>
+            <li>🌍 <span class="en">Limited cross-browser (mainly Chrome-based)</span><span class="fr">Cross-browser limité (surtout Chrome)</span></li>
+            <li>📱 <span class="en">No native mobile app testing</span><span class="fr">Pas de test d'app mobile native</span></li>
+            <li>🖥️ <span class="en">Web only — no desktop apps</span><span class="fr">Web uniquement — pas d'apps desktop</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">CI integration with GitHub Actions</span><span class="fr">Intégration CI avec GitHub Actions</span></h2>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">.github/workflows/cypress.yml</span>
+        </div>
+        <pre><span style="color:#ff7b72">name</span>: Cypress E2E
+<span style="color:#ff7b72">on</span>: [push, pull_request]
+
+<span style="color:#ff7b72">jobs</span>:
+  <span style="color:#d2a8ff">e2e</span>:
+    <span style="color:#ff7b72">runs-on</span>: ubuntu-latest
+    <span style="color:#ff7b72">steps</span>:
+      - <span style="color:#ff7b72">uses</span>: actions/checkout@v4
+      - <span style="color:#ff7b72">uses</span>: cypress-io/github-action@v6
+        <span style="color:#ff7b72">with</span>:
+          build: npm run build
+          start: npm start
+          wait-on: <span style="color:#a5d6ff">'http://localhost:3000'</span>
+        <span style="color:#ff7b72">env</span>:
+          CYPRESS_BASE_URL: ${{ secrets.BASE_URL }}</pre>
+      </div>
+      <p>
+        <span class="en">The official <code style="color:var(--accent);font-size:.8rem">cypress-io/github-action</code>
+        handles caching, browser installation, and artifact upload automatically.
+        Failed test videos and screenshots are available directly in the Actions summary.</span>
+        <span class="fr">L'action officielle <code style="color:var(--accent);font-size:.8rem">cypress-io/github-action</code>
+        gère le caching, l'installation du navigateur et l'upload des artefacts automatiquement.
+        Les vidéos et screenshots des tests en échec sont disponibles directement dans le résumé Actions.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Key takeaways</span><span class="fr">Ce qu'il faut retenir</span></h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">⚡</div>
+          <div>
+            <strong><span class="en">Never use cy.wait(ms)</span><span class="fr">Ne jamais utiliser cy.wait(ms)</span></strong><br>
+            <span class="en">Always wait on an alias (<code style="color:var(--accent);font-size:.78rem">cy.wait('@alias')</code>)
+            or an assertion. Fixed waits are the root cause of 90% of flaky Cypress tests.</span>
+            <span class="fr">Toujours attendre sur un alias (<code style="color:var(--accent);font-size:.78rem">cy.wait('@alias')</code>)
+            ou une assertion. Les attentes fixes sont la cause de 90% des tests Cypress instables.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🏷️</div>
+          <div>
+            <strong><span class="en">data-cy selectors are mandatory</span><span class="fr">Les sélecteurs data-cy sont obligatoires</span></strong><br>
+            <span class="en">Agree on this convention with your dev team from day one. Retrofitting is painful.</span>
+            <span class="fr">Se mettre d'accord sur cette convention avec l'équipe dev dès le premier jour. Le rétrofit est douloureux.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🔁</div>
+          <div>
+            <strong><span class="en">Login via API, not UI</span><span class="fr">Login via API, pas via l'UI</span></strong><br>
+            <span class="en">UI login in a <code style="color:var(--accent);font-size:.78rem">beforeEach</code> is slow.
+            A direct API call that sets the session token is 10× faster.</span>
+            <span class="fr">Le login UI dans un <code style="color:var(--accent);font-size:.78rem">beforeEach</code> est lent.
+            Un appel API direct qui pose le token de session est 10× plus rapide.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🌐</div>
+          <div>
+            <strong><span class="en">Stub external APIs</span><span class="fr">Stubber les APIs externes</span></strong><br>
+            <span class="en">Third-party services are outside your control. Intercept and stub them so your tests
+            never depend on an external service being up.</span>
+            <span class="fr">Les services tiers sont hors de ton contrôle. Les intercepter et les stubber pour que tes tests
+            ne dépendent jamais de la disponibilité d'un service externe.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="article-footer reveal">
+    <a href="../index.html#articles" class="footer-back">← <span class="en">Back to articles</span><span class="fr">Retour aux articles</span></a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

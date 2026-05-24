@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FlaUI WPF Desktop Automation Framework – C#, NUnit, UIA3, Zephyr Scale, GitHub Actions.">
+  <meta name="author" content="Hocine Benbara">
+  <title>FlaUI WPF Automation – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .proj-wrapper { max-width:900px; margin:0 auto; padding:7rem 2rem 6rem; position:relative; z-index:1; }
+    .proj-header  { margin-bottom:2.5rem; }
+    .proj-eyebrow { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--accent); letter-spacing:.15em; text-transform:uppercase; display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+    .proj-eyebrow::before { content:''; width:28px; height:1px; background:var(--accent); }
+    .proj-title   { font-size:clamp(1.9rem,5vw,2.8rem); font-weight:800; letter-spacing:-.02em; margin-bottom:1rem; }
+    .proj-meta    { display:flex; flex-wrap:wrap; gap:1.5rem; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); margin-bottom:1.5rem; }
+    .proj-tags    { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2rem; }
+    .proj-divider { height:1px; background:var(--border); margin:2rem 0; position:relative; }
+    .proj-divider::before { content:''; position:absolute; left:0; top:-1px; width:48px; height:2px; background:var(--accent); }
+    .proj-body h2 { font-size:1.2rem; font-weight:700; margin:2.5rem 0 1rem; display:flex; align-items:center; gap:10px; }
+    .proj-body h2::before { content:''; width:3px; height:1.2rem; background:var(--accent); border-radius:2px; flex-shrink:0; }
+    .proj-body p  { font-family:'JetBrains Mono',monospace; font-size:.84rem; color:var(--muted); margin-bottom:1.1rem; line-height:1.95; }
+    .proj-body strong { color:var(--text); font-weight:700; }
+    .code-snippet { background:#060809; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:1.5rem 0; }
+    .code-snippet-header { display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem; background:var(--surface2); border-bottom:1px solid var(--border); }
+    .code-snippet-label { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    .code-dots { display:flex; gap:5px; }
+    .code-dots span { width:10px; height:10px; border-radius:50%; }
+    .code-dots .d1{background:#ff5f57;}.code-dots .d2{background:#febc2e;}.code-dots .d3{background:#28c840;}
+    .code-snippet pre { padding:1.25rem 1.5rem; margin:0; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:1.85; color:#c9d1d9; overflow-x:auto; white-space:pre; }
+    .feature-list { list-style:none; margin:1rem 0 1.5rem; }
+    .feature-list li { display:flex; gap:12px; align-items:flex-start; padding:.75rem 0; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .feature-list li:last-child { border-bottom:none; }
+    .f-icon { width:24px; height:24px; border-radius:5px; background:var(--tag-bg); border:1px solid var(--tag-border); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+    .callout { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:1rem 1.25rem; margin:1.75rem 0; }
+    .callout.warning { border-left-color:var(--accent3); }
+    .callout p { margin:0; font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .file-tree { background:#060809; border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:2; color:var(--muted); margin:1.25rem 0; }
+    .file-tree .folder{color:#3b82f6;} .file-tree .cm{color:var(--muted);font-style:italic;margin-left:8px;}
+    .arch-layers { display:flex; flex-direction:column; gap:4px; margin:1.5rem 0; font-family:'JetBrains Mono',monospace; font-size:.75rem; }
+    .arch-layer { padding:.65rem 1.1rem; border-radius:7px; border:1px solid var(--border); color:var(--muted); display:flex; align-items:center; gap:10px; transition:border-color .2s; }
+    .arch-layer:hover { border-color:var(--accent); color:var(--text); }
+    .arch-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .proj-footer { margin-top:4rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .footer-back { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); text-decoration:none; text-transform:uppercase; letter-spacing:.08em; transition:color .2s; }
+    .footer-back:hover { color:var(--accent); }
+    .footer-sig { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); }
+    .footer-sig span { color:var(--accent); }
+    .nav-back { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); text-decoration:none; letter-spacing:.08em; text-transform:uppercase; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    @media(max-width:600px){ .proj-wrapper{padding:6rem 1.25rem 4rem;} .proj-footer{flex-direction:column;gap:1rem;} }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="index.html" class="nav-back">← <span class="en">Projects</span><span class="fr">Projets</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="proj-wrapper">
+  <header class="proj-header reveal">
+    <div class="proj-eyebrow">🖥️ <span class="en">QA Project</span><span class="fr">Projet QA</span></div>
+    <h1 class="proj-title">
+      <span class="en">WPF Desktop Automation Framework</span>
+      <span class="fr">Framework d'automatisation WPF Desktop</span>
+    </h1>
+    <div class="proj-meta">
+      <span>🗂 C# / .NET 8</span>
+      <span>📅 2025</span>
+      <span>🖥️ Windows WPF</span>
+      <span>🔗 FlaUI UIA3</span>
+    </div>
+    <div class="proj-tags">
+      <span class="tag">FlaUI</span><span class="tag">C#</span><span class="tag">NUnit</span>
+      <span class="tag blue">UIA3</span><span class="tag blue">Page Object Model</span>
+      <span class="tag amber">Zephyr Scale</span><span class="tag amber">GitHub Actions</span>
+      <span class="tag">.NET 8</span>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <a href="https://github.com/hocinebenbara" target="_blank" class="link-btn link-btn-secondary">↗ GitHub</a>
+    </div>
+  </header>
+
+  <div class="proj-divider"></div>
+
+  <div class="proj-body">
+
+    <section class="reveal">
+      <h2><span class="en">Overview</span><span class="fr">Vue d'ensemble</span></h2>
+      <p>
+        <span class="en">A complete automation framework for <strong>Windows WPF desktop applications</strong>,
+        built on <strong>FlaUI UIA3</strong>, <strong>NUnit</strong> and <strong>C# .NET 8</strong>.
+        It covers the full quality lifecycle: test isolation via a <code style="color:var(--accent);font-size:.8rem">TestBase</code>
+        with setup/teardown, automatic screenshot on failure, a custom <code style="color:var(--accent);font-size:.8rem">[ZephyrTest]</code>
+        attribute for Zephyr Scale integration, and CI on GitHub Actions using a <code style="color:var(--accent);font-size:.8rem">windows-latest</code> runner.</span>
+        <span class="fr">Un framework d'automatisation complet pour les <strong>applications desktop Windows WPF</strong>,
+        construit sur <strong>FlaUI UIA3</strong>, <strong>NUnit</strong> et <strong>C# .NET 8</strong>.
+        Il couvre le cycle qualité complet : isolation des tests via un <code style="color:var(--accent);font-size:.8rem">TestBase</code>
+        avec setup/teardown, screenshot automatique sur échec, attribut personnalisé <code style="color:var(--accent);font-size:.8rem">[ZephyrTest]</code>
+        pour l'intégration Zephyr Scale, et CI sur GitHub Actions avec runner <code style="color:var(--accent);font-size:.8rem">windows-latest</code>.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Architecture</span><span class="fr">Architecture</span></h2>
+      <div class="arch-layers">
+        <div class="arch-layer"><div class="arch-dot" style="background:#00e5a0"></div><strong>Tests (LoginSpec, …)</strong> <span style="margin-left:8px;color:var(--muted);font-size:.7rem"><span class="en">describe scenarios, call pages, assert</span><span class="fr">décrivent les scénarios, appellent les pages, assertent</span></span></div>
+        <div class="arch-layer"><div class="arch-dot" style="background:#3b82f6"></div><strong>ZephyrTestBase</strong> <span style="margin-left:8px;color:var(--muted);font-size:.7rem"><span class="en">auto-reporting to Zephyr Scale</span><span class="fr">rapport automatique vers Zephyr Scale</span></span></div>
+        <div class="arch-layer"><div class="arch-dot" style="background:#f59e0b"></div><strong>TestBase</strong> <span style="margin-left:8px;color:var(--muted);font-size:.7rem"><span class="en">app launch, teardown, screenshot on failure</span><span class="fr">lancement app, teardown, screenshot sur échec</span></span></div>
+        <div class="arch-layer"><div class="arch-dot" style="background:#8b949e"></div><strong>Pages (LoginPage, …)</strong> <span style="margin-left:8px;color:var(--muted);font-size:.7rem"><span class="en">encapsulate elements and interactions</span><span class="fr">encapsulent les éléments et les interactions</span></span></div>
+        <div class="arch-layer"><div class="arch-dot" style="background:#444"></div><strong>FlaUI UIA3 + WPF App</strong></div>
+      </div>
+
+      <div class="file-tree">
+<span class="folder">src/</span>
+├── <span class="folder">Base/</span>
+│   ├── TestBase.cs          <span class="cm">// SetUp / TearDown / screenshot / WaitForElement</span>
+│   └── ZephyrTestBase.cs    <span class="cm">// extends TestBase + auto Zephyr reporting</span>
+├── <span class="folder">Pages/</span>
+│   └── LoginPage.cs         <span class="cm">// POM — AutomationId selectors, actions</span>
+├── <span class="folder">Config/</span>
+│   └── TestConfig.cs        <span class="cm">// all env vars in one place</span>
+├── <span class="folder">Helpers/</span>
+│   └── ZephyrHelper.cs      <span class="cm">// REST client + [ZephyrTest] attribute</span>
+└── <span class="folder">Tests/</span>
+    └── LoginSpec.cs         <span class="cm">// [ZephyrTest("PROJ-T01")] annotations</span></div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Key features</span><span class="fr">Fonctionnalités clés</span></h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🆔</div>
+          <div>
+            <strong><span class="en">AutomationId selectors</span><span class="fr">Sélecteurs AutomationId</span></strong><br>
+            <span class="en">All element lookups use <code style="color:var(--accent);font-size:.78rem">AutomationId</code> — the most stable WPF selector, set by the dev team and immune to UI refactoring.</span>
+            <span class="fr">Toutes les recherches d'éléments utilisent <code style="color:var(--accent);font-size:.78rem">AutomationId</code> — le sélecteur WPF le plus stable, défini par l'équipe dev et immunisé contre les refactorisations UI.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📸</div>
+          <div>
+            <strong><span class="en">Automatic screenshot on failure</span><span class="fr">Screenshot automatique sur échec</span></strong><br>
+            <span class="en">The <code style="color:var(--accent);font-size:.78rem">TearDown</code> checks the NUnit test status — if failed, it captures the screen and attaches it to the test report. Zero code in test methods.</span>
+            <span class="fr">Le <code style="color:var(--accent);font-size:.78rem">TearDown</code> vérifie le statut NUnit — si échec, il capture l'écran et l'attache au rapport. Aucun code dans les méthodes de test.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📋</div>
+          <div>
+            <strong>[ZephyrTest] attribute</strong><br>
+            <span class="en">Annotate any test method with <code style="color:var(--accent);font-size:.78rem">[ZephyrTest("PROJ-T01")]</code>. After teardown, <code style="color:var(--accent);font-size:.78rem">ZephyrTestBase</code> reads this attribute and pushes the result automatically to Zephyr Scale.</span>
+            <span class="fr">Annoter n'importe quelle méthode de test avec <code style="color:var(--accent);font-size:.78rem">[ZephyrTest("PROJ-T01")]</code>. Après le teardown, <code style="color:var(--accent);font-size:.78rem">ZephyrTestBase</code> lit cet attribut et pousse le résultat automatiquement vers Zephyr Scale.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">⏱️</div>
+          <div>
+            <strong><span class="en">WaitForElement utility</span><span class="fr">Utilitaire WaitForElement</span></strong><br>
+            <span class="en">A polling-based wait built into <code style="color:var(--accent);font-size:.78rem">TestBase</code> — retries every 200ms until the element appears or the timeout is reached. No raw <code style="color:var(--accent);font-size:.78rem">Thread.Sleep</code> anywhere.</span>
+            <span class="fr">Une attente par polling intégrée dans <code style="color:var(--accent);font-size:.78rem">TestBase</code> — réessaie toutes les 200ms jusqu'à ce que l'élément apparaisse ou que le timeout soit atteint. Aucun <code style="color:var(--accent);font-size:.78rem">Thread.Sleep</code> brut.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🖥️</div>
+          <div>
+            <strong>CI – windows-latest runner</strong><br>
+            <span class="en">FlaUI requires a real Windows GUI session. The pipeline targets <code style="color:var(--accent);font-size:.78rem">runs-on: windows-latest</code> and uploads TRX results and screenshots as artifacts.</span>
+            <span class="fr">FlaUI nécessite une vraie session GUI Windows. Le pipeline cible <code style="color:var(--accent);font-size:.78rem">runs-on: windows-latest</code> et uploade les résultats TRX et screenshots en artefacts.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2>CI / GitHub Actions</h2>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">.github/workflows/flaui.yml</span>
+        </div>
+        <pre><span style="color:#f97583">name</span>: FlaUI Desktop Tests
+<span style="color:#f97583">on</span>: [push]
+<span style="color:#f97583">jobs</span>:
+  <span style="color:#b392f0">desktop</span>:
+    <span style="color:#f97583">runs-on</span>: windows-latest   <span style="color:#6a737d"># REQUIRED – real Windows GUI session</span>
+    <span style="color:#f97583">steps</span>:
+      - <span style="color:#f97583">uses</span>: actions/checkout@v4
+      - <span style="color:#f97583">uses</span>: actions/setup-dotnet@v4
+        <span style="color:#f97583">with</span>: { dotnet-version: <span style="color:#9ecbff">'8.0.x'</span> }
+      - <span style="color:#f97583">name</span>: Build app under test
+        <span style="color:#f97583">run</span>: dotnet build src/MyWpfApp/MyWpfApp.csproj -c Release
+      - <span style="color:#f97583">name</span>: Run FlaUI tests
+        <span style="color:#f97583">run</span>: dotnet test tests/MyApp.UITests --logger trx
+        <span style="color:#f97583">env</span>:
+          WPFAUTOMATION_EXE_PATH: ${{ secrets.WPF_EXE_PATH }}
+          ZEPHYR_TOKEN:           ${{ secrets.ZEPHYR_TOKEN }}
+          ZEPHYR_PROJECT_KEY:     ${{ secrets.ZEPHYR_PROJECT_KEY }}
+      - <span style="color:#f97583">uses</span>: actions/upload-artifact@v4
+        <span style="color:#f97583">if</span>: always()
+        <span style="color:#f97583">with</span>:
+          name: test-results
+          path: |
+            **/*.trx
+            **/TestArtifacts/screenshots/</pre>
+      </div>
+      <div class="callout warning">
+        <p>
+          <span class="en">⚠️ <strong>Never use a Linux or Docker runner.</strong> FlaUI calls the Windows UI Automation COM API which requires a real desktop session — only <code style="color:var(--accent);font-size:.78rem">windows-latest</code> provides this on GitHub Actions.</span>
+          <span class="fr">⚠️ <strong>Ne jamais utiliser un runner Linux ou Docker.</strong> FlaUI appelle l'API COM UI Automation Windows qui nécessite une vraie session de bureau — seul <code style="color:var(--accent);font-size:.78rem">windows-latest</code> le fournit sur GitHub Actions.</span>
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="proj-footer reveal">
+    <a href="index.html" class="footer-back">← <span class="en">All Projects</span><span class="fr">Tous les projets</span></a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

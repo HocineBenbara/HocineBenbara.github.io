@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="My Selenium Automation Framework Explained – Page Object Model, reusable utilities, data-driven tests and full test isolation.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Selenium Automation Framework Explained – Hocine Benbara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    .article-wrapper {
+      max-width: 760px; margin: 0 auto;
+      padding: 7rem 2rem 6rem; position: relative; z-index: 1;
+    }
+
+    /* HEADER */
+    .article-header { margin-bottom: 2.5rem; }
+    .article-meta {
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .article-meta .sep { color: var(--border); }
+    .article-tag {
+      padding: 2px 10px; border-radius: 4px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      color: var(--accent);
+    }
+    .article-title {
+      font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    .article-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.87rem; color: var(--muted); line-height: 1.85;
+    }
+    .article-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 2rem; }
+
+    /* DIVIDER */
+    .article-divider {
+      height: 1px; background: var(--border); margin: 2rem 0; position: relative;
+    }
+    .article-divider::before {
+      content: ''; position: absolute; left: 0; top: -1px;
+      width: 48px; height: 2px; background: var(--accent);
+    }
+
+    /* BODY */
+    .article-body { line-height: 1.85; }
+    .article-body h2 {
+      font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em;
+      margin: 2.5rem 0 1rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .article-body h2::before {
+      content: ''; width: 3px; height: 1.2rem;
+      background: var(--accent); border-radius: 2px; flex-shrink: 0;
+    }
+    .article-body p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.84rem; color: var(--muted);
+      margin-bottom: 1.1rem; line-height: 1.95;
+    }
+    .article-body strong { color: var(--text); font-weight: 700; }
+
+    /* CODE BLOCK */
+    .code-snippet {
+      background: #060809; border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden; margin: 1.5rem 0;
+    }
+    .code-snippet-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 1rem; background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .code-snippet-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .code-dots { display: flex; gap: 5px; }
+    .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dots .d1 { background: #ff5f57; }
+    .code-dots .d2 { background: #febc2e; }
+    .code-dots .d3 { background: #28c840; }
+    .code-snippet pre {
+      padding: 1.25rem 1.5rem; margin: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem; line-height: 1.85; color: #c9d1d9;
+      overflow-x: auto; white-space: pre;
+    }
+
+    /* TREE */
+    .file-tree {
+      background: #060809; border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem; line-height: 2; color: var(--muted);
+      margin: 1.25rem 0;
+    }
+    .file-tree .folder { color: var(--accent2, #3b82f6); }
+    .file-tree .file   { color: #c9d1d9; }
+    .file-tree .cm     { color: var(--muted); font-style: italic; margin-left: 8px; }
+
+    /* Feature list */
+    .feature-list { list-style: none; margin: 1rem 0 1.5rem; }
+    .feature-list li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .f-icon {
+      width: 24px; height: 24px; border-radius: 5px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* Callout */
+    .callout {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem; margin: 1.75rem 0;
+    }
+    .callout.warning { border-left-color: var(--accent3); }
+    .callout p { margin: 0; }
+
+    /* Layer diagram */
+    .layer-stack {
+      display: flex; flex-direction: column; gap: 4px;
+      margin: 1.5rem 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    }
+    .layer {
+      padding: 0.65rem 1.1rem; border-radius: 7px;
+      border: 1px solid var(--border); color: var(--muted);
+      display: flex; align-items: center; gap: 10px;
+      transition: border-color 0.2s;
+    }
+    .layer:hover { border-color: var(--accent); color: var(--text); }
+    .layer-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .l1 { background: var(--surface2); }
+    .l2 { background: var(--surface);  margin: 0 1rem; }
+    .l3 { background: var(--surface2); margin: 0 2rem; }
+    .l4 { background: var(--surface);  margin: 0 3rem; }
+
+    /* Nav back */
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+      color: var(--muted); text-decoration: none;
+      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* Article footer */
+    .article-footer {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-back {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      color: var(--muted); text-decoration: none;
+      text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--accent); }
+    .footer-sig { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .footer-sig span { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .article-wrapper { padding: 6rem 1.25rem 4rem; }
+      .l2 { margin: 0 0.5rem; }
+      .l3 { margin: 0 1rem; }
+      .l4 { margin: 0 1.5rem; }
+      .article-footer { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="article-wrapper">
+
+  <!-- HEADER -->
+  <header class="article-header reveal">
+    <div class="article-meta">
+      <span class="article-tag">Selenium · Java</span>
+      <span class="sep">·</span>
+      <span class="en">January 2025</span><span class="fr">Janvier 2025</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+    <h1 class="article-title">
+      <span class="en">My Selenium Automation Framework Explained</span>
+      <span class="fr">Mon framework d'automatisation Selenium expliqué</span>
+    </h1>
+    <p class="article-subtitle">
+      <span class="en">Page Object Model · Reusable utilities · Data-driven tests · Full isolation</span>
+      <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
+    </p>
+    <div class="article-tags">
+      <span class="tag">Selenium</span>
+      <span class="tag">Java</span>
+      <span class="tag blue">TestNG</span>
+      <span class="tag blue">Page Object Model</span>
+      <span class="tag amber">Data-Driven</span>
+      <span class="tag amber">Maven</span>
+    </div>
+  </header>
+
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+
+    <!-- 1. INTRO -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Why build a custom framework?</span>
+        <span class="fr">Pourquoi construire un framework sur mesure ?</span>
+      </h2>
+      <p>
+        <span class="en">Using Selenium directly without structure quickly becomes unmaintainable.
+        Tests duplicate selectors, share mutable state, and break as soon as the UI changes.
+        A proper framework solves these problems by enforcing clear separation between
+        <strong>test logic</strong>, <strong>page interactions</strong>, and <strong>test data</strong>.</span>
+        <span class="fr">Utiliser Selenium directement sans structure devient vite ingérable.
+        Les tests dupliquent les sélecteurs, partagent un état mutable, et cassent dès que l'UI change.
+        Un framework solide règle ces problèmes en imposant une séparation claire entre
+        <strong>la logique de test</strong>, <strong>les interactions avec les pages</strong>
+        et <strong>les données de test</strong>.</span>
+      </p>
+      <p>
+        <span class="en">This article walks through the architecture I put together:
+        a Java + Selenium + TestNG framework built around the Page Object Model,
+        with reusable utilities, external test data, and full driver isolation between tests.</span>
+        <span class="fr">Cet article présente l'architecture que j'ai mise en place :
+        un framework Java + Selenium + TestNG construit autour du Page Object Model,
+        avec des utilitaires réutilisables, des données de test externes
+        et une isolation complète du driver entre les tests.</span>
+      </p>
+    </section>
+
+    <!-- 2. STRUCTURE -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Project structure</span>
+        <span class="fr">Structure du projet</span>
+      </h2>
+      <p>
+        <span class="en">The project follows a standard Maven layout. Each layer has a single responsibility
+        — pages know the UI, tests know the scenarios, utilities know the infrastructure.</span>
+        <span class="fr">Le projet suit une structure Maven standard. Chaque couche a une responsabilité unique
+        — les pages connaissent l'UI, les tests connaissent les scénarios, les utilitaires connaissent l'infrastructure.</span>
+      </p>
+
+      <div class="file-tree">
+<span class="folder">src/</span>
+├── <span class="folder">main/java/</span>
+│   ├── <span class="folder">pages/</span>
+│   │   ├── <span class="file">BasePage.java</span>       <span class="cm">// shared helpers (wait, click, type...)</span>
+│   │   ├── <span class="file">LoginPage.java</span>
+│   │   └── <span class="file">DashboardPage.java</span>
+│   └── <span class="folder">utils/</span>
+│       ├── <span class="file">DriverManager.java</span>  <span class="cm">// ThreadLocal WebDriver</span>
+│       ├── <span class="file">ConfigReader.java</span>   <span class="cm">// .properties loader</span>
+│       └── <span class="file">ExcelReader.java</span>    <span class="cm">// data-driven helper</span>
+├── <span class="folder">test/java/</span>
+│   └── <span class="folder">tests/</span>
+│       ├── <span class="file">BaseTest.java</span>       <span class="cm">// setup / teardown</span>
+│       └── <span class="file">LoginTest.java</span>
+└── <span class="folder">test/resources/</span>
+    ├── <span class="file">config.properties</span>   <span class="cm">// base URL, browser, credentials</span>
+    ├── <span class="file">testng.xml</span>
+    └── <span class="folder">data/</span>
+        └── <span class="file">login_data.xlsx</span>     <span class="cm">// test data (valid / invalid cases)</span>
+      </div>
+
+      <div class="layer-stack">
+        <div class="layer l1">
+          <div class="layer-dot" style="background:#00e5a0"></div>
+          <span class="en">Tests — describe scenarios, call page methods, assert results</span>
+          <span class="fr">Tests — décrivent les scénarios, appellent les méthodes page, assertent</span>
+        </div>
+        <div class="layer l2">
+          <div class="layer-dot" style="background:#3b82f6"></div>
+          <span class="en">Pages (POM) — encapsulate selectors and interactions</span>
+          <span class="fr">Pages (POM) — encapsulent les sélecteurs et les interactions</span>
+        </div>
+        <div class="layer l3">
+          <div class="layer-dot" style="background:#f59e0b"></div>
+          <span class="en">Utilities — driver management, config, data reading</span>
+          <span class="fr">Utilitaires — gestion du driver, config, lecture des données</span>
+        </div>
+        <div class="layer l4">
+          <div class="layer-dot" style="background:#8b949e"></div>
+          <span class="en">Selenium WebDriver + Browser</span>
+          <span class="fr">Selenium WebDriver + Navigateur</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. POM -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Page Object Model</span>
+        <span class="fr">Page Object Model</span>
+      </h2>
+      <p>
+        <span class="en">Every page of the application gets its own class. Selectors are declared once
+        as private fields. Public methods represent what a user can <em>do</em> on that page —
+        never raw Selenium calls inside test classes.</span>
+        <span class="fr">Chaque page de l'application a sa propre classe. Les sélecteurs sont déclarés
+        une seule fois en champs privés. Les méthodes publiques représentent ce qu'un utilisateur
+        peut <em>faire</em> sur cette page — jamais d'appels Selenium bruts dans les classes de test.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">pages/LoginPage.java</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">LoginPage</span> <span style="color:#ff7b72">extends</span> <span style="color:#ffa657">BasePage</span> {
+
+    <span style="color:#8b949e">// Selectors — defined once, maintained in one place</span>
+    <span style="color:#ff7b72">private final</span> By usernameField = By.<span style="color:#d2a8ff">id</span>(<span style="color:#a5d6ff">"username"</span>);
+    <span style="color:#ff7b72">private final</span> By passwordField = By.<span style="color:#d2a8ff">id</span>(<span style="color:#a5d6ff">"password"</span>);
+    <span style="color:#ff7b72">private final</span> By loginButton   = By.<span style="color:#d2a8ff">cssSelector</span>(<span style="color:#a5d6ff">"button[type='submit']"</span>);
+    <span style="color:#ff7b72">private final</span> By errorMessage  = By.<span style="color:#d2a8ff">id</span>(<span style="color:#a5d6ff">"error-msg"</span>);
+
+    <span style="color:#ff7b72">public</span> <span style="color:#ffa657">LoginPage</span>(<span style="color:#ffa657">WebDriver</span> driver) { <span style="color:#ff7b72">super</span>(driver); }
+
+    <span style="color:#8b949e">// Actions — what a user does on this page</span>
+    <span style="color:#ff7b72">public</span> <span style="color:#ffa657">DashboardPage</span> <span style="color:#d2a8ff">loginAs</span>(<span style="color:#ffa657">String</span> user, <span style="color:#ffa657">String</span> pass) {
+        <span style="color:#d2a8ff">type</span>(usernameField, user);
+        <span style="color:#d2a8ff">type</span>(passwordField, pass);
+        <span style="color:#d2a8ff">click</span>(loginButton);
+        <span style="color:#ff7b72">return new</span> <span style="color:#ffa657">DashboardPage</span>(driver);
+    }
+
+    <span style="color:#ff7b72">public</span> <span style="color:#ffa657">String</span> <span style="color:#d2a8ff">getErrorMessage</span>() {
+        <span style="color:#ff7b72">return</span> <span style="color:#d2a8ff">getText</span>(errorMessage);
+    }
+}</pre>
+      </div>
+
+      <p>
+        <span class="en">The <code style="color:var(--accent);font-size:0.8rem">BasePage</code> holds shared wrappers
+        around Selenium — explicit waits, safe clicks, typed text input. Every page inherits these,
+        so there's no repeated boilerplate.</span>
+        <span class="fr">La <code style="color:var(--accent);font-size:0.8rem">BasePage</code> contient les wrappers
+        partagés autour de Selenium — attentes explicites, clics sécurisés, saisie de texte typée.
+        Chaque page en hérite, donc pas de code répété.</span>
+      </p>
+    </section>
+
+    <!-- 4. DRIVER ISOLATION -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Driver isolation with ThreadLocal</span>
+        <span class="fr">Isolation du driver avec ThreadLocal</span>
+      </h2>
+      <p>
+        <span class="en">When tests run in parallel, a shared static WebDriver causes race conditions and
+        flaky failures. The solution: <strong>one driver per thread</strong> via
+        <code style="color:var(--accent);font-size:0.8rem">ThreadLocal&lt;WebDriver&gt;</code>.
+        Each test gets its own browser instance — fully isolated, fully parallel-safe.</span>
+        <span class="fr">Quand les tests tournent en parallèle, un WebDriver statique partagé provoque des
+        race conditions et des échecs instables. La solution : <strong>un driver par thread</strong>
+        via <code style="color:var(--accent);font-size:0.8rem">ThreadLocal&lt;WebDriver&gt;</code>.
+        Chaque test obtient sa propre instance de navigateur — totalement isolée, totalement sûre en parallèle.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">utils/DriverManager.java</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">DriverManager</span> {
+
+    <span style="color:#ff7b72">private static final</span> <span style="color:#ffa657">ThreadLocal</span>&lt;<span style="color:#ffa657">WebDriver</span>&gt; driverPool
+        = <span style="color:#ff7b72">new</span> <span style="color:#ffa657">ThreadLocal</span>&lt;&gt;();
+
+    <span style="color:#ff7b72">public static void</span> <span style="color:#d2a8ff">initDriver</span>(<span style="color:#ffa657">String</span> browser) {
+        <span style="color:#ffa657">WebDriver</span> driver = browser.<span style="color:#d2a8ff">equalsIgnoreCase</span>(<span style="color:#a5d6ff">"firefox"</span>)
+            ? <span style="color:#ff7b72">new</span> <span style="color:#ffa657">FirefoxDriver</span>()
+            : <span style="color:#ff7b72">new</span> <span style="color:#ffa657">ChromeDriver</span>();
+        driver.manage().window().<span style="color:#d2a8ff">maximize</span>();
+        driverPool.<span style="color:#d2a8ff">set</span>(driver);
+    }
+
+    <span style="color:#ff7b72">public static</span> <span style="color:#ffa657">WebDriver</span> <span style="color:#d2a8ff">getDriver</span>() {
+        <span style="color:#ff7b72">return</span> driverPool.<span style="color:#d2a8ff">get</span>();
+    }
+
+    <span style="color:#ff7b72">public static void</span> <span style="color:#d2a8ff">quitDriver</span>() {
+        <span style="color:#ff7b72">if</span> (driverPool.<span style="color:#d2a8ff">get</span>() != <span style="color:#ff7b72">null</span>) {
+            driverPool.<span style="color:#d2a8ff">get</span>().<span style="color:#d2a8ff">quit</span>();
+            driverPool.<span style="color:#d2a8ff">remove</span>();   <span style="color:#8b949e">// avoid memory leaks</span>
+        }
+    }
+}</pre>
+      </div>
+
+      <div class="callout warning">
+        <p>
+          <span class="en">⚠️ Always call <code style="color:var(--accent);font-size:0.8rem">driverPool.remove()</code>
+          after quitting. Without it, the ThreadLocal reference survives thread reuse in a pool
+          and causes memory leaks in long CI runs.</span>
+          <span class="fr">⚠️ Toujours appeler <code style="color:var(--accent);font-size:0.8rem">driverPool.remove()</code>
+          après le quit. Sans ça, la référence ThreadLocal survit à la réutilisation des threads
+          dans un pool et provoque des fuites mémoire dans les longs runs CI.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. DATA-DRIVEN -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Data-driven testing</span>
+        <span class="fr">Tests data-driven</span>
+      </h2>
+      <p>
+        <span class="en">Test data lives in an Excel file outside the codebase. A TestNG
+        <code style="color:var(--accent);font-size:0.8rem">@DataProvider</code> reads it at runtime
+        and feeds each row as a separate test execution — valid credentials, invalid passwords,
+        locked accounts, all covered without duplicating test logic.</span>
+        <span class="fr">Les données de test se trouvent dans un fichier Excel hors du code. Un
+        <code style="color:var(--accent);font-size:0.8rem">@DataProvider</code> TestNG les lit au runtime
+        et passe chaque ligne comme exécution de test séparée — identifiants valides, mots de passe
+        invalides, comptes bloqués, tout couvert sans dupliquer la logique de test.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">tests/LoginTest.java</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">LoginTest</span> <span style="color:#ff7b72">extends</span> <span style="color:#ffa657">BaseTest</span> {
+
+    <span style="color:#d2a8ff">@DataProvider</span>(name = <span style="color:#a5d6ff">"loginData"</span>)
+    <span style="color:#ff7b72">public</span> <span style="color:#ffa657">Object</span>[][] <span style="color:#d2a8ff">loginData</span>() {
+        <span style="color:#ff7b72">return</span> <span style="color:#ffa657">ExcelReader</span>.<span style="color:#d2a8ff">getData</span>(
+            <span style="color:#a5d6ff">"src/test/resources/data/login_data.xlsx"</span>,
+            <span style="color:#a5d6ff">"LoginSheet"</span>
+        );
+    }
+
+    <span style="color:#d2a8ff">@Test</span>(dataProvider = <span style="color:#a5d6ff">"loginData"</span>)
+    <span style="color:#ff7b72">public void</span> <span style="color:#d2a8ff">testLogin</span>(<span style="color:#ffa657">String</span> username,
+                           <span style="color:#ffa657">String</span> password,
+                           <span style="color:#ffa657">String</span> expectedResult) {
+
+        <span style="color:#ffa657">LoginPage</span> loginPage = <span style="color:#ff7b72">new</span> <span style="color:#ffa657">LoginPage</span>(<span style="color:#ffa657">DriverManager</span>.<span style="color:#d2a8ff">getDriver</span>());
+        loginPage.<span style="color:#d2a8ff">open</span>(config.<span style="color:#d2a8ff">getProperty</span>(<span style="color:#a5d6ff">"baseUrl"</span>));
+
+        <span style="color:#ff7b72">if</span> (expectedResult.<span style="color:#d2a8ff">equals</span>(<span style="color:#a5d6ff">"success"</span>)) {
+            <span style="color:#ffa657">DashboardPage</span> dashboard = loginPage.<span style="color:#d2a8ff">loginAs</span>(username, password);
+            <span style="color:#ffa657">Assert</span>.<span style="color:#d2a8ff">assertTrue</span>(dashboard.<span style="color:#d2a8ff">isLoaded</span>());
+        } <span style="color:#ff7b72">else</span> {
+            loginPage.<span style="color:#d2a8ff">loginAs</span>(username, password);
+            <span style="color:#ffa657">Assert</span>.<span style="color:#d2a8ff">assertTrue</span>(loginPage.<span style="color:#d2a8ff">getErrorMessage</span>().<span style="color:#d2a8ff">contains</span>(<span style="color:#a5d6ff">"Invalid"</span>));
+        }
+    }
+}</pre>
+      </div>
+
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">📊</div>
+          <div>
+            <strong><span class="en">One test method, N scenarios</span><span class="fr">Une méthode, N scénarios</span></strong><br>
+            <span class="en">Adding a new test case means adding a row in Excel — zero code change.</span>
+            <span class="fr">Ajouter un cas de test signifie ajouter une ligne dans Excel — zéro changement de code.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🔄</div>
+          <div>
+            <strong><span class="en">Consistent structure</span><span class="fr">Structure cohérente</span></strong><br>
+            <span class="en">Each row contains: username, password, expectedResult. The DataProvider maps columns to parameters automatically.</span>
+            <span class="fr">Chaque ligne contient : username, password, expectedResult. Le DataProvider mappe les colonnes aux paramètres automatiquement.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🧪</div>
+          <div>
+            <strong><span class="en">Edge cases first</span><span class="fr">Les cas limites en premier</span></strong><br>
+            <span class="en">Empty fields, SQL injection attempts, XSS strings — all go in the Excel, not scattered across dozens of test methods.</span>
+            <span class="fr">Champs vides, tentatives d'injection SQL, strings XSS — tout dans l'Excel, pas dispersé dans des dizaines de méthodes de test.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 6. REUSABLE UTILS -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Reusable utilities</span>
+        <span class="fr">Utilitaires réutilisables</span>
+      </h2>
+      <p>
+        <span class="en">Three utility classes handle the infrastructure so test classes stay clean:</span>
+        <span class="fr">Trois classes utilitaires gèrent l'infrastructure pour que les classes de test restent propres :</span>
+      </p>
+
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">⚙️</div>
+          <div>
+            <strong>ConfigReader</strong><br>
+            <span class="en">Loads <code style="color:var(--accent);font-size:0.78rem">config.properties</code> once at startup.
+            Base URL, browser type, timeouts, and environment flags are injected — no hardcoded values anywhere in tests.</span>
+            <span class="fr">Charge <code style="color:var(--accent);font-size:0.78rem">config.properties</code> une fois au démarrage.
+            URL de base, type de navigateur, timeouts et flags d'environnement sont injectés — aucune valeur codée en dur dans les tests.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📋</div>
+          <div>
+            <strong>ExcelReader</strong><br>
+            <span class="en">Uses Apache POI to read any sheet as a 2D Object array. Handles merged cells, empty rows,
+            and type conversion — the DataProvider receives clean, ready-to-use data.</span>
+            <span class="fr">Utilise Apache POI pour lire n'importe quelle feuille en tableau 2D. Gère les cellules fusionnées,
+            les lignes vides et la conversion de types — le DataProvider reçoit des données propres, prêtes à l'emploi.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📸</div>
+          <div>
+            <strong>ScreenshotUtil</strong><br>
+            <span class="en">Captures a screenshot on every test failure via a TestNG listener.
+            Screenshots are saved with the test name and timestamp — no manual call in test code.</span>
+            <span class="fr">Capture une capture d'écran à chaque échec de test via un listener TestNG.
+            Les screenshots sont sauvegardés avec le nom du test et l'horodatage — aucun appel manuel dans le code de test.</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="callout">
+        <p>
+          <span class="en">💡 <strong>Design rule :</strong> if the same three lines appear in two different tests,
+          extract them into a utility or a BasePage method. Duplication is the first sign of a brittle framework.</span>
+          <span class="fr">💡 <strong>Règle de conception :</strong> si les mêmes trois lignes apparaissent dans deux tests différents,
+          extrais-les dans un utilitaire ou une méthode de BasePage. La duplication est le premier signe d'un framework fragile.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. TAKEAWAYS -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Key takeaways</span>
+        <span class="fr">Ce qu'il faut retenir</span>
+      </h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🏗️</div>
+          <div>
+            <strong><span class="en">POM is non-negotiable</span><span class="fr">Le POM n'est pas optionnel</span></strong><br>
+            <span class="en">One UI change should touch exactly one file. If you change a selector in five places, the structure is wrong.</span>
+            <span class="fr">Un changement d'UI ne devrait toucher qu'un seul fichier. Si tu changes un sélecteur à cinq endroits, la structure est mauvaise.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🔒</div>
+          <div>
+            <strong><span class="en">ThreadLocal for real parallelism</span><span class="fr">ThreadLocal pour un vrai parallélisme</span></strong><br>
+            <span class="en">Parallel Selenium without ThreadLocal is a recipe for flaky, unreliable tests. Always isolate the driver.</span>
+            <span class="fr">Selenium en parallèle sans ThreadLocal est une recette pour des tests instables. Toujours isoler le driver.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📁</div>
+          <div>
+            <strong><span class="en">Externalize test data</span><span class="fr">Externaliser les données de test</span></strong><br>
+            <span class="en">Hardcoded test values in code are a maintenance trap. Excel, JSON or YAML — keep data out of the source.</span>
+            <span class="fr">Les valeurs codées en dur dans le code sont un piège de maintenance. Excel, JSON ou YAML — garder les données hors du source.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">👂</div>
+          <div>
+            <strong><span class="en">Let listeners do the cross-cutting work</span><span class="fr">Laisser les listeners gérer le cross-cutting</span></strong><br>
+            <span class="en">Screenshots on failure, logging, retry logic — these belong in TestNG listeners, not scattered in test methods.</span>
+            <span class="fr">Screenshots en échec, logging, retry — tout ça appartient aux listeners TestNG, pas éparpillé dans les méthodes de test.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </div><!-- /article-body -->
+
+  <!-- FOOTER -->
+  <footer class="article-footer reveal">
+    <a href="../index.html#articles" class="footer-back">
+      ← <span class="en">Back to articles</span><span class="fr">Retour aux articles</span>
+    </a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+
+</div><!-- /article-wrapper -->
+
+<script>
+  (function () {
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'en';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+  });
+
+  function toggleTheme() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  function toggleLang() {
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+</script>
+</body>
+</html>

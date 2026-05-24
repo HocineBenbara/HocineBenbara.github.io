@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Playwright Web Test Framework – TypeScript, POM, Zephyr Scale, GitHub Actions.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Playwright Framework – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .proj-wrapper { max-width: 900px; margin: 0 auto; padding: 7rem 2rem 6rem; position: relative; z-index: 1; }
+    .proj-header  { margin-bottom: 2.5rem; }
+    .proj-eyebrow { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--accent); letter-spacing:.15em; text-transform:uppercase; display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+    .proj-eyebrow::before { content:''; width:28px; height:1px; background:var(--accent); }
+    .proj-title   { font-size:clamp(1.9rem,5vw,2.8rem); font-weight:800; letter-spacing:-.02em; margin-bottom:1rem; }
+    .proj-meta    { display:flex; flex-wrap:wrap; gap:1.5rem; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); margin-bottom:1.5rem; }
+    .proj-meta span { display:flex; align-items:center; gap:5px; }
+    .proj-tags    { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2rem; }
+    .proj-divider { height:1px; background:var(--border); margin:2rem 0; position:relative; }
+    .proj-divider::before { content:''; position:absolute; left:0; top:-1px; width:48px; height:2px; background:var(--accent); }
+    .proj-body h2 { font-size:1.2rem; font-weight:700; margin:2.5rem 0 1rem; display:flex; align-items:center; gap:10px; }
+    .proj-body h2::before { content:''; width:3px; height:1.2rem; background:var(--accent); border-radius:2px; flex-shrink:0; }
+    .proj-body p  { font-family:'JetBrains Mono',monospace; font-size:.84rem; color:var(--muted); margin-bottom:1.1rem; line-height:1.95; }
+    .proj-body strong { color:var(--text); font-weight:700; }
+    .code-snippet { background:#060809; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:1.5rem 0; }
+    .code-snippet-header { display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem; background:var(--surface2); border-bottom:1px solid var(--border); }
+    .code-snippet-label { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    .code-dots { display:flex; gap:5px; }
+    .code-dots span { width:10px; height:10px; border-radius:50%; }
+    .code-dots .d1{background:#ff5f57;}.code-dots .d2{background:#febc2e;}.code-dots .d3{background:#28c840;}
+    .code-snippet pre { padding:1.25rem 1.5rem; margin:0; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:1.85; color:#c9d1d9; overflow-x:auto; white-space:pre; }
+    .feature-list { list-style:none; margin:1rem 0 1.5rem; }
+    .feature-list li { display:flex; gap:12px; align-items:flex-start; padding:.75rem 0; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .feature-list li:last-child { border-bottom:none; }
+    .f-icon { width:24px; height:24px; border-radius:5px; background:var(--tag-bg); border:1px solid var(--tag-border); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+    .callout { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:1rem 1.25rem; margin:1.75rem 0; }
+    .callout p { margin:0; font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .file-tree { background:#060809; border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:2; color:var(--muted); margin:1.25rem 0; }
+    .file-tree .folder{color:#3b82f6;} .file-tree .cm{color:var(--muted);font-style:italic;margin-left:8px;}
+    .proj-footer { margin-top:4rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .footer-back { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); text-decoration:none; text-transform:uppercase; letter-spacing:.08em; transition:color .2s; }
+    .footer-back:hover { color:var(--accent); }
+    .footer-sig { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); }
+    .footer-sig span { color:var(--accent); }
+    .nav-back { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); text-decoration:none; letter-spacing:.08em; text-transform:uppercase; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    @media(max-width:600px){ .proj-wrapper{padding:6rem 1.25rem 4rem;} .proj-footer{flex-direction:column;gap:1rem;} }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="index.html" class="nav-back">← <span class="en">Projects</span><span class="fr">Projets</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="proj-wrapper">
+  <header class="proj-header reveal">
+    <div class="proj-eyebrow">🎭 <span class="en">QA Project</span><span class="fr">Projet QA</span></div>
+    <h1 class="proj-title">
+      <span class="en">Playwright Web Test Framework</span>
+      <span class="fr">Framework de tests web Playwright</span>
+    </h1>
+    <div class="proj-meta">
+      <span>🗂 TypeScript</span>
+      <span>📅 2025</span>
+      <span>🌐 <span class="en">Web</span><span class="fr">Web</span></span>
+      <span>🔗 <span class="en">Playwright v1.40+</span><span class="fr">Playwright v1.40+</span></span>
+    </div>
+    <div class="proj-tags">
+      <span class="tag">Playwright</span><span class="tag">TypeScript</span>
+      <span class="tag blue">Page Object Model</span><span class="tag blue">Custom Fixtures</span>
+      <span class="tag blue">Data-Driven</span><span class="tag amber">Zephyr Scale</span>
+      <span class="tag amber">GitHub Actions</span>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <a href="https://github.com/hocinebenbara" target="_blank" class="link-btn link-btn-secondary">↗ GitHub</a>
+    </div>
+  </header>
+
+  <div class="proj-divider"></div>
+
+  <div class="proj-body">
+
+    <section class="reveal">
+      <h2><span class="en">Overview</span><span class="fr">Vue d'ensemble</span></h2>
+      <p>
+        <span class="en">A production-grade end-to-end test framework built with <strong>Playwright and TypeScript</strong>.
+        It implements the Page Object Model, uses custom fixtures for dependency injection, drives test data
+        from JSON files, and pushes results automatically to <strong>Zephyr Scale</strong> via a custom reporter.</span>
+        <span class="fr">Un framework de tests end-to-end prêt pour la production, construit avec
+        <strong>Playwright et TypeScript</strong>. Il implémente le Page Object Model, utilise des fixtures
+        personnalisées pour l'injection de dépendances, pilote les données depuis des fichiers JSON,
+        et pousse les résultats automatiquement vers <strong>Zephyr Scale</strong> via un reporter personnalisé.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Project structure</span><span class="fr">Structure du projet</span></h2>
+      <div class="file-tree">
+<span class="folder">src/</span>
+├── <span class="folder">fixtures/</span>
+│   └── baseTest.ts         <span class="cm">// custom fixtures – DI for page objects</span>
+├── <span class="folder">pages/</span>
+│   ├── BasePage.ts          <span class="cm">// shared helpers (goto, waitFor…)</span>
+│   ├── LoginPage.ts
+│   └── DashboardPage.ts
+├── <span class="folder">locators/</span>
+│   └── login.locators.ts    <span class="cm">// all selectors in one place</span>
+├── <span class="folder">data/</span>
+│   └── testData.json        <span class="cm">// credentials, env config</span>
+├── <span class="folder">reporters/</span>
+│   └── zephyrReporter.ts    <span class="cm">// auto-push results to Zephyr Scale</span>
+└── <span class="folder">tests/</span>
+    └── login.spec.ts</div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Key features</span><span class="fr">Fonctionnalités clés</span></h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🏗️</div>
+          <div>
+            <strong><span class="en">Page Object Model</span><span class="fr">Page Object Model</span></strong><br>
+            <span class="en">Each page has its own class. Selectors are defined once in a dedicated locators file — never hardcoded in test files.</span>
+            <span class="fr">Chaque page a sa propre classe. Les sélecteurs sont définis une fois dans un fichier de locators dédié — jamais codés en dur dans les tests.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">⚡</div>
+          <div>
+            <strong><span class="en">Custom fixtures</span><span class="fr">Fixtures personnalisées</span></strong><br>
+            <span class="en">Page objects are injected into tests via <code style="color:var(--accent);font-size:.78rem">test.extend()</code> — no manual instantiation, no shared state between tests.</span>
+            <span class="fr">Les page objects sont injectés dans les tests via <code style="color:var(--accent);font-size:.78rem">test.extend()</code> — pas d'instanciation manuelle, pas d'état partagé entre tests.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📊</div>
+          <div>
+            <strong><span class="en">Data-driven via JSON</span><span class="fr">Data-driven via JSON</span></strong><br>
+            <span class="en">All test data (users, URLs, expected values) lives in <code style="color:var(--accent);font-size:.78rem">data/testData.json</code>. Environment-specific configs are injected via <code style="color:var(--accent);font-size:.78rem">BASE_URL</code> env variable.</span>
+            <span class="fr">Toutes les données de test (utilisateurs, URLs, valeurs attendues) vivent dans <code style="color:var(--accent);font-size:.78rem">data/testData.json</code>. Les configs par environnement sont injectées via la variable <code style="color:var(--accent);font-size:.78rem">BASE_URL</code>.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📸</div>
+          <div>
+            <strong><span class="en">Screenshot on failure</span><span class="fr">Screenshot sur échec</span></strong><br>
+            <span class="en">Configured via <code style="color:var(--accent);font-size:.78rem">screenshot: 'only-on-failure'</code> in playwright.config.ts — zero extra code in test files.</span>
+            <span class="fr">Configuré via <code style="color:var(--accent);font-size:.78rem">screenshot: 'only-on-failure'</code> dans playwright.config.ts — aucun code supplémentaire dans les tests.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📋</div>
+          <div>
+            <strong>Zephyr Scale reporting</strong><br>
+            <span class="en">A custom reporter reads test results after each run and pushes Pass/Fail/Blocked statuses to Zephyr Scale via the REST API — no manual update needed.</span>
+            <span class="fr">Un reporter personnalisé lit les résultats après chaque run et pousse les statuts Pass/Fail/Blocked vers Zephyr Scale via l'API REST — aucune mise à jour manuelle.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🔁</div>
+          <div>
+            <strong>CI / GitHub Actions</strong><br>
+            <span class="en">Runs on every push. Secrets injected at runtime. HTML report uploaded as artifact — accessible directly from the Actions summary.</span>
+            <span class="fr">S'exécute à chaque push. Secrets injectés au runtime. Rapport HTML uploadé en artefact — accessible directement depuis le résumé Actions.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Core config</span><span class="fr">Config principale</span></h2>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">playwright.config.ts</span>
+        </div>
+        <pre><span style="color:#f97583">import</span> { <span style="color:#b392f0">defineConfig</span>, devices } <span style="color:#f97583">from</span> <span style="color:#9ecbff">'@playwright/test'</span>;
+
+<span style="color:#f97583">export default</span> <span style="color:#b392f0">defineConfig</span>({
+  reporter: [[<span style="color:#9ecbff">'html'</span>, { outputFolder: <span style="color:#9ecbff">'playwright-report'</span>, open: <span style="color:#9ecbff">'always'</span> }]],
+  testDir: <span style="color:#9ecbff">'./tests'</span>,
+  timeout: <span style="color:#79b8ff">30</span> * <span style="color:#79b8ff">1000</span>,
+  use: {
+    headless: <span style="color:#f97583">false</span>,
+    baseURL: process.env.<span style="color:#f0c27f">BASE_URL</span>,
+    screenshot: <span style="color:#9ecbff">'only-on-failure'</span>,
+  },
+  projects: [{
+    name: <span style="color:#9ecbff">'chromium'</span>,
+    use: { ...devices[<span style="color:#9ecbff">'Desktop Chrome'</span>] },
+  }],
+});</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2>CI / GitHub Actions</h2>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">.github/workflows/playwright.yml</span>
+        </div>
+        <pre><span style="color:#f97583">name</span>: Playwright Tests
+<span style="color:#f97583">on</span>: [push, pull_request]
+<span style="color:#f97583">jobs</span>:
+  <span style="color:#b392f0">test</span>:
+    <span style="color:#f97583">runs-on</span>: ubuntu-latest
+    <span style="color:#f97583">steps</span>:
+      - <span style="color:#f97583">uses</span>: actions/checkout@v4
+      - <span style="color:#f97583">uses</span>: actions/setup-node@v4
+        <span style="color:#f97583">with</span>: { node-version: <span style="color:#9ecbff">'20'</span> }
+      - <span style="color:#f97583">run</span>: npm ci
+      - <span style="color:#f97583">run</span>: npx playwright install --with-deps
+      - <span style="color:#f97583">run</span>: npx playwright test
+        <span style="color:#f97583">env</span>:
+          BASE_URL:      ${{ secrets.BASE_URL }}
+          ZEPHYR_TOKEN:  ${{ secrets.ZEPHYR_TOKEN }}
+      - <span style="color:#f97583">uses</span>: actions/upload-artifact@v4
+        <span style="color:#f97583">if</span>: always()
+        <span style="color:#f97583">with</span>:
+          name: playwright-report
+          path: playwright-report/</pre>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="proj-footer reveal">
+    <a href="index.html" class="footer-back">← <span class="en">All Projects</span><span class="fr">Tous les projets</span></a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

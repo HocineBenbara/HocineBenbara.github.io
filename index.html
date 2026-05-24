@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hocine Benbara – Spécialiste en qualité logicielle. Automatisation de tests, détection d'anomalies, web, desktop et jeux vidéo.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Hocine Benbara – Software Quality Specialist</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ══════════════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">// hocine.benbara</div>
+  <ul class="nav-links">
+    <li><a href="#about"><span class="en">About</span><span class="fr">À propos</span></a></li>
+    <li><a href="#skills"><span class="en">Skills</span><span class="fr">Compétences</span></a></li>
+    <li><a href="#projects"><span class="en">Projects</span><span class="fr">Projets QA</span></a></li>
+    <li><a href="#guide">Guide</a></li>
+    <li><a href="#side"><span class="en">Apps</span><span class="fr">Applis</span></a></li>
+    <li><a href="#trailhead">Trailhead</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn" onclick="toggleLang()" title="Switch language">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">☀</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="en">Software Quality Specialist – Test Automation &amp; Analysis</span>
+      <span class="fr">Spécialiste en qualité logicielle – Automatisation &amp; Analyse de tests</span>
+    </div>
+    <h1 class="hero-name">Hocine<br><span>Benbara</span></h1>
+    <p class="hero-title">
+      <span class="en">Software Quality Specialist – Test Automation &amp; Analysis</span>
+      <span class="fr">Spécialiste en qualité logicielle – Automatisation &amp; Analyse de tests</span>
+    </p>
+    <p class="hero-desc">
+      <span class="en">Detecting anomalies, automating test scenarios and ensuring software reliability across web, desktop and game applications.</span>
+      <span class="fr">Détecter les anomalies, automatiser les scénarios de tests et garantir la fiabilité des logiciels, sites web et jeux vidéo.</span>
+    </p>
+    <div class="hero-tags">
+      <span class="tag">Playwright / TypeScript</span>
+      <span class="tag">FlaUI / C#</span>
+      <span class="tag blue">Selenium</span>
+      <span class="tag blue">Postman / REST API</span>
+      <span class="tag amber">Zephyr Scale</span>
+      <span class="tag amber">Jira</span>
+      <span class="tag">NUnit / BDD</span>
+      <span class="tag">CI/CD / GitHub Actions</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">
+        <span class="en">→ View Projects</span>
+        <span class="fr">→ Voir les projets</span>
+      </a>
+      <a href="#contact" class="btn-outline">
+        <span class="en">Get in Touch</span>
+        <span class="fr">Me contacter</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     01 – ABOUT
+══════════════════════════════════════════════════ -->
+<section id="about" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title"><span class="en">About Me</span><span class="fr">À propos</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="status-dot">
+        <div class="dot"></div>
+        <span class="en">Open to opportunities</span>
+        <span class="fr">Disponible pour de nouvelles opportunités</span>
+      </div>
+      <p class="en">I'm a <strong>Software Quality Specialist</strong> focused on detecting anomalies and weaknesses in software, websites and games. I design, automate and execute test scenarios to ensure every release is reliable and robust.</p>
+      <p class="fr">Je suis un <strong>spécialiste en qualité logicielle</strong> axé sur la détection des anomalies et des faiblesses dans les logiciels, sites web et jeux vidéo. Je conçois, automatise et exécute des scénarios de tests pour garantir la fiabilité de chaque livraison.</p>
+
+      <p class="en">I've built automation frameworks using <strong>Playwright (TypeScript)</strong> for web apps
+      and <strong>FlaUI (C#/NUnit)</strong> for WPF desktop interfaces — both following the Page Object Model
+      and connecting natively to <strong>Zephyr Scale</strong> for execution tracking.</p>
+      <p class="fr">J'ai construit des frameworks en <strong>Playwright (TypeScript)</strong> pour le web
+      et <strong>FlaUI (C#/NUnit)</strong> pour les interfaces WPF — les deux suivent le Page Object Model
+      et s'intègrent nativement à <strong>Zephyr Scale</strong> pour le suivi des exécutions.</p>
+
+      <p class="en">I believe quality is a shared responsibility, and I focus on building
+      <strong>maintainable, readable, and reliable</strong> test suites that last.</p>
+      <p class="fr">La qualité est une responsabilité partagée. Je me concentre sur la création de suites
+      de tests <strong>maintenables, lisibles et fiables</strong> qui durent dans le temps.</p>
+    </div>
+    <div class="stats-grid reveal">
+      <div class="stat-card">
+        <div class="stat-num">2+</div>
+        <div class="stat-label"><span class="en">Years QA Experience</span><span class="fr">Ans d'expérience QA</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label"><span class="en">Automation Frameworks</span><span class="fr">Frameworks auto.</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label"><span class="en">Zephyr Integration</span><span class="fr">Intégration Zephyr</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">BDD</div>
+        <div class="stat-label"><span class="en">First Approach</span><span class="fr">Approche BDD d'abord</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     02 – SKILLS
+══════════════════════════════════════════════════ -->
+<section id="skills" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title"><span class="en">Skills &amp; Tools</span><span class="fr">Compétences &amp; Outils</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">🤖</div>
+      <div class="skill-group-title"><span class="en">Test Automation</span><span class="fr">Automatisation</span></div>
+      <div class="skill-pills">
+        <span class="skill-pill">Playwright</span><span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">FlaUI / UIA3</span><span class="skill-pill">C# / NUnit</span>
+        <span class="skill-pill">Selenium</span><span class="skill-pill">Cypress</span>
+        <span class="skill-pill">Robot Framework</span>
+        <span class="skill-pill">Page Object Model</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">🔌</div>
+      <div class="skill-group-title"><span class="en">API Testing</span><span class="fr">Tests API</span></div>
+      <div class="skill-pills">
+        <span class="skill-pill">Postman</span><span class="skill-pill">REST API</span>
+        <span class="skill-pill">Bearer Token Auth</span><span class="skill-pill">JSON Schema</span>
+        <span class="skill-pill">CRUD Validation</span><span class="skill-pill">Playwright API</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">📋</div>
+      <div class="skill-group-title"><span class="en">Test Management</span><span class="fr">Gestion des tests</span></div>
+      <div class="skill-pills">
+        <span class="skill-pill">Zephyr Scale</span><span class="skill-pill">Jira</span>
+        <span class="skill-pill">TestLink</span><span class="skill-pill">BDD / Gherkin</span>
+        <span class="skill-pill">Test Plans</span><span class="skill-pill">Traceability</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">⚙️</div>
+      <div class="skill-group-title">CI/CD &amp; DevOps</div>
+      <div class="skill-pills">
+        <span class="skill-pill">GitHub Actions</span><span class="skill-pill">dotnet test</span>
+        <span class="skill-pill">TRX Reports</span><span class="skill-pill">Artifacts Upload</span>
+        <span class="skill-pill">Environment Vars</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">🖥️</div>
+      <div class="skill-group-title"><span class="en">Desktop Testing (WPF)</span><span class="fr">Tests Desktop (WPF)</span></div>
+      <div class="skill-pills">
+        <span class="skill-pill">FlaUI</span><span class="skill-pill">UIA3</span>
+        <span class="skill-pill">AutomationId</span><span class="skill-pill">FlaUInspect</span>
+        <span class="skill-pill">Screenshot on Fail</span><span class="skill-pill">.NET 8 / 4.8</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-icon">🧠</div>
+      <div class="skill-group-title"><span class="en">QA Practices</span><span class="fr">Pratiques QA</span></div>
+      <div class="skill-pills">
+        <span class="skill-pill">Exploratory Testing</span><span class="skill-pill">Regression Testing</span>
+        <span class="skill-pill">Test Isolation</span><span class="skill-pill">Data-Driven</span>
+        <span class="skill-pill">Arrange/Act/Assert</span><span class="skill-pill">Given/When/Then</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     03 – QA PROJECTS
+══════════════════════════════════════════════════ -->
+<section id="projects" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title"><span class="en">QA Projects</span><span class="fr">Projets QA</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- ── Playwright FEATURED ── -->
+    <div class="project-card featured reveal">
+      <div class="project-visual">
+        <div class="code-preview">
+<span class="cm">// fixtures/baseTest.ts</span>
+<span class="kw">import</span> { test <span class="kw">as</span> base } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> { <span class="cls">LoginPage</span> } <span class="kw">from</span> <span class="str">'../pages/LoginPage'</span>;
+
+<span class="kw">export const</span> test = base.<span class="fn">extend</span>({
+  <span class="fn">loginPage</span>: <span class="kw">async</span> ({ page }, use) <span class="op">=&gt;</span> {
+    <span class="kw">const</span> lp = <span class="kw">new</span> <span class="cls">LoginPage</span>(page);
+    <span class="kw">await</span> <span class="fn">use</span>(lp);
+  },
+});
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">🎭 Playwright · TypeScript · Web</div>
+        <h3 class="project-title">
+          <span class="en">Playwright Web Test Framework</span>
+          <span class="fr">Framework de tests web Playwright</span>
+        </h3>
+        <p class="project-desc">
+          <span class="en">Production-ready framework with TypeScript, Page Object Model, custom fixtures,
+          and data-driven testing via JSON. Integrates Zephyr Scale for result reporting
+          and supports multi-browser execution with screenshot capture on failure.</span>
+          <span class="fr">Framework prêt pour la production avec TypeScript, Page Object Model, fixtures
+          personnalisées et tests data-driven via JSON. Intègre Zephyr Scale pour les rapports
+          et supporte l'exécution multi-navigateur avec capture d'écran sur échec.</span>
+        </p>
+        <div class="project-stack">
+          <span class="tag">Playwright</span><span class="tag">TypeScript</span>
+          <span class="tag blue">Page Object Model</span><span class="tag blue">Custom Fixtures</span>
+          <span class="tag amber">Zephyr Scale</span><span class="tag amber">Data-Driven</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/playwright-framework.html" class="link-btn link-btn-primary">
+            <span class="en">→ View Details</span><span class="fr">→ Voir le détail</span>
+          </a>
+          <a href="#pw-code" class="link-btn link-btn-secondary" onclick="scrollTo('pw-code')">
+            <span class="en">⌨ View Code</span><span class="fr">⌨ Voir le code</span>
+          </a>
+          <a href="https://github.com/HocineBenbara/playwright-framework" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FlaUI ── -->
+    <div class="project-card reveal">
+      <div class="project-body" style="padding:2rem">
+        <div class="project-type">🖥️ FlaUI · C# · WPF Desktop</div>
+        <h3 class="project-title">
+          <span class="en">WPF Automation Framework (FlaUI)</span>
+          <span class="fr">Framework d'automatisation WPF (FlaUI)</span>
+        </h3>
+        <p class="project-desc">
+          <span class="en">NUnit-based automation framework for Windows WPF applications using FlaUI UIA3.
+          Features automatic screenshot capture on failure, Zephyr Scale reporting via
+          custom [ZephyrTest] attribute, and GitHub Actions CI integration.</span>
+          <span class="fr">Framework NUnit pour applications WPF via FlaUI UIA3.
+          Capture d'écran automatique sur échec, rapport Zephyr Scale via [ZephyrTest],
+          et intégration CI GitHub Actions.</span>
+        </p>
+        <div class="project-stack">
+          <span class="tag">FlaUI / UIA3</span><span class="tag">C# / NUnit</span>
+          <span class="tag blue">Page Object Model</span><span class="tag amber">Zephyr Scale</span>
+          <span class="tag">.NET 8</span>
+        </div>
+        <div class="project-links">
+          <a href="projects/flaui-wpf-automation.html" class="link-btn link-btn-primary">
+            <span class="en">→ View Details</span><span class="fr">→ Voir le détail</span>
+          </a>
+          <a href="#flaui-code" class="link-btn link-btn-secondary" onclick="scrollTo('flaui-code')">
+            <span class="en">⌨ View Code</span><span class="fr">⌨ Voir le code</span>
+          </a>
+          <a href="https://github.com/HocineBenbara/flaui-wpf-automation" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── API Testing ── -->
+    <div class="project-card reveal">
+      <div class="project-body" style="padding:2rem">
+        <div class="project-type">🔌 Playwright · REST API · Backend</div>
+        <h3 class="project-title">
+          <span class="en">REST API Test Suite</span>
+          <span class="fr">Suite de tests API REST</span>
+        </h3>
+        <p class="project-desc">
+          <span class="en">Automated API test suite using Playwright's API context.
+          Validates CRUD operations (200/201/400), tests Bearer token authentication,
+          ensures test isolation, and cleans data post-execution.</span>
+          <span class="fr">Suite de tests API automatisée avec le contexte API de Playwright.
+          Valide les opérations CRUD (200/201/400), teste l'auth Bearer token,
+          assure l'isolation des tests et nettoie les données après exécution.</span>
+        </p>
+        <div class="project-stack">
+          <span class="tag">Playwright API</span><span class="tag blue">Bearer Auth</span>
+          <span class="tag blue">CRUD / JSON Schema</span><span class="tag amber">Zephyr Reporting</span>
+        </div>
+        <div class="project-links">
+          <a href="articles/api-testing-playwright.html" class="link-btn link-btn-primary" target="_blank">
+            <span class="en">↗ Read Article</span><span class="fr">↗ Lire l'article</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /projects-grid -->
+
+  <!-- ── VOIR TOUS LES PROJETS ── -->
+  <div style="text-align:center;margin-top:2.5rem" class="reveal">
+    <a href="projects/index.html" class="btn-outline">
+      <span class="en">→ View all projects</span>
+      <span class="fr">→ Voir tous les projets</span>
+    </a>
+  </div>
+
+  <!-- ── PLAYWRIGHT CODE VIEWER ── -->
+  <div id="pw-code" class="code-block reveal" style="margin-top:2.5rem">
+    <div class="code-tabs">
+      <button class="code-tab active" onclick="switchTab(this,'tab-basetest')">baseTest.ts</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-loginpage')">LoginPage.ts</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-locators')">login.locators.ts</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-spec')">login.spec.ts</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-pwconfig')">playwright.config.ts</button>
+    </div>
+
+    <div id="tab-basetest" class="code-content active"><pre>
+<span class="kw">import</span> { test <span class="kw">as</span> base, <span class="cls">Page</span> } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> { <span class="cls">LoginPage</span> } <span class="kw">from</span> <span class="str">'../pages/LoginPage'</span>;
+
+<span class="kw">type</span> <span class="cls">Fixtures</span> = {
+  loginPage: <span class="cls">LoginPage</span>;
+};
+
+<span class="kw">export const</span> test = base.<span class="fn">extend</span>&lt;<span class="cls">Fixtures</span>&gt;({
+  <span class="fn">loginPage</span>: <span class="kw">async</span> ({ page }: { page: <span class="cls">Page</span> }, use) <span class="op">=&gt;</span> {
+    <span class="kw">const</span> loginPage = <span class="kw">new</span> <span class="cls">LoginPage</span>(page);
+    <span class="kw">await</span> <span class="fn">use</span>(loginPage);
+  },
+});
+
+<span class="kw">export const</span> expect = test.expect;
+</pre></div>
+
+    <div id="tab-loginpage" class="code-content"><pre>
+<span class="kw">import</span> { <span class="cls">Page</span> } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+<span class="kw">import</span> { <span class="cls">BasePage</span> } <span class="kw">from</span> <span class="str">'./BasePage'</span>;
+<span class="kw">import</span> { loginLocators } <span class="kw">from</span> <span class="str">'../locators/login.locators'</span>;
+
+<span class="kw">export class</span> <span class="cls">LoginPage</span> <span class="kw">extends</span> <span class="cls">BasePage</span> {
+
+  <span class="kw">async</span> <span class="fn">gotoLoginPage</span>() {
+    <span class="kw">await</span> <span class="kw">this</span>.<span class="fn">goto</span>(<span class="str">'/'</span>);
+  }
+
+  <span class="kw">async</span> <span class="fn">fillUsername</span>(username: <span class="cls">string</span>) {
+    <span class="kw">await</span> <span class="kw">this</span>.page.<span class="fn">fill</span>(loginLocators.usernameInput, username);
+  }
+
+  <span class="kw">async</span> <span class="fn">fillPassword</span>(password: <span class="cls">string</span>) {
+    <span class="kw">await</span> <span class="kw">this</span>.page.<span class="fn">fill</span>(loginLocators.passwordInput, password);
+  }
+
+  <span class="kw">async</span> <span class="fn">clickLogin</span>() {
+    <span class="kw">await</span> <span class="kw">this</span>.page.<span class="fn">click</span>(loginLocators.loginButton);
+  }
+
+  <span class="kw">async</span> <span class="fn">login</span>(username: <span class="cls">string</span>, password: <span class="cls">string</span>) {
+    <span class="kw">await</span> <span class="kw">this</span>.<span class="fn">gotoLoginPage</span>();
+    <span class="kw">await</span> <span class="kw">this</span>.<span class="fn">fillUsername</span>(username);
+    <span class="kw">await</span> <span class="kw">this</span>.<span class="fn">fillPassword</span>(password);
+    <span class="kw">await</span> <span class="kw">this</span>.<span class="fn">clickLogin</span>();
+  }
+}
+</pre></div>
+
+    <div id="tab-locators" class="code-content"><pre>
+<span class="kw">export const</span> loginLocators = {
+  <span class="cm">// Login form</span>
+  usernameInput: <span class="str">'[data-test-qa-id="txtUserName"]'</span>,
+  passwordInput: <span class="str">'[data-test-qa-id="txtPassword"]'</span>,
+  loginButton:   <span class="str">'[data-test-qa-id="btnLogin"]'</span>,
+
+  <span class="cm">// Logout</span>
+  accountIcon:      <span class="str">'span[role="presentation"].icon-user4'</span>,
+  logoutButton:     <span class="str">'div.content.MuiBox-root:has-text(/Se déconnecter|Logout/)'</span>,
+  logoutButtonAlt1: <span class="str">'text=/Se déconnecter|Logout/'</span>,
+  logoutButtonAlt2: <span class="str">'div:has-text(/Se déconnecter|Logout/)'</span>,
+
+  <span class="cm">// Feedback</span>
+  errorMessage:     <span class="str">'.error-message'</span>,
+  successIndicator: <span class="str">'.welcome-message'</span>,
+};
+</pre></div>
+
+    <div id="tab-spec" class="code-content"><pre>
+<span class="kw">import</span> { test } <span class="kw">from</span> <span class="str">'../../fixtures/baseTest'</span>;
+<span class="kw">import</span> testData <span class="kw">from</span> <span class="str">'../../data/testData.json'</span>;
+
+test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, () <span class="op">=&gt;</span> {
+
+  <span class="fn">test</span>(<span class="str">'Login avec identifiants valides'</span>, <span class="kw">async</span> ({ loginPage }) <span class="op">=&gt;</span> {
+    <span class="cm">// Arrange</span>
+    <span class="kw">await</span> loginPage.<span class="fn">gotoLoginPage</span>();
+
+    <span class="cm">// Act</span>
+    <span class="kw">await</span> loginPage.<span class="fn">fillUsername</span>(testData.validUser.username);
+    <span class="kw">await</span> loginPage.<span class="fn">fillPassword</span>(testData.validUser.password);
+    <span class="kw">await</span> loginPage.<span class="fn">clickLogin</span>();
+
+    <span class="cm">// Assert</span>
+    <span class="kw">await</span> loginPage.getPage.<span class="fn">waitForLoadState</span>(<span class="str">'networkidle'</span>);
+  });
+
+  <span class="fn">test</span>(<span class="str">'Login avec mauvais mot de passe – affiche erreur'</span>, <span class="kw">async</span> ({ loginPage }) <span class="op">=&gt;</span> {
+    <span class="kw">await</span> loginPage.<span class="fn">login</span>(testData.validUser.username, <span class="str">'wrong_password'</span>);
+    <span class="cm">// Assert: error message visible</span>
+  });
+
+});
+</pre></div>
+
+    <div id="tab-pwconfig" class="code-content"><pre>
+<span class="kw">import</span> { <span class="fn">defineConfig</span>, devices } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
+
+<span class="kw">export default</span> <span class="fn">defineConfig</span>({
+  reporter: [[<span class="str">'html'</span>, { outputFolder: <span class="str">'playwright-report'</span>, open: <span class="str">'always'</span> }]],
+  testDir: <span class="str">'./tests'</span>,
+  timeout: <span class="num">30</span> * <span class="num">1000</span>,
+  use: {
+    headless: <span class="kw">false</span>,
+    baseURL: process.env.<span class="cls">BASE_URL</span>,
+    screenshot: <span class="str">'only-on-failure'</span>,
+  },
+  projects: [{
+    name: <span class="str">'chromium'</span>,
+    use: { ...devices[<span class="str">'Desktop Chrome'</span>] },
+  }],
+});
+</pre></div>
+  </div><!-- /pw-code -->
+
+  <!-- ── FLAUI CODE VIEWER ── -->
+  <div id="flaui-code" class="code-block reveal" style="margin-top:1.5rem">
+    <div class="code-tabs">
+      <button class="code-tab active" onclick="switchTab(this,'tab-testbase')">TestBase.cs</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-zephyrhelper')">ZephyrHelper.cs</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-zephyrbase')">ZephyrTestBase.cs</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-loginpagecs')">LoginPage.cs</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-loginspec')">LoginSpec.cs</button>
+      <button class="code-tab" onclick="switchTab(this,'tab-testconfig')">TestConfig.cs</button>
+    </div>
+
+    <div id="tab-testbase" class="code-content active"><pre>
+<span class="cm">/// Classe de base pour tous les tests FlaUI.</span>
+[<span class="cls">TestFixture</span>]
+<span class="kw">public abstract class</span> <span class="cls">TestBase</span>
+{
+    <span class="kw">protected</span> <span class="cls">Application</span>    App;
+    <span class="kw">protected</span> <span class="cls">UIA3Automation</span> Automation;
+    <span class="kw">protected</span> <span class="cls">Window</span>          MainWindow;
+
+    <span class="kw">protected virtual string</span> AppPath        <span class="op">=&gt;</span> <span class="cls">TestConfig</span>.AppExecutablePath;
+    <span class="kw">protected virtual int</span>    WindowTimeoutMs <span class="op">=&gt;</span> <span class="cls">TestConfig</span>.DefaultTimeoutMs;
+
+    [<span class="cls">SetUp</span>]
+    <span class="kw">public virtual void</span> <span class="fn">SetUp</span>()
+    {
+        Automation = <span class="kw">new</span> <span class="cls">UIA3Automation</span>();
+        App        = <span class="cls">Application</span>.<span class="fn">Launch</span>(AppPath);
+        MainWindow = App.<span class="fn">GetMainWindow</span>(Automation,
+                        <span class="cls">TimeSpan</span>.<span class="fn">FromMilliseconds</span>(WindowTimeoutMs));
+        <span class="cls">Assert</span>.<span class="fn">IsNotNull</span>(MainWindow, <span class="str">"Fenêtre principale introuvable."</span>);
+        <span class="fn">OnSetUp</span>();
+    }
+
+    [<span class="cls">TearDown</span>]
+    <span class="kw">public virtual void</span> <span class="fn">TearDown</span>()
+    {
+        <span class="fn">OnTearDown</span>();
+        <span class="fn">CaptureScreenshotOnFailure</span>();
+        <span class="fn">CloseApp</span>();
+    }
+
+    <span class="kw">protected virtual void</span> <span class="fn">OnSetUp</span>()   { }
+    <span class="kw">protected virtual void</span> <span class="fn">OnTearDown</span>() { }
+
+    <span class="kw">private void</span> <span class="fn">CaptureScreenshotOnFailure</span>()
+    {
+        <span class="kw">if</span> (<span class="cls">TestContext</span>.CurrentContext.Result.Outcome.Status == <span class="cls">TestStatus</span>.Failed)
+        {
+            <span class="kw">var</span> dir  = <span class="cls">Path</span>.<span class="fn">Combine</span>(<span class="cls">TestConfig</span>.ArtifactsPath, <span class="str">"screenshots"</span>);
+            <span class="cls">Directory</span>.<span class="fn">CreateDirectory</span>(dir);
+            <span class="kw">var</span> file = <span class="cls">Path</span>.<span class="fn">Combine</span>(dir,
+                $<span class="str">"{TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.png"</span>);
+            <span class="cls">Capture</span>.<span class="fn">Screen</span>().<span class="fn">ToFile</span>(file);
+            <span class="cls">TestContext</span>.<span class="fn">AddTestAttachment</span>(file, <span class="str">"Screenshot à l'échec"</span>);
+        }
+    }
+
+    <span class="kw">private void</span> <span class="fn">CloseApp</span>()
+    {
+        <span class="kw">try</span> { App?.<span class="fn">Close</span>(); Automation?.<span class="fn">Dispose</span>(); }
+        <span class="kw">catch</span> (<span class="cls">Exception</span> ex) {
+            <span class="cls">TestContext</span>.<span class="fn">WriteLine</span>($<span class="str">"[WARN] Fermeture : {ex.Message}"</span>);
+        }
+    }
+
+    <span class="kw">protected</span> <span class="cls">AutomationElement</span> <span class="fn">WaitForElement</span>(
+        <span class="cls">Func</span>&lt;<span class="cls">AutomationElement</span>&gt; finder, <span class="kw">int</span> timeoutMs = <span class="num">5000</span>)
+    {
+        <span class="kw">var</span> sw = <span class="cls">Stopwatch</span>.<span class="fn">StartNew</span>();
+        <span class="kw">while</span> (sw.ElapsedMilliseconds &lt; timeoutMs)
+        {
+            <span class="kw">try</span> { <span class="kw">var</span> el = <span class="fn">finder</span>(); <span class="kw">if</span> (el != <span class="kw">null</span>) <span class="kw">return</span> el; }
+            <span class="kw">catch</span> { }
+            <span class="cls">Thread</span>.<span class="fn">Sleep</span>(<span class="num">200</span>);
+        }
+        <span class="kw">throw new</span> <span class="cls">TimeoutException</span>($<span class="str">"Élément non trouvé après {timeoutMs} ms."</span>);
+    }
+}
+</pre></div>
+
+    <div id="tab-zephyrhelper" class="code-content"><pre>
+<span class="cm">/// Wrapper Zephyr Scale — envoie les résultats via API REST.</span>
+<span class="kw">public class</span> <span class="cls">ZephyrHelper</span>
+{
+    <span class="kw">private static readonly</span> <span class="cls">HttpClient</span> _client = <span class="kw">new</span> <span class="cls">HttpClient</span>();
+    <span class="kw">private readonly string</span> _baseUrl;
+    <span class="kw">private readonly string</span> _projectKey;
+
+    <span class="kw">public</span> <span class="fn">ZephyrHelper</span>()
+    {
+        _baseUrl    = <span class="cls">TestConfig</span>.ZephyrBaseUrl;
+        _projectKey = <span class="cls">TestConfig</span>.ZephyrProjectKey;
+        _client.DefaultRequestHeaders.Authorization =
+            <span class="kw">new</span> <span class="cls">AuthenticationHeaderValue</span>(<span class="str">"Bearer"</span>, <span class="cls">TestConfig</span>.ZephyrToken);
+    }
+
+    <span class="kw">public async</span> <span class="cls">Task</span> <span class="fn">ReportExecutionAsync</span>(
+        <span class="kw">string</span> testCaseKey, <span class="kw">string</span> status, <span class="kw">string</span> comment = <span class="str">""</span>)
+    {
+        <span class="kw">var</span> payload = <span class="kw">new</span> { projectKey = _projectKey, testCaseKey, statusName = status, comment };
+        <span class="kw">var</span> json    = <span class="cls">JsonSerializer</span>.<span class="fn">Serialize</span>(payload);
+        <span class="kw">var</span> content = <span class="kw">new</span> <span class="cls">StringContent</span>(json, <span class="cls">Encoding</span>.UTF8, <span class="str">"application/json"</span>);
+        <span class="kw">var</span> response = <span class="kw">await</span> _client.<span class="fn">PostAsync</span>($<span class="str">"{_baseUrl}/testexecutions"</span>, content);
+        <span class="cls">TestContext</span>.<span class="fn">WriteLine</span>(response.IsSuccessStatusCode
+            ? $<span class="str">"[ZEPHYR] ✓ '{status}' → {testCaseKey}"</span>
+            : $<span class="str">"[ZEPHYR] ✗ {response.StatusCode}"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">ReportExecution</span>(<span class="kw">string</span> key, <span class="kw">string</span> status, <span class="kw">string</span> comment = <span class="str">""</span>)
+        <span class="op">=&gt;</span> <span class="fn">ReportExecutionAsync</span>(key, status, comment).<span class="fn">GetAwaiter</span>().<span class="fn">GetResult</span>();
+
+    <span class="kw">public static class</span> <span class="cls">Status</span> {
+        <span class="kw">public const string</span> Pass = <span class="str">"Pass"</span>; <span class="kw">public const string</span> Fail = <span class="str">"Fail"</span>;
+        <span class="kw">public const string</span> Blocked = <span class="str">"Blocked"</span>; <span class="kw">public const string</span> NotExecuted = <span class="str">"Not Executed"</span>;
+    }
+}
+
+[<span class="cls">AttributeUsage</span>(<span class="cls">AttributeTargets</span>.Method)]
+<span class="kw">public class</span> <span class="cls">ZephyrTestAttribute</span> : <span class="cls">Attribute</span> {
+    <span class="kw">public string</span> TestCaseKey { <span class="kw">get</span>; }
+    <span class="kw">public</span> <span class="fn">ZephyrTestAttribute</span>(<span class="kw">string</span> key) <span class="op">=&gt;</span> TestCaseKey = key;
+}
+</pre></div>
+
+    <div id="tab-zephyrbase" class="code-content"><pre>
+<span class="cm">/// Extension de TestBase avec rapport automatique Zephyr Scale.</span>
+[<span class="cls">TestFixture</span>]
+<span class="kw">public abstract class</span> <span class="cls">ZephyrTestBase</span> : <span class="cls">TestBase</span>
+{
+    <span class="kw">private readonly</span> <span class="cls">ZephyrHelper</span> _zephyr = <span class="kw">new</span> <span class="cls">ZephyrHelper</span>();
+
+    [<span class="cls">TearDown</span>]
+    <span class="kw">public override void</span> <span class="fn">TearDown</span>()
+    {
+        <span class="fn">ReportToZephyr</span>();
+        <span class="kw">base</span>.<span class="fn">TearDown</span>();
+    }
+
+    <span class="kw">private void</span> <span class="fn">ReportToZephyr</span>()
+    {
+        <span class="kw">var</span> methodName = <span class="cls">TestContext</span>.CurrentContext.Test.MethodName;
+        <span class="kw">var</span> attr = <span class="fn">GetType</span>().<span class="fn">GetMethod</span>(methodName)?
+            .<span class="fn">GetCustomAttribute</span>&lt;<span class="cls">ZephyrTestAttribute</span>&gt;();
+        <span class="kw">if</span> (attr == <span class="kw">null</span>) <span class="kw">return</span>;
+        <span class="kw">var</span> outcome = <span class="cls">TestContext</span>.CurrentContext.Result.Outcome.Status;
+        <span class="kw">var</span> status  = outcome == <span class="cls">TestStatus</span>.Passed ? <span class="cls">ZephyrHelper</span>.Status.Pass
+                    : outcome == <span class="cls">TestStatus</span>.Failed ? <span class="cls">ZephyrHelper</span>.Status.Fail
+                    : <span class="cls">ZephyrHelper</span>.Status.Blocked;
+        _zephyr.<span class="fn">ReportExecution</span>(attr.TestCaseKey, status,
+            <span class="cls">TestContext</span>.CurrentContext.Result.Message ?? <span class="str">""</span>);
+    }
+}
+</pre></div>
+
+    <div id="tab-loginpagecs" class="code-content"><pre>
+<span class="cm">/// Page Object — Écran de connexion WPF.</span>
+<span class="kw">public class</span> <span class="cls">LoginPage</span>
+{
+    <span class="kw">private readonly</span> <span class="cls">Window</span> _window;
+    <span class="kw">public</span> <span class="fn">LoginPage</span>(<span class="cls">Window</span> window) <span class="op">=&gt;</span> _window = window;
+
+    <span class="kw">private</span> <span class="cls">TextBox</span> UsernameField <span class="op">=&gt;</span>
+        _window.<span class="fn">FindFirstDescendant</span>(cf <span class="op">=&gt;</span> cf.<span class="fn">ByAutomationId</span>(<span class="str">"txtUsername"</span>))?.<span class="fn">AsTextBox</span>();
+    <span class="kw">private</span> <span class="cls">TextBox</span> PasswordField <span class="op">=&gt;</span>
+        _window.<span class="fn">FindFirstDescendant</span>(cf <span class="op">=&gt;</span> cf.<span class="fn">ByAutomationId</span>(<span class="str">"txtPassword"</span>))?.<span class="fn">AsTextBox</span>();
+    <span class="kw">private</span> <span class="cls">Button</span> LoginButton <span class="op">=&gt;</span>
+        _window.<span class="fn">FindFirstDescendant</span>(cf <span class="op">=&gt;</span> cf.<span class="fn">ByAutomationId</span>(<span class="str">"btnLogin"</span>))?.<span class="fn">AsButton</span>();
+    <span class="kw">private</span> <span class="cls">Label</span> ErrorLabel <span class="op">=&gt;</span>
+        _window.<span class="fn">FindFirstDescendant</span>(cf <span class="op">=&gt;</span> cf.<span class="fn">ByAutomationId</span>(<span class="str">"lblError"</span>))?.<span class="fn">AsLabel</span>();
+
+    <span class="kw">public void</span> <span class="fn">Login</span>(<span class="kw">string</span> username, <span class="kw">string</span> password)
+    {
+        <span class="kw">if</span> (UsernameField != <span class="kw">null</span>) { UsernameField.<span class="fn">Click</span>(); UsernameField.Text = username; }
+        <span class="kw">if</span> (PasswordField != <span class="kw">null</span>) { PasswordField.<span class="fn">Click</span>(); PasswordField.Text = password; }
+        LoginButton?.<span class="fn">Click</span>();
+    }
+
+    <span class="kw">public bool</span>   <span class="fn">IsErrorDisplayed</span>() <span class="op">=&gt;</span> ErrorLabel?.IsEnabled == <span class="kw">true</span>;
+    <span class="kw">public string</span> <span class="fn">GetErrorMessage</span>()  <span class="op">=&gt;</span> ErrorLabel?.Text ?? <span class="cls">string</span>.Empty;
+}
+</pre></div>
+
+    <div id="tab-loginspec" class="code-content"><pre>
+[<span class="cls">TestFixture</span>][<span class="cls">Category</span>(<span class="str">"Authentication"</span>)]
+<span class="kw">public class</span> <span class="cls">LoginSpec</span> : <span class="cls">ZephyrTestBase</span>
+{
+    <span class="kw">private</span> <span class="cls">LoginPage</span> _loginPage;
+    <span class="kw">private const string</span> ValidUsername = <span class="str">"admin"</span>;
+    <span class="kw">private const string</span> ValidPassword = <span class="str">"Admin@123"</span>;
+    <span class="kw">private const string</span> WrongPassword = <span class="str">"mauvais_mdp"</span>;
+
+    <span class="kw">protected override void</span> <span class="fn">OnSetUp</span>() <span class="op">=&gt;</span> _loginPage = <span class="kw">new</span> <span class="cls">LoginPage</span>(MainWindow);
+
+    [<span class="cls">Test</span>][<span class="cls">ZephyrTest</span>(<span class="str">"PROJ-T01"</span>)]
+    [<span class="cls">Description</span>(<span class="str">"Connexion réussie avec identifiants valides"</span>)]
+    <span class="kw">public void</span> <span class="fn">Login_AvecIdentifiantsValides_ConnecteUtilisateur</span>()
+    {
+        _loginPage.<span class="fn">Login</span>(ValidUsername, ValidPassword);
+        <span class="kw">var</span> dashboard = <span class="fn">WaitForElement</span>(() <span class="op">=&gt;</span>
+            MainWindow.<span class="fn">FindFirstDescendant</span>(cf <span class="op">=&gt;</span> cf.<span class="fn">ByAutomationId</span>(<span class="str">"DashboardPanel"</span>)));
+        <span class="cls">Assert</span>.<span class="fn">IsNotNull</span>(dashboard, <span class="str">"Le dashboard doit être visible après connexion."</span>);
+    }
+
+    [<span class="cls">Test</span>][<span class="cls">ZephyrTest</span>(<span class="str">"PROJ-T02"</span>)]
+    <span class="kw">public void</span> <span class="fn">Login_AvecMauvaisMotDePasse_AfficheErreur</span>()
+    {
+        _loginPage.<span class="fn">Login</span>(ValidUsername, WrongPassword);
+        <span class="cls">Assert</span>.<span class="fn">IsTrue</span>(_loginPage.<span class="fn">IsErrorDisplayed</span>());
+    }
+
+    [<span class="cls">Test</span>][<span class="cls">ZephyrTest</span>(<span class="str">"PROJ-T03"</span>)]
+    <span class="kw">public void</span> <span class="fn">Login_ChampsVides_BoutonDesactiveOuErreur</span>()
+    {
+        _loginPage.<span class="fn">Login</span>(<span class="str">""</span>, <span class="str">""</span>);
+        <span class="cls">Assert</span>.<span class="fn">IsTrue</span>(_loginPage.<span class="fn">IsErrorDisplayed</span>());
+    }
+}
+</pre></div>
+
+    <div id="tab-testconfig" class="code-content"><pre>
+<span class="kw">public static class</span> <span class="cls">TestConfig</span>
+{
+    <span class="kw">public static string</span> AppExecutablePath <span class="op">=&gt;</span>
+        <span class="cls">Environment</span>.<span class="fn">GetEnvironmentVariable</span>(<span class="str">"WPFAUTOMATION_EXE_PATH"</span>)
+        ?? <span class="str">@"C:\Apps\YourWpfApp\YourWpfApp.exe"</span>;
+
+    <span class="kw">public static string</span> ArtifactsPath <span class="op">=&gt;</span>
+        <span class="cls">Environment</span>.<span class="fn">GetEnvironmentVariable</span>(<span class="str">"TEST_ARTIFACTS_PATH"</span>)
+        ?? <span class="cls">Path</span>.<span class="fn">Combine</span>(<span class="cls">AppDomain</span>.CurrentDomain.BaseDirectory, <span class="str">"TestArtifacts"</span>);
+
+    <span class="kw">public static int</span>    DefaultTimeoutMs <span class="op">=&gt;</span> <span class="num">10_000</span>;
+
+    <span class="kw">public static string</span> ZephyrBaseUrl <span class="op">=&gt;</span>
+        <span class="cls">Environment</span>.<span class="fn">GetEnvironmentVariable</span>(<span class="str">"ZEPHYR_BASE_URL"</span>)
+        ?? <span class="str">"https://api.zephyrscale.smartbear.com/v2"</span>;
+
+    <span class="kw">public static string</span> ZephyrToken <span class="op">=&gt;</span>
+        <span class="cls">Environment</span>.<span class="fn">GetEnvironmentVariable</span>(<span class="str">"ZEPHYR_TOKEN"</span>)
+        ?? <span class="kw">throw new</span> <span class="cls">InvalidOperationException</span>(<span class="str">"ZEPHYR_TOKEN manquant."</span>);
+
+    <span class="kw">public static string</span> ZephyrProjectKey <span class="op">=&gt;</span>
+        <span class="cls">Environment</span>.<span class="fn">GetEnvironmentVariable</span>(<span class="str">"ZEPHYR_PROJECT_KEY"</span>) ?? <span class="str">"PROJ"</span>;
+}
+</pre></div>
+  </div><!-- /flaui-code -->
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     04 – GUIDE QA
+══════════════════════════════════════════════════ -->
+<section id="guide" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title">
+      <span class="en">QA Guide – Test Automation</span>
+      <span class="fr">Guide QA – Tests Automatisés</span>
+    </h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="guide-card reveal">
+    <div class="guide-header">
+      <div class="guide-icon">📘</div>
+      <div class="guide-meta">
+        <h3>
+          <span class="en">QA Guide – Automated Testing</span>
+          <span class="fr">Guide QA – Tests Automatisés</span>
+        </h3>
+        <p>
+          <span class="en">Standardisation · BDD · Automation · CI/CD &nbsp;|&nbsp; 3 pages &nbsp;|&nbsp; Internal reference document</span>
+          <span class="fr">Standardisation · BDD · Automatisation · CI/CD &nbsp;|&nbsp; 3 pages &nbsp;|&nbsp; Document de référence interne</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="guide-chapters">
+      <div class="chapter">
+        <div class="chapter-num">SECTION 01</div>
+        <div class="chapter-title"><span class="en">BDD Principle</span><span class="fr">Principe BDD</span></div>
+        <div class="chapter-desc">
+          <span class="en">Gherkin format — Given / When / Then. Link the business need to the test before automating.</span>
+          <span class="fr">Format Gherkin — Given / When / Then. Lier le besoin métier au test avant d'automatiser.</span>
+        </div>
+      </div>
+      <div class="chapter">
+        <div class="chapter-num">SECTION 02</div>
+        <div class="chapter-title"><span class="en">Test Case Writing</span><span class="fr">Rédaction des cas</span></div>
+        <div class="chapter-desc">
+          <span class="en">Standard structure: title, preconditions, numbered steps, measurable expected result.</span>
+          <span class="fr">Structure standard : titre, préconditions, étapes numérotées, résultat attendu mesurable.</span>
+        </div>
+      </div>
+      <div class="chapter">
+        <div class="chapter-num">SECTION 03</div>
+        <div class="chapter-title"><span class="en">Core Rules</span><span class="fr">Règles fondamentales</span></div>
+        <div class="chapter-desc">
+          <span class="en">1 test = 1 objective. Fixtures vs hard-coded data. Systematic Page Object Model.</span>
+          <span class="fr">1 test = 1 objectif. Fixtures vs données codées en dur. Page Object Model systématique.</span>
+        </div>
+      </div>
+      <div class="chapter">
+        <div class="chapter-num">SECTION 04</div>
+        <div class="chapter-title"><span class="en">Manual Testing</span><span class="fr">Tests manuels</span></div>
+        <div class="chapter-desc">
+          <span class="en">Human readability, fine coverage. Natural, precise, and actionable language. UX-first.</span>
+          <span class="fr">Lisibilité humaine, couverture fine. Langage naturel, précis et actionnable. UX-first.</span>
+        </div>
+      </div>
+      <div class="chapter">
+        <div class="chapter-num">SECTION 05</div>
+        <div class="chapter-title"><span class="en">Automated Testing</span><span class="fr">Tests automatisés</span></div>
+        <div class="chapter-desc">
+          <span class="en">data-testid selectors, setup/teardown, explicit assertions, configurable timeouts.</span>
+          <span class="fr">Sélecteurs data-testid, setup/teardown, assertions explicites, timeouts configurables.</span>
+        </div>
+      </div>
+      <div class="chapter">
+        <div class="chapter-num">SECTION 06</div>
+        <div class="chapter-title">CI/CD Integration</div>
+        <div class="chapter-desc">
+          <span class="en">Reliable, reproducible execution. Data-driving via CSV/JSON. TRX / HTML reports.</span>
+          <span class="fr">Exécution fiable et reproductible. Data-driving via CSV/JSON. Rapports TRX / HTML.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-checklist">
+      <h4><span class="en">Validation Checklist</span><span class="fr">Checklist avant validation</span></h4>
+      <div class="checklist-grid">
+        <div class="check-item"><span class="en">Unique, behaviour-oriented title</span><span class="fr">Titre unique et orienté comportement</span></div>
+        <div class="check-item"><span class="en">Preconditions and data specified</span><span class="fr">Prérequis et données précisés</span></div>
+        <div class="check-item"><span class="en">Unambiguous, executable steps</span><span class="fr">Étapes non ambiguës et exécutables</span></div>
+        <div class="check-item"><span class="en">Measurable expected result</span><span class="fr">Résultat attendu mesurable / observable</span></div>
+        <div class="check-item"><span class="en">Linked to a requirement or ticket</span><span class="fr">Lié à une exigence ou un ticket</span></div>
+        <div class="check-item"><span class="en">[Auto] Setup / teardown planned</span><span class="fr">[Auto] Setup / teardown prévu</span></div>
+        <div class="check-item"><span class="en">[Auto] Explicit assertions and timeouts</span><span class="fr">[Auto] Assertions explicites et timeouts</span></div>
+        <div class="check-item"><span class="en">[Auto] Robust selectors (data-testid, id)</span><span class="fr">[Auto] Sélecteurs robustes (data-testid, id)</span></div>
+        <div class="check-item"><span class="en">[Auto] No dependency between tests</span><span class="fr">[Auto] Pas de dépendance entre tests</span></div>
+      </div>
+    </div>
+
+    <div class="guide-footer">
+      <p class="guide-quote">
+        <strong><span class="en">Golden rule:</span><span class="fr">Règle d'or :</span></strong>
+        <span class="en"> A good test case must be understandable by a new tester and executable without interpretation.</span>
+        <span class="fr"> Un bon cas de test doit être compréhensible par un nouveau testeur et exécutable sans interprétation.</span>
+      </p>
+      <a href="https://raw.githubusercontent.com/HocineBenbara/HocineBenbara.github.io/main/assets/Guide_QA_Tests_Automatises.pdf"
+         download="Guide_QA_Tests_Automatises.pdf"
+         target="_blank" rel="noopener noreferrer"
+         class="link-btn link-btn-primary">
+        <span class="en">↗ Download PDF</span>
+        <span class="fr">↗ Télécharger le PDF</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     05 – SIDE PROJECTS
+══════════════════════════════════════════════════ -->
+<section id="side" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title">
+      <span class="en">Side Projects</span>
+      <span class="fr">Projets personnels</span>
+    </h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="side-grid">
+
+    <!-- WeatherApp -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">🌦️</div>
+      <div class="side-card-type"><span class="en">Web App · JavaScript · Open-Meteo API</span><span class="fr">Appli Web · JavaScript · API Open-Meteo</span></div>
+      <h3 class="side-card-title">WeatherApp</h3>
+      <p class="side-card-desc">
+        <span class="en">Full-featured weather app with real-time data, 15-day forecasts, hourly breakdown,
+        UV index, air quality, pollen levels, geolocation, city search, auto-refresh every 10 minutes,
+        °C/°F toggle, dark mode and lifestyle tips.</span>
+        <span class="fr">Application météo complète avec données en temps réel, prévisions sur 15 jours,
+        détail horaire, indice UV, qualité de l'air, taux de pollen, géolocalisation, recherche de ville,
+        rafraîchissement automatique toutes les 10 minutes, bascule °C/°F, mode sombre et conseils quotidiens.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">JavaScript</span>
+        <span class="tag blue">Open-Meteo API</span>
+        <span class="tag">Géolocalisation</span>
+        <span class="tag">PWA-ready</span>
+        <span class="tag">GitHub Pages</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://hocinebenbara.github.io/WeatherApp/" class="link-btn link-btn-primary" target="_blank">
+          <span class="en">↗ Live Demo</span><span class="fr">↗ Démo en direct</span>
+        </a>
+        <a href="https://github.com/HocineBenbara/WeatherApp" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+    <!-- FlowBoard -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">📋</div>
+      <div class="side-card-type">
+        <span class="en">Desktop App · C# · WPF</span>
+        <span class="fr">Application Bureau · C# · WPF</span>
+      </div>
+      <h3 class="side-card-title">FlowBoard</h3>
+      <p class="side-card-desc">
+        <span class="en">Windows productivity app designed to manage projects and tasks efficiently.
+        Features a clean and intuitive interface, fast performance and a secure local experience
+        with a convenient Windows installer.</span>
+        <span class="fr">Application Windows conçue pour gérer efficacement les projets et les tâches.
+        Elle propose une interface simple et intuitive, des performances rapides
+        ainsi qu'une expérience sécurisée avec un installeur Windows pratique.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">C#</span>
+        <span class="tag blue">WPF</span>
+        <span class="tag">Task Management</span>
+        <span class="tag">Windows Installer</span>
+        <span class="tag">Desktop App</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://github.com/HocineBenbara/FlowBoard" class="link-btn link-btn-primary" target="_blank">
+          <span class="en">↗ View Project</span>
+          <span class="fr">↗ Voir le projet</span>
+        </a>
+        <a href="https://github.com/HocineBenbara/FlowBoard" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+    <!-- SmartVideoInspector -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">🎬</div>
+      <div class="side-card-type">
+        <span class="en">Desktop App · Python · Video Analysis</span>
+        <span class="fr">Application bureau · Python · Analyse vidéo</span>
+      </div>
+      <h3 class="side-card-title">SmartVideoInspector</h3>
+      <p class="side-card-desc">
+        <span class="en">Python-based desktop tool for video analysis and inspection. Extracts frames,
+        analyzes metadata and provides visual insights from video files — useful for QA
+        validation of video content and media pipelines.</span>
+        <span class="fr">Outil bureau en Python pour l'analyse et l'inspection de vidéos. Extrait des
+        frames, analyse les métadonnées et fournit des insights visuels — utile pour la
+        validation QA de contenus vidéo et de pipelines média.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">Python</span>
+        <span class="tag blue">Video Analysis</span>
+        <span class="tag">Frame Extraction</span>
+        <span class="tag">Desktop App</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://github.com/HocineBenbara/SmartVideoInspector" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+    <!-- QATraker -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">🐛</div>
+      <div class="side-card-type">
+        <span class="en">Web App · Bug Tracking · QA Tool</span>
+        <span class="fr">Appli Web · Suivi de bugs · Outil QA</span>
+      </div>
+      <h3 class="side-card-title">QATraker</h3>
+      <p class="side-card-desc">
+        <span class="en">Custom bug and test tracking application tailored for QA workflows.
+        Designed to log defects, track test execution status and manage QA
+        reporting without depending on third-party tools like Jira.</span>
+        <span class="fr">Application de suivi de bugs et de tests conçue pour les workflows QA.
+        Permet d'enregistrer des défauts, suivre l'état des exécutions et gérer
+        les rapports QA sans dépendre d'outils tiers comme Jira.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">Bug Tracking</span>
+        <span class="tag blue">QA Workflow</span>
+        <span class="tag">Test Management</span>
+        <span class="tag">Reporting</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://github.com/HocineBenbara/QATraker" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+    <!-- xpath-finder-pro -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">🔍</div>
+      <div class="side-card-type">
+        <span class="en">Browser Extension · JavaScript · QA Utility</span>
+        <span class="fr">Extension navigateur · JavaScript · Outil QA</span>
+      </div>
+      <h3 class="side-card-title">XPath Finder Pro</h3>
+      <p class="side-card-desc">
+        <span class="en">Browser extension that generates reliable XPath selectors for any element
+        on a page with a single click. Built specifically for test automation engineers
+        who need stable, readable locators for Playwright, Selenium or FlaUI.</span>
+        <span class="fr">Extension navigateur qui génère des sélecteurs XPath fiables pour n'importe
+        quel élément d'une page en un clic. Conçu pour les ingénieurs en automatisation
+        qui ont besoin de localisateurs stables pour Playwright, Selenium ou FlaUI.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">JavaScript</span>
+        <span class="tag blue">Browser Extension</span>
+        <span class="tag">XPath</span>
+        <span class="tag">Test Automation</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://github.com/HocineBenbara/xpath-finder-pro" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+    <!-- ShareRide -->
+    <div class="side-card reveal">
+      <div class="side-card-icon">🚗</div>
+      <div class="side-card-type">
+        <span class="en">Web App · Full Stack · Carpooling</span>
+        <span class="fr">Appli Web · Full Stack · Covoiturage</span>
+      </div>
+      <h3 class="side-card-title">ShareRide</h3>
+      <p class="side-card-desc">
+        <span class="en">Full-stack carpooling web application that connects drivers and passengers
+        for shared rides. Includes user accounts, ride creation and search, booking
+        management and a clean responsive interface.</span>
+        <span class="fr">Application web de covoiturage full-stack qui connecte conducteurs et passagers.
+        Comprend la gestion des comptes, la création et recherche de trajets, la réservation
+        et une interface responsive soignée.</span>
+      </p>
+      <div class="project-stack" style="margin-bottom:0">
+        <span class="tag blue">Full Stack</span>
+        <span class="tag blue">Carpooling</span>
+        <span class="tag">User Management</span>
+        <span class="tag">Responsive</span>
+      </div>
+      <div class="project-links" style="margin-top:1rem">
+        <a href="https://github.com/HocineBenbara/ShareRide-main" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     06 – TRAILHEAD
+══════════════════════════════════════════════════ -->
+<section id="trailhead" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title">
+      <span class="en">Certifications &amp; Learning</span>
+      <span class="fr">Certifications &amp; Formation</span>
+    </h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="trailhead-card reveal">
+    <div class="th-header">
+      <div class="th-brand">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="#00A1E0"/>
+          <path d="M50 20 C50 20 25 45 25 62 C25 76 36 87 50 87 C64 87 75 76 75 62 C75 45 50 20 50 20Z" fill="white" opacity="0.9"/>
+          <path d="M50 35 C50 35 35 52 35 63 C35 72 42 79 50 79 C58 79 65 72 65 63 C65 52 50 35 50 35Z" fill="#00A1E0"/>
+        </svg>
+        <span class="th-platform">Salesforce Trailhead</span>
+      </div>
+      <a href="https://www.salesforce.com/trailblazer/w80qr12p6x9lisobzm" target="_blank" class="link-btn link-btn-primary">
+        <span class="en">↗ View Profile</span><span class="fr">↗ Voir le profil</span>
+      </a>
+    </div>
+
+    <div class="th-stats">
+      <div class="th-stat">
+        <div class="th-rank-badge">
+          <div class="th-mountain">
+            <div class="th-peak"></div>
+            <div class="th-mountain-body"></div>
+          </div>
+          <span class="th-rank-label">MOUNTAINEER</span>
+        </div>
+      </div>
+      <div class="th-stat-group">
+        <div class="th-stat-item">
+          <div class="th-stat-num">27</div>
+          <div class="th-stat-label"><span class="en">Badges</span><span class="fr">Badges</span></div>
+        </div>
+        <div class="th-stat-item">
+          <div class="th-stat-num">24 975</div>
+          <div class="th-stat-label"><span class="en">Points</span><span class="fr">Points</span></div>
+        </div>
+        <div class="th-stat-item">
+          <div class="th-stat-num">3</div>
+          <div class="th-stat-label"><span class="en">Trails</span><span class="fr">Parcours</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="th-badges-title">
+      <span class="en">Recent Badges</span><span class="fr">Badges récents</span>
+    </div>
+    <div class="th-badges">
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#00A1E0,#0070D2)">☁</div>
+        <span class="en">Agentforce 360 Platform Basics</span><span class="fr">Concepts de base d'Agentforce 360</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#FFB75D,#ED8F03)">⬡</div>
+        <span class="en">Data Modeling</span><span class="fr">Modélisation des données</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🔌</div>
+        <span class="en">Postman to Salesforce</span><span class="fr">Connexion Postman à Salesforce</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#7B2D8B,#4A1060)">⚡</div>
+        <span class="en">Visualforce Basics</span><span class="fr">Concepts de base de Visualforce</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#2196F3,#0D47A1)">☑</div>
+        <span class="en">Flow Builder Basics</span><span class="fr">Concepts de base de Flow Builder</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#00BCD4,#006064)">⚙</div>
+        <span class="en">Asynchronous Apex</span><span class="fr">Apex asynchrone</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#FF9800,#E65100)">APP!</div>
+        <span class="en">AgentExchange Basics</span><span class="fr">Concepts de base d'AgentExchange</span>
+      </div>
+      <div class="th-badge-item">
+        <div class="th-badge-icon" style="background:linear-gradient(135deg,#00ACC1,#006064)">🤖</div>
+        <span class="en">Approval Processes</span><span class="fr">Approbation d'enregistrements</span>
+      </div>
+    </div>
+
+    <div class="th-footer">
+      <span class="en">+19 more badges on Trailhead profile</span>
+      <span class="fr">+19 autres badges sur le profil Trailhead</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     07 – ARTICLES
+══════════════════════════════════════════════════ -->
+<section id="articles" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Articles</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="articles-grid">
+
+    <a href="articles/api-testing-playwright.html"
+       class="article-card reveal" target="_blank">
+      <div class="article-date">May 2025</div>
+      <div>
+        <div class="article-title">How I Tested a REST API Using Playwright</div>
+        <div class="article-desc">
+          <span class="en">Bearer token auth · CRUD validation (200/201/400) · Test isolation · Zephyr reporting</span>
+          <span class="fr">Auth Bearer token · Validation CRUD (200/201/400) · Isolation · Rapport Zephyr</span>
+        </div>
+      </div>
+      <div class="article-arrow">→</div>
+    </a>
+
+    <a href="articles/selenium-framework.html"
+       class="article-card reveal" target="_blank">
+      <div class="article-date">Jan 2025</div>
+      <div>
+        <div class="article-title">My Selenium Automation Framework Explained</div>
+        <div class="article-desc">
+          <span class="en">Page Object Model · Reusable utilities · Data-Driven Testing · Full test isolation</span>
+          <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
+        </div>
+      </div>
+      <div class="article-arrow">→</div>
+    </a>
+
+    <a href="articles/lighthouse.html"
+       class="article-card reveal" target="_blank">
+      <div class="article-date">May 2025</div>
+      <div>
+        <div class="article-title">Présentation de Lighthouse</div>
+        <div class="article-desc">
+          <span class="en">Automated analysis tool · Performance · Accessibility · SEO · Best practices</span>
+          <span class="fr">Outil d'analyse automatisée · Performance · Accessibilité · SEO · Bonnes pratiques</span>
+        </div>
+      </div>
+      <div class="article-arrow">→</div>
+    </a>
+
+    <a href="articles/cypress.html"
+       class="article-card reveal" target="_blank">
+      <div class="article-date">Feb 2026</div>
+      <div>
+        <div class="article-title">End-to-End Testing with Cypress</div>
+        <div class="article-desc">
+          <span class="en">Real browser · Automatic waiting · Network interception · CI integration</span>
+          <span class="fr">Vrai navigateur · Attente automatique · Interception réseau · Intégration CI</span>
+        </div>
+      </div>
+      <div class="article-arrow">→</div>
+    </a>
+
+    <a href="articles/flaui.html"
+       class="article-card reveal" target="_blank">
+      <div class="article-date">Jan 2026</div>
+      <div>
+        <div class="article-title">Desktop App Automation with FlaUI</div>
+        <div class="article-desc">
+          <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
+          <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
+        </div>
+      </div>
+      <div class="article-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- Voir tous les articles -->
+  <div style="text-align:center;margin-top:2rem" class="reveal">
+    <a href="articles/index.html" class="btn-outline">
+      <span class="en">→ View all articles</span>
+      <span class="fr">→ Voir tous les articles</span>
+    </a>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     08 – CONTACT
+══════════════════════════════════════════════════ -->
+<section id="contact" class="section">
+  <div class="section-header reveal">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="contact-inner reveal">
+    <h2 class="contact-title">
+      <span class="en">Open to Opportunities</span>
+      <span class="fr">Disponible pour de nouvelles opportunités</span>
+    </h2>
+    <p class="contact-subtitle">
+      <span class="en">Looking for a Software Quality Specialist position where I can detect anomalies, automate test scenarios and help build reliable, high-quality software.</span>
+      <span class="fr">À la recherche d'un poste de Spécialiste en qualité logicielle où je pourrai détecter les anomalies, automatiser les scénarios de tests et contribuer à des livraisons fiables et de haute qualité.</span>
+    </p>
+    <div class="contact-links">
+      <a href="mailto:hocine.benbara@example.com" class="btn-primary">
+        <span class="en">✉ Send an Email</span><span class="fr">✉ Envoyer un e-mail</span>
+      </a>
+      <a href="https://github.com/HocineBenbara" class="btn-outline" target="_blank">↗ GitHub</a>
+      <a href="https://www.linkedin.com/in/hocine-benbara" class="btn-outline" target="_blank">↗ LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer>
+  <p>
+    Hocine Benbara &nbsp;·&nbsp;
+    <span class="en">Software Quality Specialist</span><span class="fr">Spécialiste en qualité logicielle</span>
+    &nbsp;·&nbsp;
+    <span class="en">Built with <span>♥</span></span><span class="fr">Fait avec <span>♥</span></span>
+    &nbsp;·&nbsp; 2026
+  </p>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

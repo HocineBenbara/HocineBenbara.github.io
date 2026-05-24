@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desktop App Automation with FlaUI – UI Automation for Windows apps, element inspection, patterns and CI integration.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Desktop App Automation with FlaUI – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .article-wrapper { max-width:760px; margin:0 auto; padding:7rem 2rem 6rem; position:relative; z-index:1; }
+    .article-header { margin-bottom:2.5rem; }
+    .article-meta { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; margin-bottom:1.25rem; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+    .article-meta .sep { color:var(--border); }
+    .article-tag { padding:2px 10px; border-radius:4px; background:var(--tag-bg); border:1px solid var(--tag-border); color:var(--accent); }
+    .article-title { font-size:clamp(1.9rem,5vw,2.8rem); font-weight:800; letter-spacing:-.02em; line-height:1.15; margin-bottom:1rem; }
+    .article-subtitle { font-family:'JetBrains Mono',monospace; font-size:.87rem; color:var(--muted); line-height:1.85; }
+    .article-tags { display:flex; flex-wrap:wrap; gap:.5rem; margin:1.5rem 0 2rem; }
+    .article-divider { height:1px; background:var(--border); margin:2rem 0; position:relative; }
+    .article-divider::before { content:''; position:absolute; left:0; top:-1px; width:48px; height:2px; background:var(--accent); }
+    .article-body { line-height:1.85; }
+    .article-body h2 { font-size:1.2rem; font-weight:700; letter-spacing:-.01em; margin:2.5rem 0 1rem; display:flex; align-items:center; gap:10px; }
+    .article-body h2::before { content:''; width:3px; height:1.2rem; background:var(--accent); border-radius:2px; flex-shrink:0; }
+    .article-body p { font-family:'JetBrains Mono',monospace; font-size:.84rem; color:var(--muted); margin-bottom:1.1rem; line-height:1.95; }
+    .article-body strong { color:var(--text); font-weight:700; }
+    .code-snippet { background:#060809; border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:1.5rem 0; }
+    .code-snippet-header { display:flex; align-items:center; justify-content:space-between; padding:.6rem 1rem; background:var(--surface2); border-bottom:1px solid var(--border); }
+    .code-snippet-label { font-family:'JetBrains Mono',monospace; font-size:.65rem; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+    .code-dots { display:flex; gap:5px; }
+    .code-dots span { width:10px; height:10px; border-radius:50%; }
+    .code-dots .d1{background:#ff5f57;} .code-dots .d2{background:#febc2e;} .code-dots .d3{background:#28c840;}
+    .code-snippet pre { padding:1.25rem 1.5rem; margin:0; font-family:'JetBrains Mono',monospace; font-size:.76rem; line-height:1.85; color:#c9d1d9; overflow-x:auto; white-space:pre; }
+    .feature-list { list-style:none; margin:1rem 0 1.5rem; }
+    .feature-list li { display:flex; gap:12px; align-items:flex-start; padding:.75rem 0; border-bottom:1px solid var(--border); font-family:'JetBrains Mono',monospace; font-size:.82rem; color:var(--muted); }
+    .feature-list li:last-child { border-bottom:none; }
+    .f-icon { width:24px; height:24px; border-radius:5px; background:var(--tag-bg); border:1px solid var(--tag-border); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; margin-top:1px; }
+    .callout { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:0 8px 8px 0; padding:1rem 1.25rem; margin:1.75rem 0; }
+    .callout.warning { border-left-color:var(--accent3); }
+    .callout p { margin:0; }
+    .uia-table { width:100%; border-collapse:collapse; margin:1.25rem 0; font-family:'JetBrains Mono',monospace; font-size:.78rem; }
+    .uia-table th { font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); padding:.6rem 1rem; border-bottom:1px solid var(--border); text-align:left; }
+    .uia-table td { padding:.8rem 1rem; color:var(--muted); border-bottom:1px solid var(--border); }
+    .uia-table tr:last-child td { border-bottom:none; }
+    .uia-table td:first-child { color:var(--accent); font-weight:600; }
+    .nav-back { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); text-decoration:none; letter-spacing:.08em; text-transform:uppercase; transition:color .2s; }
+    .nav-back:hover { color:var(--accent); }
+    .article-footer { margin-top:4rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .footer-back { font-family:'JetBrains Mono',monospace; font-size:.75rem; color:var(--muted); text-decoration:none; text-transform:uppercase; letter-spacing:.08em; transition:color .2s; }
+    .footer-back:hover { color:var(--accent); }
+    .footer-sig { font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); }
+    .footer-sig span { color:var(--accent); }
+    @media(max-width:600px){ .article-wrapper{padding:6rem 1.25rem 4rem;} .article-footer{flex-direction:column;gap:1rem;} }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="article-wrapper">
+  <header class="article-header reveal">
+    <div class="article-meta">
+      <span class="article-tag">FlaUI · Desktop</span>
+      <span class="sep">·</span>
+      <span class="en">2025</span><span class="fr">2025</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+    <h1 class="article-title">
+      <span class="en">Desktop App Automation with FlaUI</span>
+      <span class="fr">Automatisation d'apps Desktop avec FlaUI</span>
+    </h1>
+    <p class="article-subtitle">
+      <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
+      <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
+    </p>
+    <div class="article-tags">
+      <span class="tag">FlaUI</span>
+      <span class="tag">C#</span>
+      <span class="tag blue">UIA3</span>
+      <span class="tag blue">NUnit</span>
+      <span class="tag amber">WPF</span>
+      <span class="tag amber">WinForms</span>
+    </div>
+  </header>
+
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+
+    <section class="reveal">
+      <h2><span class="en">The desktop testing gap</span><span class="fr">Le manque des tests desktop</span></h2>
+      <p>
+        <span class="en">Web testing has a rich ecosystem — Selenium, Playwright, Cypress. But when the application
+        is a <strong>native Windows desktop app</strong> (WPF, WinForms, Win32), most of those tools simply
+        don't apply. FlaUI fills that gap: a .NET library built on top of Microsoft's
+        <strong>UI Automation (UIA3)</strong> framework that lets you drive any Windows application
+        the same way a screen reader would.</span>
+        <span class="fr">Les tests web ont un riche écosystème — Selenium, Playwright, Cypress. Mais quand
+        l'application est une <strong>app desktop Windows native</strong> (WPF, WinForms, Win32),
+        la plupart de ces outils ne s'appliquent tout simplement pas. FlaUI comble ce manque :
+        une bibliothèque .NET construite sur le framework <strong>UI Automation (UIA3)</strong> de Microsoft
+        qui te permet de piloter n'importe quelle application Windows comme le ferait un lecteur d'écran.</span>
+      </p>
+      <p>
+        <span class="en">FlaUI is open-source, actively maintained, and significantly more developer-friendly
+        than its predecessor WinAppDriver or the raw UIA COM API.</span>
+        <span class="fr">FlaUI est open-source, activement maintenu, et significativement plus agréable pour
+        les développeurs que son prédécesseur WinAppDriver ou l'API COM UIA brute.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">How UI Automation works</span><span class="fr">Comment fonctionne UI Automation</span></h2>
+      <p>
+        <span class="en">Every Windows UI control exposes an <strong>AutomationElement</strong> — a structured
+        representation of that control with properties (Name, AutomationId, ControlType) and
+        interaction patterns (InvokePattern, ValuePattern, SelectionPattern...).
+        FlaUI wraps these into a clean C# API.</span>
+        <span class="fr">Chaque contrôle UI Windows expose un <strong>AutomationElement</strong> — une représentation
+        structurée de ce contrôle avec des propriétés (Name, AutomationId, ControlType) et des patterns
+        d'interaction (InvokePattern, ValuePattern, SelectionPattern...).
+        FlaUI les enveloppe dans une API C# propre.</span>
+      </p>
+
+      <table class="uia-table">
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th><span class="en">Used for</span><span class="fr">Utilisé pour</span></th>
+            <th><span class="en">Example</span><span class="fr">Exemple</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>InvokePattern</td>
+            <td><span class="en">Click a button</span><span class="fr">Cliquer un bouton</span></td>
+            <td><code style="font-size:.72rem">button.Invoke()</code></td>
+          </tr>
+          <tr>
+            <td>ValuePattern</td>
+            <td><span class="en">Read / set a text field</span><span class="fr">Lire / écrire un champ texte</span></td>
+            <td><code style="font-size:.72rem">input.SetValue("text")</code></td>
+          </tr>
+          <tr>
+            <td>SelectionPattern</td>
+            <td><span class="en">Interact with list / combobox</span><span class="fr">Interagir avec liste / combobox</span></td>
+            <td><code style="font-size:.72rem">item.Select()</code></td>
+          </tr>
+          <tr>
+            <td>TogglePattern</td>
+            <td><span class="en">Check / uncheck a checkbox</span><span class="fr">Cocher / décocher une case</span></td>
+            <td><code style="font-size:.72rem">checkbox.Toggle()</code></td>
+          </tr>
+          <tr>
+            <td>WindowPattern</td>
+            <td><span class="en">Maximize, minimize, close</span><span class="fr">Maximiser, minimiser, fermer</span></td>
+            <td><code style="font-size:.72rem">window.Close()</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Inspecting elements — FlaUI Inspect</span><span class="fr">Inspecter les éléments — FlaUI Inspect</span></h2>
+      <p>
+        <span class="en">Before writing a single line of code, you need to identify the elements you want
+        to interact with. <strong>FlaUI Inspect</strong> (or the built-in Accessibility Insights tool)
+        lets you hover over any UI control and see its AutomationId, Name, ControlType, and available patterns.</span>
+        <span class="fr">Avant d'écrire une seule ligne de code, tu dois identifier les éléments avec lesquels
+        tu veux interagir. <strong>FlaUI Inspect</strong> (ou l'outil Accessibility Insights intégré)
+        te permet de survoler n'importe quel contrôle UI et de voir son AutomationId, Name, ControlType
+        et les patterns disponibles.</span>
+      </p>
+
+      <div class="callout">
+        <p>
+          <span class="en">💡 <strong>Priority order for selectors :</strong>
+          AutomationId first (stable, set by dev) → Name (visible, but can change with localization) →
+          ControlType + index (last resort, fragile). Always ask the development team to set
+          meaningful AutomationIds on critical controls.</span>
+          <span class="fr">💡 <strong>Ordre de priorité pour les sélecteurs :</strong>
+          AutomationId en premier (stable, défini par le dev) → Name (visible, mais peut changer avec la localisation) →
+          ControlType + index (dernier recours, fragile). Toujours demander à l'équipe dev de définir
+          des AutomationIds significatifs sur les contrôles critiques.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Setting up FlaUI</span><span class="fr">Mise en place de FlaUI</span></h2>
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">NuGet packages</span>
+        </div>
+        <pre><span style="color:#8b949e"># UIA3 is for modern apps (WPF, UWP, Win32 with UIA support)</span>
+<span style="color:#8b949e"># Use FlaUI.UIA2 for legacy WinForms if UIA3 has issues</span>
+dotnet add package FlaUI.UIA3
+dotnet add package FlaUI.Core
+dotnet add package NUnit
+dotnet add package NUnit3TestAdapter</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Writing tests with FlaUI + NUnit</span><span class="fr">Écrire des tests avec FlaUI + NUnit</span></h2>
+      <p>
+        <span class="en">The pattern is: launch the application, get the main window, find elements by their
+        properties, interact, assert. A <code style="color:var(--accent);font-size:.8rem">BaseTest</code> class
+        handles the lifecycle so each test gets a clean application instance.</span>
+        <span class="fr">Le pattern est : lancer l'application, obtenir la fenêtre principale, trouver les éléments
+        par leurs propriétés, interagir, asserter. Une classe <code style="color:var(--accent);font-size:.8rem">BaseTest</code>
+        gère le cycle de vie pour que chaque test obtienne une instance propre de l'application.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">BaseTest.cs</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">BaseTest</span>
+{
+    <span style="color:#ff7b72">protected</span> <span style="color:#ffa657">Application</span> App;
+    <span style="color:#ff7b72">protected</span> <span style="color:#ffa657">UIA3Automation</span> Automation;
+    <span style="color:#ff7b72">protected</span> <span style="color:#ffa657">Window</span> MainWindow;
+
+    [<span style="color:#d2a8ff">SetUp</span>]
+    <span style="color:#ff7b72">public void</span> <span style="color:#d2a8ff">Setup</span>()
+    {
+        Automation = <span style="color:#ff7b72">new</span> <span style="color:#ffa657">UIA3Automation</span>();
+        App = <span style="color:#ffa657">Application</span>.<span style="color:#d2a8ff">Launch</span>(<span style="color:#a5d6ff">@"C:\MyApp\MyApp.exe"</span>);
+        MainWindow = App.<span style="color:#d2a8ff">GetMainWindow</span>(Automation,
+                         <span style="color:#ffa657">TimeSpan</span>.<span style="color:#d2a8ff">FromSeconds</span>(<span style="color:#79c0ff">5</span>));
+    }
+
+    [<span style="color:#d2a8ff">TearDown</span>]
+    <span style="color:#ff7b72">public void</span> <span style="color:#d2a8ff">TearDown</span>()
+    {
+        App?.<span style="color:#d2a8ff">Close</span>();
+        Automation?.<span style="color:#d2a8ff">Dispose</span>();
+    }
+}</pre>
+      </div>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">LoginTest.cs</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">LoginTest</span> : <span style="color:#ffa657">BaseTest</span>
+{
+    [<span style="color:#d2a8ff">Test</span>]
+    <span style="color:#ff7b72">public void</span> <span style="color:#d2a8ff">ValidLogin_OpensDashboard</span>()
+    {
+        <span style="color:#8b949e">// Find elements by AutomationId — most stable selector</span>
+        <span style="color:#ff7b72">var</span> usernameBox = MainWindow.<span style="color:#d2a8ff">FindFirstDescendant</span>(
+            cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"txtUsername"</span>))
+            .<span style="color:#d2a8ff">AsTextBox</span>();
+
+        <span style="color:#ff7b72">var</span> passwordBox = MainWindow.<span style="color:#d2a8ff">FindFirstDescendant</span>(
+            cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"txtPassword"</span>))
+            .<span style="color:#d2a8ff">AsTextBox</span>();
+
+        <span style="color:#ff7b72">var</span> loginBtn = MainWindow.<span style="color:#d2a8ff">FindFirstDescendant</span>(
+            cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"btnLogin"</span>))
+            .<span style="color:#d2a8ff">AsButton</span>();
+
+        <span style="color:#8b949e">// Interact</span>
+        usernameBox.<span style="color:#d2a8ff">Text</span> = <span style="color:#a5d6ff">"admin"</span>;
+        passwordBox.<span style="color:#d2a8ff">Text</span> = <span style="color:#a5d6ff">"secret123"</span>;
+        loginBtn.<span style="color:#d2a8ff">Invoke</span>();
+
+        <span style="color:#8b949e">// Wait for dashboard window</span>
+        <span style="color:#ff7b72">var</span> dashboard = App.<span style="color:#d2a8ff">GetWindow</span>(
+            cf => cf.<span style="color:#d2a8ff">ByName</span>(<span style="color:#a5d6ff">"Dashboard"</span>), Automation,
+            <span style="color:#ffa657">TimeSpan</span>.<span style="color:#d2a8ff">FromSeconds</span>(<span style="color:#79c0ff">5</span>));
+
+        <span style="color:#ffa657">Assert</span>.<span style="color:#d2a8ff">That</span>(dashboard, <span style="color:#ffa657">Is</span>.Not.Null);
+        <span style="color:#ffa657">Assert</span>.<span style="color:#d2a8ff">That</span>(dashboard.Title, <span style="color:#ffa657">Does</span>.<span style="color:#d2a8ff">Contain</span>(<span style="color:#a5d6ff">"Dashboard"</span>));
+    }
+}</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Page Object pattern for desktop</span><span class="fr">Pattern Page Object pour le desktop</span></h2>
+      <p>
+        <span class="en">The same POM principle from web testing applies perfectly here. Each screen or dialog
+        gets its own class that encapsulates element lookup and actions — tests stay readable and
+        maintenance stays localized.</span>
+        <span class="fr">Le même principe POM des tests web s'applique parfaitement ici. Chaque écran ou dialogue
+        obtient sa propre classe qui encapsule la recherche d'éléments et les actions —
+        les tests restent lisibles et la maintenance reste localisée.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">pages/LoginScreen.cs</span>
+        </div>
+        <pre><span style="color:#ff7b72">public class</span> <span style="color:#ffa657">LoginScreen</span>
+{
+    <span style="color:#ff7b72">private readonly</span> <span style="color:#ffa657">Window</span> _window;
+
+    <span style="color:#ff7b72">private</span> <span style="color:#ffa657">TextBox</span> Username => _window
+        .<span style="color:#d2a8ff">FindFirstDescendant</span>(cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"txtUsername"</span>)).<span style="color:#d2a8ff">AsTextBox</span>();
+
+    <span style="color:#ff7b72">private</span> <span style="color:#ffa657">TextBox</span> Password => _window
+        .<span style="color:#d2a8ff">FindFirstDescendant</span>(cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"txtPassword"</span>)).<span style="color:#d2a8ff">AsTextBox</span>();
+
+    <span style="color:#ff7b72">private</span> <span style="color:#ffa657">Button</span> LoginButton => _window
+        .<span style="color:#d2a8ff">FindFirstDescendant</span>(cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"btnLogin"</span>)).<span style="color:#d2a8ff">AsButton</span>();
+
+    <span style="color:#ff7b72">public</span> <span style="color:#ffa657">LoginScreen</span>(<span style="color:#ffa657">Window</span> window) => _window = window;
+
+    <span style="color:#ff7b72">public void</span> <span style="color:#d2a8ff">LoginAs</span>(<span style="color:#ffa657">string</span> user, <span style="color:#ffa657">string</span> pass)
+    {
+        Username.Text = user;
+        Password.Text = pass;
+        LoginButton.<span style="color:#d2a8ff">Invoke</span>();
+    }
+}</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Handling timing — the desktop challenge</span><span class="fr">Gérer le timing — le défi du desktop</span></h2>
+      <p>
+        <span class="en">Desktop apps don't have a network request you can wait on. UI transitions, loading dialogs,
+        and background processing all require explicit waiting strategies.</span>
+        <span class="fr">Les apps desktop n'ont pas de requête réseau sur laquelle attendre. Les transitions UI,
+        les dialogues de chargement et le traitement en arrière-plan nécessitent des stratégies
+        d'attente explicites.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">waiting strategies</span>
+        </div>
+        <pre><span style="color:#8b949e">// ① Wait for element to exist</span>
+<span style="color:#ff7b72">var</span> element = MainWindow.<span style="color:#d2a8ff">FindFirstDescendant</span>(
+    cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"loadingSpinner"</span>));
+element.<span style="color:#d2a8ff">WaitUntilEnabled</span>(<span style="color:#ffa657">TimeSpan</span>.<span style="color:#d2a8ff">FromSeconds</span>(<span style="color:#79c0ff">10</span>));
+
+<span style="color:#8b949e">// ② Poll until condition is met</span>
+<span style="color:#ffa657">Retry</span>.<span style="color:#d2a8ff">WhileFalse</span>(
+    () => MainWindow.<span style="color:#d2a8ff">FindFirstDescendant</span>(
+              cf => cf.<span style="color:#d2a8ff">ByAutomationId</span>(<span style="color:#a5d6ff">"btnSave"</span>))?
+          .IsEnabled == <span style="color:#ff7b72">true</span>,
+    <span style="color:#ffa657">TimeSpan</span>.<span style="color:#d2a8ff">FromSeconds</span>(<span style="color:#79c0ff">5</span>),
+    throwOnTimeout: <span style="color:#ff7b72">true</span>
+);
+
+<span style="color:#8b949e">// ③ Wait for a new window to appear</span>
+<span style="color:#ff7b72">var</span> dialog = <span style="color:#ffa657">Retry</span>.<span style="color:#d2a8ff">Find</span>(
+    () => App.<span style="color:#d2a8ff">GetAllTopLevelWindows</span>(Automation)
+             .<span style="color:#d2a8ff">FirstOrDefault</span>(w => w.Title.<span style="color:#d2a8ff">Contains</span>(<span style="color:#a5d6ff">"Confirm"</span>)),
+    <span style="color:#ffa657">TimeSpan</span>.<span style="color:#d2a8ff">FromSeconds</span>(<span style="color:#79c0ff">5</span>)
+);</pre>
+      </div>
+
+      <div class="callout warning">
+        <p>
+          <span class="en">⚠️ Never use <code style="color:var(--accent);font-size:.8rem">Thread.Sleep()</code>
+          in desktop tests. It makes tests slow and still doesn't guarantee stability.
+          Use <code style="color:var(--accent);font-size:.8rem">Retry.WhileFalse()</code> or
+          <code style="color:var(--accent);font-size:.8rem">WaitUntilEnabled()</code> instead.</span>
+          <span class="fr">⚠️ Ne jamais utiliser <code style="color:var(--accent);font-size:.8rem">Thread.Sleep()</code>
+          dans les tests desktop. Ça rend les tests lents sans garantir la stabilité.
+          Utiliser <code style="color:var(--accent);font-size:.8rem">Retry.WhileFalse()</code> ou
+          <code style="color:var(--accent);font-size:.8rem">WaitUntilEnabled()</code> à la place.</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Running in CI on Windows</span><span class="fr">Exécution en CI sur Windows</span></h2>
+      <p>
+        <span class="en">FlaUI requires a real Windows session with a visible desktop — standard Linux containers
+        won't work. GitHub Actions provides <code style="color:var(--accent);font-size:.8rem">windows-latest</code>
+        runners with a full GUI session, which is exactly what we need.</span>
+        <span class="fr">FlaUI nécessite une vraie session Windows avec un bureau visible — les containers Linux
+        standard ne fonctionneront pas. GitHub Actions fournit des runners
+        <code style="color:var(--accent);font-size:.8rem">windows-latest</code> avec une session GUI complète,
+        ce qui est exactement ce qu'il faut.</span>
+      </p>
+
+      <div class="code-snippet">
+        <div class="code-snippet-header">
+          <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+          <span class="code-snippet-label">.github/workflows/flaui-tests.yml</span>
+        </div>
+        <pre><span style="color:#ff7b72">name</span>: FlaUI Desktop Tests
+<span style="color:#ff7b72">on</span>: [push]
+
+<span style="color:#ff7b72">jobs</span>:
+  <span style="color:#d2a8ff">desktop-tests</span>:
+    <span style="color:#ff7b72">runs-on</span>: windows-latest   <span style="color:#8b949e"># REQUIRED — needs a real Windows session</span>
+    <span style="color:#ff7b72">steps</span>:
+      - <span style="color:#ff7b72">uses</span>: actions/checkout@v4
+      - <span style="color:#ff7b72">uses</span>: actions/setup-dotnet@v4
+        <span style="color:#ff7b72">with</span>:
+          dotnet-version: <span style="color:#a5d6ff">'8.0.x'</span>
+      - <span style="color:#ff7b72">name</span>: Build app under test
+        <span style="color:#ff7b72">run</span>: dotnet build src/MyApp/MyApp.csproj -c Release
+      - <span style="color:#ff7b72">name</span>: Run FlaUI tests
+        <span style="color:#ff7b72">run</span>: dotnet test tests/MyApp.UITests --logger trx
+      - <span style="color:#ff7b72">name</span>: Publish test results
+        <span style="color:#ff7b72">uses</span>: dorny/test-reporter@v1
+        <span style="color:#ff7b72">if</span>: always()
+        <span style="color:#ff7b72">with</span>:
+          name: FlaUI Results
+          path: <span style="color:#a5d6ff">'**/*.trx'</span>
+          reporter: dotnet-trx</pre>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Key takeaways</span><span class="fr">Ce qu'il faut retenir</span></h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🆔</div>
+          <div>
+            <strong><span class="en">AutomationId is king</span><span class="fr">L'AutomationId est roi</span></strong><br>
+            <span class="en">Push your dev team to set AutomationIds on all interactive controls from the start.
+            It's the most stable and readable selector — infinitely better than XPath or index-based lookups.</span>
+            <span class="fr">Pousser l'équipe dev à définir des AutomationIds sur tous les contrôles interactifs dès le départ.
+            C'est le sélecteur le plus stable et lisible — infiniment mieux que XPath ou les lookups par index.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🏗️</div>
+          <div>
+            <strong><span class="en">POM works for desktop too</span><span class="fr">Le POM fonctionne aussi pour le desktop</span></strong><br>
+            <span class="en">One class per screen. Tests describe behavior, screens describe interaction.
+            The structure is identical to web testing.</span>
+            <span class="fr">Une classe par écran. Les tests décrivent le comportement, les écrans décrivent l'interaction.
+            La structure est identique aux tests web.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">⏱️</div>
+          <div>
+            <strong><span class="en">Timing is the hardest part</span><span class="fr">Le timing est la partie la plus difficile</span></strong><br>
+            <span class="en">Desktop apps have no network requests to intercept. Master
+            <code style="color:var(--accent);font-size:.78rem">Retry</code> and <code style="color:var(--accent);font-size:.78rem">WaitUntil</code>
+            early — they are your main tools against flakiness.</span>
+            <span class="fr">Les apps desktop n'ont pas de requêtes réseau à intercepter. Maîtriser
+            <code style="color:var(--accent);font-size:.78rem">Retry</code> et <code style="color:var(--accent);font-size:.78rem">WaitUntil</code>
+            tôt — ce sont tes principaux outils contre l'instabilité.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🖥️</div>
+          <div>
+            <strong><span class="en">Windows runner for CI</span><span class="fr">Runner Windows pour la CI</span></strong><br>
+            <span class="en">FlaUI needs a visible desktop session. Always use
+            <code style="color:var(--accent);font-size:.78rem">windows-latest</code> in GitHub Actions —
+            never a Linux or Docker container.</span>
+            <span class="fr">FlaUI a besoin d'une session de bureau visible. Toujours utiliser
+            <code style="color:var(--accent);font-size:.78rem">windows-latest</code> dans GitHub Actions —
+            jamais un container Linux ou Docker.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="article-footer reveal">
+    <a href="../index.html#articles" class="footer-back">← <span class="en">Back to articles</span><span class="fr">Retour aux articles</span></a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>

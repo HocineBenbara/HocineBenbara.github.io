@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Présentation de Lighthouse – outil d'analyse automatisée pour les performances, l'accessibilité et le SEO des sites web.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Présentation de Lighthouse – Hocine Benbara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Ton CSS existant — chemin relatif depuis articles/ -->
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- Styles spécifiques à la page article -->
+  <style>
+    .article-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 7rem 2rem 6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HEADER ── */
+    .article-header { margin-bottom: 2.5rem; }
+
+    .article-meta {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .article-meta .sep { color: var(--border); }
+    .article-tag {
+      padding: 2px 10px; border-radius: 4px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      color: var(--accent);
+    }
+
+    .article-title {
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 800; letter-spacing: -0.02em;
+      line-height: 1.15; margin-bottom: 1rem;
+    }
+
+    .article-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.87rem; color: var(--muted);
+      line-height: 1.85; max-width: 600px;
+    }
+
+    /* ── SCORE PREVIEW ── */
+    .score-preview {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1rem; margin: 2.5rem 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .score-item { text-align: center; }
+    .score-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 3px solid; margin: 0 auto 0.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .score-circle.s-green  { border-color: #00e5a0; color: #00e5a0; }
+    .score-circle.s-orange { border-color: #f59e0b; color: #f59e0b; }
+    .score-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    /* ── DIVIDER ── */
+    .article-divider {
+      height: 1px; background: var(--border);
+      margin: 2.5rem 0; position: relative;
+    }
+    .article-divider::before {
+      content: ''; position: absolute; left: 0; top: -1px;
+      width: 48px; height: 2px; background: var(--accent);
+    }
+
+    /* ── BODY ── */
+    .article-body { line-height: 1.85; }
+
+    .article-body h2 {
+      font-size: 1.25rem; font-weight: 700;
+      letter-spacing: -0.01em; margin: 2.5rem 0 1rem;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .article-body h2::before {
+      content: ''; width: 3px; height: 1.25rem;
+      background: var(--accent); border-radius: 2px; flex-shrink: 0;
+    }
+
+    .article-body p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 1.1rem; line-height: 1.95;
+    }
+    .article-body strong { color: var(--text); font-weight: 700; }
+
+    /* Feature list */
+    .feature-list { list-style: none; margin: 1rem 0 1.5rem; }
+    .feature-list li {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; color: var(--muted);
+    }
+    .feature-list li:last-child { border-bottom: none; }
+    .f-icon {
+      width: 24px; height: 24px; border-radius: 5px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 1px;
+    }
+
+    /* Score table */
+    .score-table {
+      width: 100%; border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    }
+    .score-table th {
+      font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--muted);
+      padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .score-table td {
+      padding: 0.8rem 1rem; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .score-table tr:last-child td { border-bottom: none; }
+    .score-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+    }
+    .score-badge.good   { background: rgba(0,229,160,0.12); color: #00e5a0; }
+    .score-badge.medium { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .score-badge.bad    { background: rgba(248,113,113,0.12); color: #f87171; }
+
+    /* Callout */
+    .callout {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0;
+      padding: 1rem 1.25rem; margin: 1.75rem 0;
+    }
+    .callout.warning { border-left-color: var(--accent3); }
+    .callout p { margin: 0; }
+
+    /* Nav back */
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* Article footer */
+    .article-footer {
+      margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-back {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+      color: var(--muted); text-decoration: none;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--accent); }
+    .footer-sig {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--muted);
+    }
+    .footer-sig span { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .article-wrapper  { padding: 6rem 1.25rem 4rem; }
+      .score-preview    { grid-template-columns: repeat(2, 1fr); }
+      .article-footer   { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<!-- ── ARTICLE ── -->
+<div class="article-wrapper">
+
+  <!-- HEADER -->
+  <header class="article-header reveal">
+    <div class="article-meta">
+      <span class="article-tag">QA · Web</span>
+      <span class="sep">·</span>
+      <span class="en">June 2025</span><span class="fr">Juin 2025</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+
+    <h1 class="article-title">
+      <span class="en">Introduction to Lighthouse</span>
+      <span class="fr">Présentation de Lighthouse</span>
+    </h1>
+
+    <p class="article-subtitle">
+      <span class="en">An automated analysis tool built into Chrome DevTools — and what its scores actually tell you.</span>
+      <span class="fr">Un outil d'analyse automatisée intégré aux DevTools Chrome — et ce que ses scores signifient vraiment.</span>
+    </p>
+  </header>
+
+  <!-- SCORE PREVIEW -->
+  <div class="score-preview reveal">
+    <div class="score-item">
+      <div class="score-circle s-green">98</div>
+      <div class="score-label"><span class="en">Performance</span><span class="fr">Performance</span></div>
+    </div>
+    <div class="score-item">
+      <div class="score-circle s-green">91</div>
+      <div class="score-label"><span class="en">Accessibility</span><span class="fr">Accessibilité</span></div>
+    </div>
+    <div class="score-item">
+      <div class="score-circle s-orange">78</div>
+      <div class="score-label"><span class="en">Best Practices</span><span class="fr">Bonnes pratiques</span></div>
+    </div>
+    <div class="score-item">
+      <div class="score-circle s-green">100</div>
+      <div class="score-label">SEO</div>
+    </div>
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- BODY -->
+  <div class="article-body">
+
+    <!-- 1. QU'EST-CE QUE C'EST -->
+    <section class="reveal">
+      <h2>
+        <span class="en">What is Lighthouse?</span>
+        <span class="fr">Qu'est-ce que Lighthouse ?</span>
+      </h2>
+      <p>
+        <span class="en">Lighthouse is an automated analysis tool developed primarily for web applications and websites.
+        It is integrated directly into Chrome's developer tools (DevTools), accessible via the dedicated tab,
+        and can also be run from the command line or via a Node.js API.</span>
+        <span class="fr">Lighthouse est un outil d'analyse automatisée développé principalement pour les applications
+        et sites web. Il est intégré directement dans les outils de développement du navigateur Chrome (DevTools),
+        accessible via l'onglet dédié, et peut aussi être lancé en ligne de commande ou via une API Node.js.</span>
+      </p>
+      <p>
+        <span class="en">When an analysis is run, Lighthouse performs a series of automated checks on the target page,
+        then generates a report with scores and actionable recommendations across several dimensions.</span>
+        <span class="fr">Lorsqu'une analyse est exécutée, Lighthouse effectue une série de vérifications automatiques
+        sur la page cible, puis génère un rapport contenant des scores et des recommandations concrètes
+        répartis sur plusieurs dimensions.</span>
+      </p>
+    </section>
+
+    <!-- 2. COMMENT LANCER -->
+    <section class="reveal">
+      <h2>
+        <span class="en">How to run it</span>
+        <span class="fr">Comment le lancer</span>
+      </h2>
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🌐</div>
+          <div>
+            <strong>Chrome DevTools</strong><br>
+            <span class="en">Open DevTools (F12) → "Lighthouse" tab → choose categories → Generate report.</span>
+            <span class="fr">Ouvrir DevTools (F12) → onglet « Lighthouse » → choisir les catégories → Générer le rapport.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">⌨️</div>
+          <div>
+            <strong><span class="en">Command line</span><span class="fr">Ligne de commande</span></strong><br>
+            <code style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--accent)">npx lighthouse https://example.com --view</code>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">🔁</div>
+          <div>
+            <strong>CI / GitHub Actions</strong><br>
+            <span class="en">Automate audits on every deploy to catch regressions early and block failing builds.</span>
+            <span class="fr">Automatiser les audits à chaque déploiement pour détecter les régressions et bloquer les builds défaillants.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 3. CE QUE CA MESURE -->
+    <section class="reveal">
+      <h2>
+        <span class="en">What Lighthouse measures</span>
+        <span class="fr">Ce que Lighthouse mesure</span>
+      </h2>
+      <p>
+        <span class="en">The tool evaluates four main categories, each producing a score from 0 to 100.</span>
+        <span class="fr">L'outil évalue quatre catégories principales, chacune produisant un score de 0 à 100.</span>
+      </p>
+
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th><span class="en">Category</span><span class="fr">Catégorie</span></th>
+            <th><span class="en">What it checks</span><span class="fr">Ce qu'il vérifie</span></th>
+            <th><span class="en">Good ≥</span><span class="fr">Bon ≥</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><span class="en">Performance</span><span class="fr">Performance</span></strong></td>
+            <td><span class="en">Load speed, LCP, FID, CLS</span><span class="fr">Vitesse de chargement, LCP, FID, CLS</span></td>
+            <td><span class="score-badge good">90</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Accessibility</span><span class="fr">Accessibilité</span></strong></td>
+            <td><span class="en">ARIA, contrast, keyboard nav, labels</span><span class="fr">ARIA, contraste, navigation clavier, labels</span></td>
+            <td><span class="score-badge good">90</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Best Practices</span><span class="fr">Bonnes pratiques</span></strong></td>
+            <td><span class="en">HTTPS, console errors, deprecated APIs</span><span class="fr">HTTPS, erreurs console, APIs dépréciées</span></td>
+            <td><span class="score-badge medium">50</span></td>
+          </tr>
+          <tr>
+            <td><strong>SEO</strong></td>
+            <td><span class="en">Meta tags, robots.txt, structured data</span><span class="fr">Balises meta, robots.txt, données structurées</span></td>
+            <td><span class="score-badge bad">0–49</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 4. LES LIMITES -->
+    <section class="reveal">
+      <h2>
+        <span class="en">The limits to understand</span>
+        <span class="fr">Les limites à comprendre</span>
+      </h2>
+      <p>
+        <span class="en">This is the most important point: <strong>Lighthouse does not measure the overall quality
+        of a website.</strong> It measures specific technical aspects according to predefined rules.</span>
+        <span class="fr">C'est le point le plus important : <strong>Lighthouse ne mesure pas la qualité globale
+        d'un site web.</strong> Il mesure certains aspects techniques précis selon des règles prédéfinies.</span>
+      </p>
+
+      <div class="callout warning">
+        <p>
+          <span class="en">⚠️ <strong>An excellent Lighthouse score does not automatically guarantee</strong> that
+          a site is pleasant to use, efficient, or adapted to real user needs. A score of 100 can coexist with
+          a terrible user experience.</span>
+          <span class="fr">⚠️ <strong>Un excellent score Lighthouse ne garantit pas automatiquement</strong> qu'un
+          site est agréable, efficace ou adapté aux besoins des utilisateurs. Un score de 100 peut coexister
+          avec une très mauvaise expérience utilisateur.</span>
+        </p>
+      </div>
+
+      <ul class="feature-list">
+        <li>
+          <div class="f-icon">🔬</div>
+          <div>
+            <strong><span class="en">Simulated environment</span><span class="fr">Environnement simulé</span></strong><br>
+            <span class="en">Results vary by machine, network, and load. Run the audit several times to get reliable data.</span>
+            <span class="fr">Les résultats varient selon la machine, le réseau et la charge. Lancer l'audit plusieurs fois pour des données fiables.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">👁️</div>
+          <div>
+            <strong><span class="en">Partial accessibility</span><span class="fr">Accessibilité partielle</span></strong><br>
+            <span class="en">Lighthouse only detects ~30% of WCAG issues automatically. Manual testing remains essential.</span>
+            <span class="fr">Lighthouse ne détecte que ~30% des problèmes WCAG automatiquement. Le test manuel reste indispensable.</span>
+          </div>
+        </li>
+        <li>
+          <div class="f-icon">📱</div>
+          <div>
+            <strong><span class="en">Mobile vs Desktop</span><span class="fr">Mobile vs Desktop</span></strong><br>
+            <span class="en">Scores can differ significantly between modes. Always check both.</span>
+            <span class="fr">Les scores peuvent différer significativement entre les deux modes. Toujours vérifier les deux.</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 5. PERSPECTIVE QA -->
+    <section class="reveal">
+      <h2>
+        <span class="en">From a QA perspective</span>
+        <span class="fr">Du point de vue QA</span>
+      </h2>
+      <p>
+        <span class="en">Lighthouse is a useful tool in a QA toolbox, but it should be treated like any automated
+        test suite: it covers what it can cover, no more. Integrating it into CI gives a reliable baseline and
+        catches regressions on measurable metrics — but it never replaces exploratory testing, user testing,
+        or real-device testing.</span>
+        <span class="fr">Lighthouse est un outil utile dans une boîte à outils QA, mais il doit être traité comme
+        n'importe quelle suite de tests automatisés : il couvre ce qu'il peut couvrir, pas plus. L'intégrer en CI
+        donne une baseline fiable et détecte les régressions sur des métriques mesurables — mais il ne remplace
+        jamais les tests exploratoires, les tests utilisateurs, ni les tests sur appareils réels.</span>
+      </p>
+
+      <div class="callout">
+        <p>
+          <span class="en">💡 <strong>Best practice :</strong> set score thresholds in your CI pipeline
+          (e.g. Performance ≥ 85, Accessibility ≥ 90) and block deployments that fall below them.</span>
+          <span class="fr">💡 <strong>Bonne pratique :</strong> définir des seuils de score dans le pipeline CI
+          (ex. Performance ≥ 85, Accessibilité ≥ 90) et bloquer les déploiements qui passent en dessous.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 6. CONCLUSION -->
+    <section class="reveal">
+      <h2>
+        <span class="en">Conclusion</span>
+        <span class="fr">Conclusion</span>
+      </h2>
+      <p>
+        <span class="en">Lighthouse is a solid, free, and accessible starting point to audit a web page.
+        Its reports are clear, actionable, and educational. Used regularly, it helps maintain a consistent
+        technical quality baseline. But like any automated tool, it must be combined with human judgment
+        to truly assess the quality of an experience.</span>
+        <span class="fr">Lighthouse est un point de départ solide, gratuit et accessible pour auditer une page web.
+        Ses rapports sont clairs, actionnables et pédagogiques. Utilisé régulièrement, il aide à maintenir
+        une baseline de qualité technique constante. Mais comme tout outil automatisé, il doit être combiné
+        avec le jugement humain pour évaluer vraiment la qualité d'une expérience.</span>
+      </p>
+    </section>
+
+  </div><!-- /article-body -->
+
+  <!-- FOOTER -->
+  <footer class="article-footer reveal">
+    <a href="../index.html#articles" class="footer-back">
+      ← <span class="en">Back to articles</span><span class="fr">Retour aux articles</span>
+    </a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+
+</div><!-- /article-wrapper -->
+
+<script>
+  /* Restore preferences before render */
+  (function () {
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'en';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+  });
+
+  function toggleTheme() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  function toggleLang() {
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
+
+  /* Scroll reveal */
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+</script>
+
+</body>
+</html>
