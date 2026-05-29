@@ -23,16 +23,23 @@
     .page-divider { height: 1px; background: var(--border); margin: 2.5rem 0; position: relative; }
     .page-divider::before { content: ''; position: absolute; left: 0; top: -1px; width: 48px; height: 2px; background: var(--accent); }
 
-    /* FILTER */
-    .filter-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-    .filter-btn {
+    /* FILTER & SORT */
+    .filter-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .filter-btn, .sort-btn {
       font-family: 'JetBrains Mono', monospace; font-size: .67rem;
       letter-spacing: .08em; text-transform: uppercase;
       padding: .3rem .9rem; border-radius: 5px;
       border: 1px solid var(--border); background: var(--surface2);
       color: var(--muted); cursor: pointer; transition: all .2s;
     }
-    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+    .filter-btn:hover, .filter-btn.active,
+    .sort-btn:hover, .sort-btn.active { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+    
+    .sort-row { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
+    .sort-label {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+    }
 
     /* ARTICLES LIST */
     .articles-list { display: flex; flex-direction: column; gap: 1rem; }
@@ -86,6 +93,7 @@
       .page-wrapper { padding: 6rem 1.25rem 4rem; }
       .article-row { grid-template-columns: 1fr auto; }
       .article-row-date { display: none; }
+      .filter-row, .sort-row { justify-content: center; }
     }
   </style>
 </head>
@@ -120,13 +128,13 @@
 
   <!-- STATS -->
   <div class="stats-bar reveal">
-    <div class="stats-bar-item"><span>5</span> <span class="en">Articles</span><span class="fr">Articles</span></div>
-    <div class="stats-bar-item"><span>3</span> <span class="en">Frameworks covered</span><span class="fr">Frameworks couverts</span></div>
+    <div class="stats-bar-item"><span>6</span> <span class="en">Articles</span><span class="fr">Articles</span></div>
+    <div class="stats-bar-item"><span>4</span> <span class="en">Frameworks covered</span><span class="fr">Frameworks couverts</span></div>
     <div class="stats-bar-item"><span>EN / FR</span> <span class="en">Bilingual</span><span class="fr">Bilingue</span></div>
     <div class="stats-bar-item"><span>2025–2026</span></div>
   </div>
 
-  <!-- FILTERS -->
+  <!-- FILTERS & SORT -->
   <div class="filter-row reveal">
     <button class="filter-btn active" onclick="filterArticles('all', this)">
       <span class="en">All</span><span class="fr">Tous</span>
@@ -138,13 +146,29 @@
     <button class="filter-btn" onclick="filterArticles('tools', this)">
       <span class="en">Tools</span><span class="fr">Outils</span>
     </button>
+    <button class="filter-btn" onclick="filterArticles('qa', this)">
+      <span class="en">QA Method</span><span class="fr">Méthodo QA</span>
+    </button>
+  </div>
+  
+  <div class="sort-row reveal">
+    <span class="sort-label"><span class="en">Sort:</span><span class="fr">Trier :</span></span>
+    <button class="sort-btn active" onclick="sortArticles('newest', this)">
+      <span class="en">Newest</span><span class="fr">Plus récent</span>
+    </button>
+    <button class="sort-btn" onclick="sortArticles('oldest', this)">
+      <span class="en">Oldest</span><span class="fr">Plus ancien</span>
+    </button>
+    <button class="sort-btn" onclick="sortArticles('title', this)">
+      <span class="en">Title A-Z</span><span class="fr">Titre A-Z</span>
+    </button>
   </div>
 
   <!-- ARTICLES LIST -->
-  <div class="articles-list">
+  <div class="articles-list" id="articlesList">
 
     <!-- Playwright API -->
-    <a href="api-testing-playwright.html" class="article-row featured reveal" data-tags="playwright api">
+    <a href="api-testing-playwright.html" class="article-row featured reveal" data-tags="playwright api" data-timestamp="2025-05-15">
       <div class="article-row-date">
         <div class="month">May</div>
         <div class="year">2025</div>
@@ -168,8 +192,32 @@
       <div class="article-row-arrow">→</div>
     </a>
 
+    <!-- QA Methodology - NOUVEL ARTICLE -->
+    <a href="qa-methodology.html" class="article-row reveal" data-tags="qa methodology testing" data-timestamp="2025-03-20">
+      <div class="article-row-date">
+        <div class="month">Mar</div>
+        <div class="year">2025</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">QA Senior</span>
+          <span class="tag blue">Methodology</span>
+          <span class="tag amber">Agile</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">QA Methodology: A Senior Approach</span>
+          <span class="fr">Assurance Qualité : Approche d'un QA Senior</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Analysis · Test planning · Manual execution · Bug management · Automation · Agile integration</span>
+          <span class="fr">Analyse · Plan de test · Exécution manuelle · Gestion des bugs · Automatisation · Intégration Agile</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
     <!-- Lighthouse -->
-    <a href="lighthouse.html" class="article-row reveal" data-tags="tools">
+    <a href="lighthouse.html" class="article-row reveal" data-tags="tools" data-timestamp="2025-05-10">
       <div class="article-row-date">
         <div class="month">May</div>
         <div class="year">2025</div>
@@ -192,57 +240,8 @@
       <div class="article-row-arrow">→</div>
     </a>
 
-    <!-- Selenium -->
-    <a href="selenium-framework.html" class="article-row reveal" data-tags="selenium">
-      <div class="article-row-date">
-        <div class="month">Jan</div>
-        <div class="year">2025</div>
-      </div>
-      <div class="article-row-body">
-        <div class="article-row-tags">
-          <span class="tag">Selenium</span>
-          <span class="tag blue">Java</span>
-          <span class="tag amber">TestNG</span>
-        </div>
-        <div class="article-row-title">
-          <span class="en">My Selenium Automation Framework Explained</span>
-          <span class="fr">Mon framework d'automatisation Selenium expliqué</span>
-        </div>
-        <div class="article-row-desc">
-          <span class="en">Page Object Model · Reusable utilities · Data-driven tests · Full isolation</span>
-          <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
-        </div>
-      </div>
-      <div class="article-row-arrow">→</div>
-    </a>
-
-    <!-- FlaUI -->
-    <a href="flaui.html" class="article-row reveal" data-tags="flaui">
-      <div class="article-row-date">
-        <div class="month">Jan</div>
-        <div class="year">2026</div>
-      </div>
-      <div class="article-row-body">
-        <div class="article-row-tags">
-          <span class="tag">FlaUI</span>
-          <span class="tag blue">C#</span>
-          <span class="tag blue">WPF</span>
-          <span class="tag amber">UIA3</span>
-        </div>
-        <div class="article-row-title">
-          <span class="en">Desktop App Automation with FlaUI</span>
-          <span class="fr">Automatisation d'apps Desktop avec FlaUI</span>
-        </div>
-        <div class="article-row-desc">
-          <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
-          <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
-        </div>
-      </div>
-      <div class="article-row-arrow">→</div>
-    </a>
-
     <!-- Cypress -->
-    <a href="cypress.html" class="article-row reveal" data-tags="cypress">
+    <a href="cypress.html" class="article-row reveal" data-tags="cypress" data-timestamp="2026-02-10">
       <div class="article-row-date">
         <div class="month">Feb</div>
         <div class="year">2026</div>
@@ -266,25 +265,116 @@
       <div class="article-row-arrow">→</div>
     </a>
 
+    <!-- FlaUI -->
+    <a href="flaui.html" class="article-row reveal" data-tags="flaui" data-timestamp="2026-01-15">
+      <div class="article-row-date">
+        <div class="month">Jan</div>
+        <div class="year">2026</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">FlaUI</span>
+          <span class="tag blue">C#</span>
+          <span class="tag blue">WPF</span>
+          <span class="tag amber">UIA3</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">Desktop App Automation with FlaUI</span>
+          <span class="fr">Automatisation d'apps Desktop avec FlaUI</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
+          <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
+    <!-- Selenium -->
+    <a href="selenium-framework.html" class="article-row reveal" data-tags="selenium" data-timestamp="2025-01-20">
+      <div class="article-row-date">
+        <div class="month">Jan</div>
+        <div class="year">2025</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">Selenium</span>
+          <span class="tag blue">Java</span>
+          <span class="tag amber">TestNG</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">My Selenium Automation Framework Explained</span>
+          <span class="fr">Mon framework d'automatisation Selenium expliqué</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Page Object Model · Reusable utilities · Data-driven tests · Full isolation</span>
+          <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
+
   </div><!-- /articles-list -->
 </div><!-- /page-wrapper -->
 
 <script>
+  /* Restore preferences */
   (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
   document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
   function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
   function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  
+  /* Filter */
   function filterArticles(tag, btn) {
     document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
     btn.classList.add('active');
-    document.querySelectorAll('.article-row').forEach(function(row){
-      if(tag === 'all' || (row.dataset.tags && row.dataset.tags.includes(tag))){
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
-      }
-    });
+    applyFiltersAndSort();
   }
+  
+  /* Sort */
+  function sortArticles(mode, btn) {
+    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    applyFiltersAndSort(mode);
+  }
+  
+  function applyFiltersAndSort(sortMode) {
+    var activeFilter = document.querySelector('.filter-btn.active');
+    var filterTag = activeFilter ? activeFilter.onclick.toString().match(/'([^']+)'/)?.[1] || 'all' : 'all';
+    if(!sortMode) {
+      var activeSort = document.querySelector('.sort-btn.active');
+      sortMode = activeSort ? activeSort.onclick.toString().match(/'([^']+)'/)?.[1] || 'newest' : 'newest';
+    }
+    
+    var list = document.getElementById('articlesList');
+    var articles = Array.from(list.querySelectorAll('.article-row'));
+    
+    // Filter
+    var filtered = articles.filter(function(row){
+      if(filterTag === 'all') return true;
+      var tags = row.dataset.tags || '';
+      return tags.includes(filterTag);
+    });
+    
+    // Sort
+    filtered.sort(function(a, b){
+      if(sortMode === 'newest') {
+        return new Date(b.dataset.timestamp) - new Date(a.dataset.timestamp);
+      } else if(sortMode === 'oldest') {
+        return new Date(a.dataset.timestamp) - new Date(b.dataset.timestamp);
+      } else if(sortMode === 'title') {
+        var titleA = a.querySelector('.article-row-title').textContent.trim().toLowerCase();
+        var titleB = b.querySelector('.article-row-title').textContent.trim().toLowerCase();
+        return titleA.localeCompare(titleB);
+      }
+      return 0;
+    });
+    
+    // Reorder DOM
+    filtered.forEach(function(article){ list.appendChild(article); });
+  }
+  
+  /* Scroll reveal */
   var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 </script>
