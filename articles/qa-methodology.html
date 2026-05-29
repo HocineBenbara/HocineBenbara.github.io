@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Approche QA Senior : analyse, préparation, exécution, gestion des anomalies, automatisation et intégration Agile.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Assurance Qualité Logicielle — Hocine Benbara</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    .article-wrapper { max-width: 760px; margin: 0 auto; padding: 7rem 2rem 6rem; position: relative; z-index: 1; }
+    .article-header { margin-bottom: 2.5rem; }
+    .article-meta {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .article-meta .sep { color: var(--border); }
+    .article-tag {
+      padding: 2px 10px; border-radius: 4px;
+      background: var(--tag-bg); border: 1px solid var(--tag-border); color: var(--accent);
+    }
+    .article-title {
+      font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    .article-subtitle {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.87rem; color: var(--muted);
+      line-height: 1.85; max-width: 600px;
+    }
+    .article-divider {
+      height: 1px; background: var(--border); margin: 2.5rem 0; position: relative;
+    }
+    .article-divider::before {
+      content: ''; position: absolute; left: 0; top: -1px;
+      width: 48px; height: 2px; background: var(--accent);
+    }
+    .article-body { line-height: 1.85; }
+    .article-body h2 {
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em;
+      margin: 2.5rem 0 1rem; display: flex; align-items: center; gap: 10px;
+    }
+    .article-body h2::before {
+      content: ''; width: 3px; height: 1.25rem;
+      background: var(--accent); border-radius: 2px; flex-shrink: 0;
+    }
+    .article-body h3 {
+      font-size: 1rem; font-weight: 600; margin: 1.8rem 0 0.7rem; color: var(--text);
+    }
+    .article-body p {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--muted);
+      margin-bottom: 1.1rem; line-height: 1.95;
+    }
+    .article-body strong { color: var(--text); font-weight: 700; }
+    .article-body ul { margin: 1rem 0 1.5rem; padding-left: 1.2rem; }
+    .article-body li {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--muted);
+      margin-bottom: 0.5rem; line-height: 1.8;
+    }
+    .article-body blockquote {
+      border-left: 3px solid var(--accent); padding: 1rem 1.25rem;
+      background: var(--surface); margin: 1.5rem 0; border-radius: 0 8px 8px 0;
+    }
+    .article-body blockquote p { margin: 0; font-style: italic; }
+    .article-body table {
+      width: 100%; border-collapse: collapse; margin: 1.25rem 0;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    }
+    .article-body th {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--muted); padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); text-align: left;
+    }
+    .article-body td {
+      padding: 0.8rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    .article-body tr:last-child td { border-bottom: none; }
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .article-footer {
+      margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-back {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s;
+    }
+    .footer-back:hover { color: var(--accent); }
+    .footer-sig { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .footer-sig span { color: var(--accent); }
+    @media (max-width: 600px) {
+      .article-wrapper { padding: 6rem 1.25rem 4rem; }
+      .article-footer { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn" onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="article-wrapper">
+  <header class="article-header reveal">
+    <div class="article-meta">
+      <span class="article-tag">QA · Methodology</span>
+      <span class="sep">·</span>
+      <span class="en">March 2025</span><span class="fr">Mars 2025</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+    <h1 class="article-title">
+      <span class="en">QA Methodology: A Senior Approach</span>
+      <span class="fr">Assurance Qualité : Approche d'un QA Senior</span>
+    </h1>
+    <p class="article-subtitle">
+      <span class="en">From analysis to automation — a complete QA workflow built on real projects.</span>
+      <span class="fr">De l'analyse à l'automatisation — un workflow QA complet issu de vrais projets.</span>
+    </p>
+  </header>
+
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+    <section class="reveal">
+      <h2><span class="en">Introduction</span><span class="fr">Introduction</span></h2>
+      <p>
+        <span class="en">In an increasingly demanding software development context, quality is not improvised — it is built methodically at every stage of a project's lifecycle. As a Senior QA, my role goes far beyond simple bug detection: it's about ensuring functional compliance, technical stability, and reliability of delivered applications, while ensuring an optimal user experience.</span>
+        <span class="fr">Dans un contexte de développement logiciel de plus en plus exigeant, la qualité ne s'improvise pas — elle se construit méthodiquement, à chaque étape du cycle de vie d'un projet. En tant que QA Senior, mon rôle va bien au-delà de la simple détection de bugs : il s'agit de garantir la conformité fonctionnelle, la stabilité technique et la fiabilité des applications livrées, tout en assurant une expérience utilisateur optimale.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">1. Analysis — Understand before testing</span><span class="fr">1. Analyse — Comprendre avant de tester</span></h2>
+      <p>
+        <span class="en">Any serious quality approach starts well before the first test is executed. In-depth analysis of project documentation is a foundational step.</span>
+        <span class="fr">Toute démarche qualité sérieuse commence bien avant l'exécution du premier test. L'analyse approfondie de la documentation projet est une étape fondatrice.</span>
+      </p>
+      <p><strong><span class="en">Documentation reviewed:</span><span class="fr">Documentation analysée :</span></strong></p>
+      <ul>
+        <li><span class="en">Business requirements (BRD)</span><span class="fr">Business et exigences d'affaires (BEA)</span></li>
+        <li><span class="en">Functional and technical specifications</span><span class="fr">Spécifications fonctionnelles et techniques</span></li>
+        <li><span class="en">Operational workflows and flow diagrams</span><span class="fr">Workflows opérationnels et diagrammes de flux</span></li>
+        <li><span class="en">Database schemas</span><span class="fr">Schémas de base de données</span></li>
+        <li><span class="en">UI/UX mockups</span><span class="fr">Maquettes UI/UX</span></li>
+      </ul>
+      <blockquote>
+        <p>
+          <span class="en"><strong>Associated KPI:</strong> Number of ambiguities identified before development starts — a key indicator of QA maturity on a project.</span>
+          <span class="fr"><strong>KPI associé :</strong> Nombre d'ambiguïtés identifiées avant le démarrage des développements — un indicateur clé de la maturité QA sur un projet.</span>
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">2. Preparation — Structure to cover better</span><span class="fr">2. Préparation — Structurer pour mieux couvrir</span></h2>
+      <p>
+        <span class="en">The quality of a test campaign is 50% preparation. This phase covers three essential dimensions.</span>
+        <span class="fr">La qualité d'une campagne de tests repose à 50 % sur sa préparation. Cette phase englobe trois dimensions essentielles.</span>
+      </p>
+      <h3><span class="en">Test data</span><span class="fr">Données de test</span></h3>
+      <p>
+        <span class="en">Creation of realistic and representative datasets: nominal data, boundary data, error cases. Preparation of import files (CSV, TXT) simulating real usage conditions.</span>
+        <span class="fr">Création de jeux de données réalistes et représentatifs : données nominales, données limites, cas d'erreur. Préparation de fichiers d'importation (CSV, TXT) simulant les conditions réelles d'utilisation.</span>
+      </p>
+      <h3><span class="en">Environments</span><span class="fr">Environnements</span></h3>
+      <p>
+        <span class="en">Rigorous configuration of test environments: installation of packages and application versions, creation of backups and snapshots before each deployment to ensure test reproducibility.</span>
+        <span class="fr">Configuration rigoureuse des environnements de test : installation des packages et versions applicatives, création de sauvegardes et snapshots avant chaque déploiement pour garantir la reproductibilité des tests.</span>
+      </p>
+      <h3><span class="en">Test plan</span><span class="fr">Plan de test</span></h3>
+      <p>
+        <span class="en">Development of the initial test plan from documentation, test case development in <strong>Jira (Zephyr)</strong> or <strong>TestLink</strong>, and continuous updates according to functional changes. <strong>Traceability requirements → test cases → anomalies</strong> is systematically maintained.</span>
+        <span class="fr">Élaboration du plan de test initial à partir de la documentation, développement des cas de test dans <strong>Jira (Zephyr)</strong> ou <strong>TestLink</strong>, et mise à jour continue selon les évolutions fonctionnelles. La <strong>traçabilité exigences → cas de test → anomalies</strong> est systématiquement maintenue.</span>
+      </p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">3. Manual Test Execution — Cover all angles</span><span class="fr">3. Exécution des Tests Manuels — Couvrir tous les angles</span></h2>
+      <p>
+        <span class="en">Manual execution remains essential to validate complex business behaviors and user experience.</span>
+        <span class="fr">L'exécution manuelle reste incontournable pour valider les comportements métier complexes et l'expérience utilisateur.</span>
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th><span class="en">Test type</span><span class="fr">Type de test</span></th>
+            <th><span class="en">Objective</span><span class="fr">Objectif</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><span class="en">Functional tests</span><span class="fr">Tests fonctionnels</span></strong></td>
+            <td><span class="en">Verify compliance with specifications</span><span class="fr">Vérifier la conformité aux spécifications</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Exploratory tests</span><span class="fr">Tests exploratoires</span></strong></td>
+            <td><span class="en">Detect unexpected behaviors</span><span class="fr">Détecter les comportements inattendus</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Regression tests</span><span class="fr">Tests de régression</span></strong></td>
+            <td><span class="en">Protect existing features</span><span class="fr">Protéger les fonctionnalités existantes</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Smoke tests</span><span class="fr">Smoke tests</span></strong></td>
+            <td><span class="en">Validate build stability on delivery</span><span class="fr">Valider la stabilité d'un build à la livraison</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">Compatibility tests</span><span class="fr">Tests de compatibilité</span></strong></td>
+            <td><span class="en">Ensure multi-environment operation</span><span class="fr">Assurer le bon fonctionnement multi-environnements</span></td>
+          </tr>
+          <tr>
+            <td><strong><span class="en">UI/UX tests</span><span class="fr">Tests UI/UX</span></strong></td>
+            <td><span class="en">Validate user experience and accessibility</span><span class="fr">Valider l'expérience et l'accessibilité utilisateur</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">4. Anomaly Management — From bug to resolution</span><span class="fr">4. Gestion des Anomalies — Du bug à la résolution</span></h2>
+      <p>
+        <span class="en">Rigorous management of the anomaly lifecycle is one of the differentiating skills of a Senior QA.</span>
+        <span class="fr">La gestion rigoureuse du cycle de vie des anomalies est l'une des compétences différenciantes d'un QA Senior.</span>
+      </p>
+      <p><strong><span class="en">Complete process:</span><span class="fr">Processus complet :</span></strong></p>
+      <ol>
+        <li><span class="en">Identification and systematic reproduction of anomalies</span><span class="fr">Identification et reproduction systématique des anomalies</span></li>
+        <li><span class="en">Detailed documentation in <strong>Jira</strong> (description, reproduction steps, environment, screenshots, logs)</span><span class="fr">Documentation détaillée dans <strong>Jira</strong> (description, étapes de reproduction, environnement, captures, logs)</span></li>
+        <li><span class="en">Impact analysis and prioritization (Critical / Major / Minor / Cosmetic)</span><span class="fr">Analyse d'impact et priorisation (Critique / Majeur / Mineur / Cosmétique)</span></li>
+        <li><span class="en">Proactive communication with developers and analysts</span><span class="fr">Communication proactive avec les développeurs et analystes</span></li>
+        <li><span class="en">Verification of fixes and ticket closure</span><span class="fr">Vérification des corrections et fermeture des tickets</span></li>
+        <li><span class="en">Reopening if the fix is insufficient or generates new defects</span><span class="fr">Réouverture si la correction est insuffisante ou génère de nouveaux défauts</span></li>
+      </ol>
+      <blockquote>
+        <p>
+          <span class="en">A well-documented bug is a half-resolved bug. The quality of the anomaly report directly conditions the speed and relevance of the fix.</span>
+          <span class="fr">Un bug bien documenté est un bug à moitié résolu. La qualité du rapport d'anomalie conditionne directement la rapidité et la pertinence de la correction.</span>
+        </p>
+      </blockquote>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">5. Test Automation — Accelerate without sacrificing quality</span><span class="fr">5. Automatisation des Tests — Accélérer sans sacrifier la qualité</span></h2>
+      <p>
+        <span class="en">Automation is a strategic lever to improve regression coverage and free up time for higher value-added tests.</span>
+        <span class="fr">L'automatisation est un levier stratégique pour améliorer la couverture de régression et libérer du temps pour les tests à plus forte valeur ajoutée.</span>
+      </p>
+      <h3><span class="en">Approach</span><span class="fr">Approche</span></h3>
+      <ul>
+        <li><span class="en">Development and maintenance of automated test scripts</span><span class="fr">Développement et maintenance de scripts de tests automatisés</span></li>
+        <li><span class="en">Priority automation of stable regression scenarios</span><span class="fr">Automatisation prioritaire des scénarios de régression stables</span></li>
+        <li><span class="en">Continuous script updates according to application changes</span><span class="fr">Mise à jour continue des scripts en fonction des évolutions applicatives</span></li>
+        <li><span class="en">Analysis of execution results and documentation of detected anomalies</span><span class="fr">Analyse des résultats d'exécution et documentation des anomalies détectées</span></li>
+      </ul>
+      <h3><span class="en">Technical stack</span><span class="fr">Stack technique</span></h3>
+      <table>
+        <thead>
+          <tr>
+            <th><span class="en">Tool</span><span class="fr">Outil</span></th>
+            <th><span class="en">Usage</span><span class="fr">Usage</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Playwright</strong></td><td><span class="en">Modern web end-to-end tests</span><span class="fr">Tests end-to-end web modernes</span></td></tr>
+          <tr><td><strong>Selenium WebDriver</strong></td><td><span class="en">Multi-browser UI automation</span><span class="fr">Automatisation UI multi-navigateurs</span></td></tr>
+          <tr><td><strong>Robot Framework</strong></td><td><span class="en">BDD / acceptance tests</span><span class="fr">Tests orientés BDD / acceptation</span></td></tr>
+          <tr><td><strong>Postman</strong></td><td><span class="en">REST API tests</span><span class="fr">Tests d'API REST</span></td></tr>
+          <tr><td><strong>SQL</strong></td><td><span class="en">Database data validation</span><span class="fr">Validation des données en base</span></td></tr>
+          <tr><td><strong>Jira / Zephyr / TestLink</strong></td><td><span class="en">Test management and traceability</span><span class="fr">Gestion des tests et traçabilité</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">6. Agile Integration — QA at the heart of the team</span><span class="fr">6. Intégration Agile — Le QA au cœur de l'équipe</span></h2>
+      <p>
+        <span class="en">Quality is not the exclusive responsibility of QA — it is a shared responsibility by the entire team. My active participation in Scrum ceremonies is a direct reflection of this.</span>
+        <span class="fr">La qualité n'est pas l'affaire exclusive du QA — elle est une responsabilité partagée par toute l'équipe. Ma participation active aux cérémonies Scrum en est le reflet direct.</span>
+      </p>
+      <ul>
+        <li><strong><span class="en">Daily Scrum</span><span class="fr">Daily Scrum</span></strong> : <span class="en">real-time communication of blockers and quality risks</span><span class="fr">communication des blocages et des risques qualité en temps réel</span></li>
+        <li><strong><span class="en">Sprint Planning</span><span class="fr">Sprint Planning</span></strong> : <span class="en">test effort estimation, risk identification from planning</span><span class="fr">estimation de l'effort de test, identification des risques dès la planification</span></li>
+        <li><strong><span class="en">Definition of Done</span><span class="fr">Definition of Done</span></strong> : <span class="en">contribution to defining exit criteria for each story</span><span class="fr">contribution à la définition des critères de sortie pour chaque story</span></li>
+        <li><strong><span class="en">Backlog Refinement</span><span class="fr">Backlog Refinement</span></strong> : <span class="en">questioning requirements, detecting ambiguities before development</span><span class="fr">questionnement des exigences, détection des ambiguïtés avant le développement</span></li>
+        <li><strong><span class="en">Sprint Review & Retrospective</span><span class="fr">Sprint Review & Rétrospective</span></strong> : <span class="en">sharing quality summary and continuous process improvement</span><span class="fr">partage du bilan qualité et amélioration continue du processus</span></li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="en">Conclusion</span><span class="fr">Conclusion</span></h2>
+      <p>
+        <span class="en">Software quality is a continuous process that requires rigor, anticipation, and collaboration. By combining a methodical approach to manual testing, targeted automation, and strong involvement in Agile practices, the Senior QA plays a key role in reducing project risks and satisfying end users.</span>
+        <span class="fr">La qualité logicielle est un processus continu qui exige rigueur, anticipation et collaboration. En combinant une approche méthodique des tests manuels, une automatisation ciblée et une implication forte dans les pratiques Agile, le QA Senior joue un rôle clé dans la réduction des risques projet et la satisfaction des utilisateurs finaux.</span>
+      </p>
+      <p>
+        <strong><span class="en">My goal:</span><span class="fr">Mon objectif :</span></strong>
+        <span class="en"> Deliver stable, compliant, and reliable applications — sprint after sprint.</span>
+        <span class="fr"> Livrer des applications stables, conformes et fiables — sprint après sprint.</span>
+      </p>
+    </section>
+  </div>
+
+  <footer class="article-footer reveal">
+    <a href="../index.html#articles" class="footer-back">
+      ← <span class="en">Back to articles</span><span class="fr">Retour aux articles</span>
+    </a>
+    <div class="footer-sig">Hocine Benbara · <span>2025</span></div>
+  </footer>
+</div>
+
+<script>
+  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
+  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
+  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
+  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+</script>
+</body>
+</html>
