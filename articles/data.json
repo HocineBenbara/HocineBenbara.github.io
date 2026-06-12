@@ -1,0 +1,79 @@
+[
+  {
+    "slug": "article_qa_processus.html",
+    "date": "2026-06-12",
+    "month": "Juin",
+    "year": "2026",
+    "tags": ["QA", "Processus", "Méthodologie"],
+    "title_en": "The QA Process from Analysis to Delivery",
+    "title_fr": "Le processus QA de l'analyse à la livraison",
+    "desc_en": "Requirement analysis · Test strategy · Test design · Execution · Defect tracking · Reporting · Continuous improvement",
+    "desc_fr": "Analyse des exigences · Stratégie de test · Conception · Exécution · Suivi des défauts · Rapport · Amélioration continue"
+  },
+  {
+    "slug": "cypress.html",
+    "date": "2026-02-01",
+    "month": "Feb",
+    "year": "2026",
+    "tags": ["Cypress", "E2E", "CI"],
+    "title_en": "End-to-End Testing with Cypress",
+    "title_fr": "Tests de bout en bout avec Cypress",
+    "desc_en": "Real browser · Automatic waiting · Network interception · CI integration",
+    "desc_fr": "Vrai navigateur · Attente automatique · Interception réseau · Intégration CI"
+  },
+  {
+    "slug": "flaui.html",
+    "date": "2026-01-15",
+    "month": "Jan",
+    "year": "2026",
+    "tags": ["FlaUI", "Desktop", "C#"],
+    "title_en": "Desktop App Automation with FlaUI",
+    "title_fr": "Automatisation d'applications desktop avec FlaUI",
+    "desc_en": "UI Automation · Element inspection · Interaction patterns · CI on Windows",
+    "desc_fr": "UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows"
+  },
+  {
+    "slug": "api-testing-playwright.html",
+    "date": "2025-05-15",
+    "month": "May",
+    "year": "2025",
+    "tags": ["Playwright", "API REST", "Zephyr"],
+    "title_en": "How I Tested a REST API Using Playwright",
+    "title_fr": "Comment j'ai testé une API REST avec Playwright",
+    "desc_en": "Bearer token auth · CRUD validation (200/201/400) · Test isolation · Zephyr reporting",
+    "desc_fr": "Auth Bearer token · Validation CRUD (200/201/400) · Isolation · Rapport Zephyr"
+  },
+  {
+    "slug": "lighthouse.html",
+    "date": "2025-05-01",
+    "month": "May",
+    "year": "2025",
+    "tags": ["Lighthouse", "Performance", "SEO"],
+    "title_en": "Introduction to Lighthouse",
+    "title_fr": "Présentation de Lighthouse",
+    "desc_en": "Automated analysis tool · Performance · Accessibility · SEO · Best practices",
+    "desc_fr": "Outil d'analyse automatisée · Performance · Accessibilité · SEO · Bonnes pratiques"
+  },
+  {
+    "slug": "qa-methodology.html",
+    "date": "2025-03-01",
+    "month": "Mar",
+    "year": "2025",
+    "tags": ["QA", "Méthodologie", "Agile"],
+    "title_en": "QA Methodology: An Approach",
+    "title_fr": "Assurance Qualité : Approche d'un QA",
+    "desc_en": "Analysis · Test planning · Manual execution · Bug management · Automation · Agile integration",
+    "desc_fr": "Analyse · Plan de test · Exécution manuelle · Gestion des bugs · Automatisation · Intégration Agile"
+  },
+  {
+    "slug": "selenium-framework.html",
+    "date": "2025-01-20",
+    "month": "Jan",
+    "year": "2025",
+    "tags": ["Selenium", "Java", "TestNG"],
+    "title_en": "My Selenium Automation Framework Explained",
+    "title_fr": "Mon framework d'automatisation Selenium expliqué",
+    "desc_en": "Page Object Model · Reusable utilities · Data-Driven Testing · Full test isolation",
+    "desc_fr": "Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète"
+  }
+]
