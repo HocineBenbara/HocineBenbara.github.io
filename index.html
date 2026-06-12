@@ -1106,112 +1106,19 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
 <section id="articles" class="section">
   <div class="section-header reveal">
     <span class="section-num">07</span>
-    <h2 class="section-title">Articles</h2>
+    <h2 class="section-title">
+      <span class="en">Articles</span>
+      <span class="fr">Articles</span>
+      <span class="article-count">(0)</span> <!-- Le JS mettra à jour ce chiffre -->
+    </h2>
     <div class="section-line"></div>
   </div>
 
-  <div class="articles-grid">
-
-    <a href="articles/api-testing-playwright.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">May 2025</div>
-      <div>
-        <div class="article-title">How I Tested a REST API Using Playwright</div>
-        <div class="article-desc">
-          <span class="en">Bearer token auth · CRUD validation (200/201/400) · Test isolation · Zephyr reporting</span>
-          <span class="fr">Auth Bearer token · Validation CRUD (200/201/400) · Isolation · Rapport Zephyr</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-    <a href="articles/lighthouse.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">May 2025</div>
-      <div>
-        <div class="article-title">Présentation de Lighthouse</div>
-        <div class="article-desc">
-          <span class="en">Automated analysis tool · Performance · Accessibility · SEO · Best practices</span>
-          <span class="fr">Outil d'analyse automatisée · Performance · Accessibilité · SEO · Bonnes pratiques</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-    <!-- NOUVEL ARTICLE : QA METHODOLOGY -->
-    <a href="articles/qa-methodology.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">Mar 2025</div>
-      <div>
-        <div class="article-title">
-          <span class="en">QA Methodology: A Approach</span>
-          <span class="fr">Assurance Qualité : Approche d'un QA </span>
-        </div>
-        <div class="article-desc">
-          <span class="en">Analysis · Test planning · Manual execution · Bug management · Automation · Agile integration</span>
-          <span class="fr">Analyse · Plan de test · Exécution manuelle · Gestion des bugs · Automatisation · Intégration Agile</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-    <a href="articles/selenium-framework.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">Jan 2025</div>
-      <div>
-        <div class="article-title">My Selenium Automation Framework Explained</div>
-        <div class="article-desc">
-          <span class="en">Page Object Model · Reusable utilities · Data-Driven Testing · Full test isolation</span>
-          <span class="fr">Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-    <a href="articles/cypress.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">Feb 2026</div>
-      <div>
-        <div class="article-title">End-to-End Testing with Cypress</div>
-        <div class="article-desc">
-          <span class="en">Real browser · Automatic waiting · Network interception · CI integration</span>
-          <span class="fr">Vrai navigateur · Attente automatique · Interception réseau · Intégration CI</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-    <a href="articles/flaui.html"
-       class="article-card reveal" target="_blank">
-      <div class="article-date">Jan 2026</div>
-      <div>
-        <div class="article-title">Desktop App Automation with FlaUI</div>
-        <div class="article-desc">
-          <span class="en">UI Automation · Element inspection · Interaction patterns · CI on Windows</span>
-          <span class="fr">UI Automation · Inspection d'éléments · Patterns d'interaction · CI sur Windows</span>
-        </div>
-      </div>
-      <div class="article-arrow">→</div>
-    </a>
-
-        <!-- NOUVEL ARTICLE : QA PROCESSUS -->
-  <a href="articles/article_qa_processus.html"
-     class="article-card reveal" target="_blank">
-    <div class="article-date">Juin 2026</div>
-    <div>
-      <div class="article-title">
-        <span class="en">The QA Process from Analysis to Delivery</span>
-        <span class="fr">Le processus QA de l'analyse à la livraison</span>
-      </div>
-      <div class="article-desc">
-        <span class="en">Requirement analysis · Test strategy · Test design · Execution · Defect tracking · Reporting · Continuous improvement</span>
-        <span class="fr">Analyse des exigences · Stratégie de test · Conception · Exécution · Suivi des défauts · Rapport · Amélioration continue</span>
-      </div>
-    </div>
-    <div class="article-arrow">→</div>
-  </a>
-
+  <!-- Conteneur vide qui sera rempli automatiquement par le JS -->
+  <div id="articles-container" class="articles-grid">
+    <p style="text-align:center; color:var(--text-muted);">Chargement des articles...</p>
   </div>
+
   <!-- Voir tous les articles -->
   <div style="text-align:center;margin-top:2rem" class="reveal">
     <a href="articles/index.html" class="btn-outline">
@@ -1219,8 +1126,6 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
       <span class="fr">→ Voir tous les articles</span>
     </a>
   </div>
-
-
 </section>
 
 <!-- ══════════════════════════════════════════════════
