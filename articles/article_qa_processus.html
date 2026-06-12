@@ -7,6 +7,17 @@
 <meta name="author" content="Hocine Benbara">
 <title>Mon approche QA — Hocine Benbara</title>
 
+<!-- RESTAURATION IMMÉDIATE DES PRÉFÉRENCES (avant le rendu) -->
+<script>
+  (function () {
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'fr';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -65,6 +76,19 @@
     line-height: 1.7;
     transition: background .25s, color .25s;
   }
+
+  /* ─── NAVIGATION ─── */
+  .nav-back {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: color .2s;
+    margin-left: 1.5rem;
+  }
+  .nav-back:hover { color: var(--accent); }
 
   /* ─── HERO ─── */
   .hero {
@@ -158,7 +182,20 @@
   .tag.orange { border-color: #d2992244; color: var(--orange); background: #d2992211; }
 
   /* ─── LAYOUT ─── */
-  .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .container { 
+    max-width: 880px; 
+    margin: 0 auto; 
+    padding: 0 24px;
+  }
+
+  /* ─── INTRO PARAGRAPH ─── */
+  .intro-text {
+    color: var(--text-muted); 
+    max-width: 680px; 
+    margin: 0 auto 48px;
+    padding-top: 2rem;
+    line-height: 1.75;
+  }
 
   /* ─── PHASE CARDS ─── */
   .phases { display: flex; flex-direction: column; gap: 4px; margin: 48px 0; }
@@ -382,6 +419,18 @@
 
   .footer-link:hover { background: #1f6feb44; }
 
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   /* ─── i18n helpers ─── */
   [data-lang="en"] .fr { display: none; }
   [data-lang="fr"] .en { display: none; }
@@ -389,6 +438,7 @@
   @media (max-width: 600px) {
     .agile-row { grid-template-columns: repeat(2, 1fr); }
     .goal-banner { padding: 24px 20px; }
+    .nav-back { margin-left: 0.75rem; font-size: .65rem; }
   }
 </style>
 </head>
@@ -434,9 +484,10 @@
     </div>
   </div>
 </div>
+
 <div class="container">
   <!-- INTRO -->
-  <p style="color: var(--text-muted); max-width: 680px; margin-bottom: 48px; line-height: 1.75;">
+  <p class="intro-text reveal">
     <span class="en">As a QA Specialist, I cover the entire quality lifecycle — from web applications to WPF desktop applications — with a methodical approach and tools suited to each software layer. Here's how I structure this work on a daily basis.</span>
     <span class="fr">En tant que Spécialiste QA, je couvre l'ensemble du cycle de vie qualité —
     des applications web aux bureautiques WPF — avec une approche méthodique et des outils adaptés à chaque couche logicielle.
@@ -670,15 +721,6 @@
 </div>
 
 <script>
-  /* Restore preferences before render */
-  (function () {
-    var t = localStorage.getItem('theme') || 'dark';
-    var l = localStorage.getItem('lang')  || 'fr';
-    document.documentElement.setAttribute('data-theme', t);
-    document.documentElement.setAttribute('data-lang',  l);
-    document.documentElement.setAttribute('lang', l);
-  })();
-
   document.addEventListener('DOMContentLoaded', function () {
     var t = document.documentElement.getAttribute('data-theme');
     var l = document.documentElement.getAttribute('data-lang');
@@ -708,10 +750,15 @@
   /* Scroll reveal */
   var obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        obs.unobserve(e.target); 
+      }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+  document.querySelectorAll('.reveal').forEach(function (el) { 
+    obs.observe(el); 
+  });
 </script>
 
 </body>
