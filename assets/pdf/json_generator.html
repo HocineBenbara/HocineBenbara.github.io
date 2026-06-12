@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur de Données Article - Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Variables de votre thème */
+    :root {
+      --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
+      --font: system-ui, -apple-system, sans-serif;
+    }
+    [data-theme="dark"] {
+      --bg: #0d1117; --surface: #161b22; --surface2: #21262d;
+      --border: #30363d; --accent: #58a6ff; --text: #e6edf3; --muted: #8b949e;
+    }
+    [data-theme="light"] {
+      --bg: #ffffff; --surface: #f6f8fa; --surface2: #eaeef2;
+      --border: #d0d7de; --accent: #0969da; --text: #1f2328; --muted: #656d76;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font); line-height: 1.6;
+      padding: 2rem; max-width: 900px; margin: 0 auto;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+    .subtitle { color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 2rem; }
+
+    .form-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group.full-width { grid-column: 1 / -1; }
+
+    label {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em;
+    }
+
+    input, textarea, select {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); padding: 0.75rem; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 0.85rem;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: none; border-color: var(--accent);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    .btn-row { display: flex; gap: 1rem; margin-top: 1rem; }
+    .btn {
+      font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      padding: 0.75rem 1.5rem; border-radius: 6px; border: none;
+      cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    .output-area {
+      margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border);
+    }
+    .output-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+    }
+    .output-header h2 { font-size: 1.1rem; }
+    
+    pre {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.5rem; overflow-x: auto;
+      font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.7;
+      color: var(--text); position: relative;
+    }
+    
+    .theme-toggle {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); width: 40px; height: 40px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; transition: all  each 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      body { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="theme-toggle" onclick="toggleTheme()" title="Changer de thème">☀</button>
+
+  <h1>Générateur de Données Article</h1>
+  <p class="subtitle">Remplissez le formulaire pour générer le bloc JSON à copier dans <code>articles/data.json</code></p>
+
+  <form id="articleForm">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="slug">Nom du fichier (slug)</label>
+        <input type="text" id="slug" placeholder="ex: mon-nouvel-article.html" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="date">Date de publication</label>
+        <input type=" is required>
+      </div>
+
+      <div class="form-group">
+        <label for="tags">Tags (séparés par des virgules)</label>
+        <input type="text" id="tags" placeholder="ex: Playwright, CI/CD, GitHub Actions" required>
+      </div>
+
+      <div class="form-group">
+        <label for="month">Mois (affiché)</label>
+        <select id="month">
+          <option value="Jan">Janvier</option>
+          <option value="Fév">Février</option>
+          <option value="Mar">Mars</option>
+          <option value="Avr">Avril</option>
+          <option value="Mai">Mai</option>
+          <option value="Juin">Juin</option>
+          <option value="Juil">Juillet</option>
+          <option value="Août">Août</option>
+          <option value="Sep">Septembre</option>
+          <option value="Oct">Octobre</option>
+          <option value="Nov">Novembre</option>
+          <option value="Déc">Décembre</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="year">Année</label>
+        <input type="number" id="year" value="2026" min="2024" max="2030" required>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="title_en">Titre (Anglais)</label>
+        <input type="text" id="title_en" placeholder="My New Article Title" required>
+      </div>
+      <div class="form-group">
+        <label for="title_fr">Titre (Français)</label>
+        <input type="text" id="title_fr" placeholder="Mon nouveau titre d'article" required>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label for="desc_en">Description courte (Anglais)</label>
+        <textarea id="desc_en" placeholder="Short description with · separators..." required></textarea>
+      </div>
+      <div class="form-group full-width">
+        <label for="desc_fr">Description courte (Français)</label>
+        <textarea id="desc_fr" placeholder="Description courte avec des séparateurs · ..." required></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary" onclick="generateJSON()">⚡ Générer le JSON</button>
+      <button type="reset" class="btn btn-secondary" onclick="resetForm()">Effacer</button>
+    </div>
+  </form>
+
+  <div class="output-area" id="outputArea" style="display: none;">
+    <div class="output-header">
+      <h2>Résultat JSON</h2>
+      <button class="btn btn-secondary" onclick="copyToClipboard()" id="copyBtn">📋 Copier</button>
+    </div>
+    <pre><code id="jsonOutput"></code></pre>
+    <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--muted);">
+      💡 <strong>Conseil :</strong> Collez ce bloc <strong>au début</strong> du tableau <code>[ ... ]</code> dans votre fichier <code>articles/data.json</code> pour qu'il apparaisse en premier (le plus récent).
+    </p>
+  </div>
+
+  <script>
+    // Définir la date du jour par défaut
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    document.getElementById('date').value = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('year').value = yyyy;
+    
+    // Mapper les mois pour le select
+    const months = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+    document.getElementById('month').value = months[today.getMonth()];
+
+    function generateJSON() {
+      const slug = document.getElementById('slug').value.trim();
+      const date = document.getElementById('date').value;
+      const month = document.getElementById('month').value;
+      const year = document.getElementById('year').value;
+      
+      // Traiter les tags : séparer par virgule, enlever les espaces superflus
+      const tagsRaw = document.getElementById('tags').value;
+      const tags = tagsRaw.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+
+      const title_en = document.getElementById('title_en').value.trim();
+      const title_fr = document.getElementById('title_fr').value.trim();
+      const desc_en = document.getElementById('desc_en').value.trim();
+      const desc_fr = document.getElementById('desc_fr').value.trim();
+
+      if (!slug || !date || tags.length === 0 || !title_en || !title_fr) {
+        alert("Veuillez remplir tous les champs obligatoires.");
+        return;
+      }
+
+      const articleData = {
+        slug: slug,
+        date: date,
+        month: month,
+        year: year,
+        tags: tags,
+        title_en: title_en,
+        title_fr: title_fr,
+        desc_en: desc_en,
+        desc_fr: desc_fr
+      };
+
+      const jsonString = JSON.stringify(articleData, null, 2);
+      
+      document.getElementById('jsonOutput').textContent = jsonString;
+      document.getElementById('outputArea').style.display = 'block';
+      
+      // Scroll vers le résultat
+      document.getElementById('outputArea').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('jsonOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        const originalText = btn.textContent;
+        btn.textContent = "✅ Copié !";
+        btn.style.borderColor = "var(--accent)";
+        btn.style.color = "var(--accent)";
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.borderColor = "";
+          btn.style.color = "";
+        }, 2000);
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('outputArea').style.display = 'none';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      document.querySelector('.theme-toggle').textContent = isDark ? '🌙' : '☀';
+      localStorage.setItem('theme', next);
+    }
+
+    // Charger le thème sauvegardé
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.querySelector('.theme-toggle').textContent = savedTheme === 'dark' ? '☀' : '🌙';
+  </script>
+</body>
+</html>
