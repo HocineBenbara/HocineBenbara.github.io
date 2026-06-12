@@ -86,7 +86,7 @@
       background: var(--surface); border: 1px solid var(--border);
       color: var(--text); width: 40px; height: 40px; border-radius: 50%;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; transition: all  each 0.2s;
+      font-size: 1.2rem; transition: all 0.2s;
     }
     .theme-toggle:hover { border-color: var(--accent); }
 
@@ -112,7 +112,7 @@
       
       <div class="form-group">
         <label for="date">Date de publication</label>
-        <input type=" is required>
+        <input type="date" id="date" required>
       </div>
 
       <div class="form-group">
@@ -179,7 +179,7 @@
     </div>
     <pre><code id="jsonOutput"></code></pre>
     <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--muted);">
-      💡 <strong>Conseil :</strong> Collez ce bloc <strong>au début</strong> du tableau <code>[ ... ]</code> dans votre fichier <code>articles/data.json</code> pour qu'il apparaisse en premier (le plus récent).
+      💡 <strong>Conseil :</strong> Collez ce bloc <strong>au début</strong> du tableau <code>[ ... ]</code> dans votre fichier <code>articles/data.json</code> pour qu'il apparaisse en premier (le plus récent). N'oubliez pas d'ajouter une virgule après le bloc précédent si ce n'est pas le premier élément !
     </p>
   </div>
 
