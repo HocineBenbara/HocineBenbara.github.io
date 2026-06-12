@@ -89,11 +89,19 @@
     }
     .nav-back:hover { color: var(--accent); }
 
+    /* NO RESULTS */
+    .no-results {
+      text-align: center; padding: 3rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted); font-size: .85rem;
+    }
+
     @media(max-width:600px){
       .page-wrapper { padding: 6rem 1.25rem 4rem; }
       .article-row { grid-template-columns: 1fr auto; }
       .article-row-date { display: none; }
       .filter-row, .sort-row { justify-content: center; }
+      .stats-bar { gap: 1.5rem; padding: 1rem 1.25rem; }
     }
   </style>
 </head>
@@ -115,8 +123,7 @@
       <span class="en">Knowledge base</span><span class="fr">Base de connaissances</span>
     </div>
     <h1 class="page-title">
-      <span class="en">All Articles</span>
-      <span class="fr">Tous les articles</span>
+      <span class="en">All Articles</span><span class="fr">Tous les articles</span>
     </h1>
     <p class="page-subtitle">
       <span class="en">Practical write-ups on test automation, QA tooling and software quality — from real projects.</span>
@@ -128,7 +135,7 @@
 
   <!-- STATS -->
   <div class="stats-bar reveal">
-    <div class="stats-bar-item"><span>7</span> <span class="en">Articles</span><span class="fr">Articles</span></div>
+    <div class="stats-bar-item"><span id="articleCount">7</span> <span class="en">Articles</span><span class="fr">Articles</span></div>
     <div class="stats-bar-item"><span>4</span> <span class="en">Frameworks covered</span><span class="fr">Frameworks couverts</span></div>
     <div class="stats-bar-item"><span>EN / FR</span> <span class="en">Bilingual</span><span class="fr">Bilingue</span></div>
     <div class="stats-bar-item"><span>2025–2026</span></div>
@@ -136,30 +143,30 @@
 
   <!-- FILTERS & SORT -->
   <div class="filter-row reveal">
-    <button class="filter-btn active" onclick="filterArticles('all', this)">
+    <button class="filter-btn active" data-filter="all" onclick="filterArticles('all', this)">
       <span class="en">All</span><span class="fr">Tous</span>
     </button>
-    <button class="filter-btn" onclick="filterArticles('playwright', this)">Playwright</button>
-    <button class="filter-btn" onclick="filterArticles('selenium', this)">Selenium</button>
-    <button class="filter-btn" onclick="filterArticles('cypress', this)">Cypress</button>
-    <button class="filter-btn" onclick="filterArticles('flaui', this)">FlaUI</button>
-    <button class="filter-btn" onclick="filterArticles('tools', this)">
+    <button class="filter-btn" data-filter="playwright" onclick="filterArticles('playwright', this)">Playwright</button>
+    <button class="filter-btn" data-filter="selenium" onclick="filterArticles('selenium', this)">Selenium</button>
+    <button class="filter-btn" data-filter="cypress" onclick="filterArticles('cypress', this)">Cypress</button>
+    <button class="filter-btn" data-filter="flaui" onclick="filterArticles('flaui', this)">FlaUI</button>
+    <button class="filter-btn" data-filter="tools" onclick="filterArticles('tools', this)">
       <span class="en">Tools</span><span class="fr">Outils</span>
     </button>
-    <button class="filter-btn" onclick="filterArticles('qa', this)">
+    <button class="filter-btn" data-filter="qa" onclick="filterArticles('qa', this)">
       <span class="en">QA Method</span><span class="fr">Méthodo QA</span>
     </button>
   </div>
   
   <div class="sort-row reveal">
     <span class="sort-label"><span class="en">Sort:</span><span class="fr">Trier :</span></span>
-    <button class="sort-btn active" onclick="sortArticles('newest', this)">
+    <button class="sort-btn active" data-sort="newest" onclick="sortArticles('newest', this)">
       <span class="en">Newest</span><span class="fr">Plus récent</span>
     </button>
-    <button class="sort-btn" onclick="sortArticles('oldest', this)">
+    <button class="sort-btn" data-sort="oldest" onclick="sortArticles('oldest', this)">
       <span class="en">Oldest</span><span class="fr">Plus ancien</span>
     </button>
-    <button class="sort-btn" onclick="sortArticles('title', this)">
+    <button class="sort-btn" data-sort="title" onclick="sortArticles('title', this)">
       <span class="en">Title A-Z</span><span class="fr">Titre A-Z</span>
     </button>
   </div>
@@ -192,7 +199,7 @@
       <div class="article-row-arrow">→</div>
     </a>
 
-    <!-- QA Methodology - NOUVEL ARTICLE -->
+    <!-- QA Methodology -->
     <a href="qa-methodology.html" class="article-row reveal" data-tags="qa methodology testing" data-timestamp="2025-03-20">
       <div class="article-row-date">
         <div class="month">Mar</div>
@@ -206,7 +213,7 @@
         </div>
         <div class="article-row-title">
           <span class="en">QA Methodology: Approach</span>
-          <span class="fr">Assurance Qualité : Approche d'un QA </span>
+          <span class="fr">Assurance Qualité : Approche d'un QA</span>
         </div>
         <div class="article-row-desc">
           <span class="en">Analysis · Test planning · Manual execution · Bug management · Automation · Agile integration</span>
@@ -217,7 +224,7 @@
     </a>
 
     <!-- Lighthouse -->
-    <a href="lighthouse.html" class="article-row reveal" data-tags="tools" data-timestamp="2025-05-10">
+    <a href="lighthouse.html" class="article-row reveal" data-tags="tools lighthouse performance" data-timestamp="2025-05-10">
       <div class="article-row-date">
         <div class="month">May</div>
         <div class="year">2025</div>
@@ -241,7 +248,7 @@
     </a>
 
     <!-- Cypress -->
-    <a href="cypress.html" class="article-row reveal" data-tags="cypress" data-timestamp="2026-02-10">
+    <a href="cypress.html" class="article-row reveal" data-tags="cypress e2e javascript" data-timestamp="2026-02-10">
       <div class="article-row-date">
         <div class="month">Feb</div>
         <div class="year">2026</div>
@@ -266,7 +273,7 @@
     </a>
 
     <!-- FlaUI -->
-    <a href="flaui.html" class="article-row reveal" data-tags="flaui" data-timestamp="2026-01-15">
+    <a href="flaui.html" class="article-row reveal" data-tags="flaui desktop csharp wpf" data-timestamp="2026-01-15">
       <div class="article-row-date">
         <div class="month">Jan</div>
         <div class="year">2026</div>
@@ -291,7 +298,7 @@
     </a>
 
     <!-- Selenium -->
-    <a href="selenium-framework.html" class="article-row reveal" data-tags="selenium" data-timestamp="2025-01-20">
+    <a href="selenium-framework.html" class="article-row reveal" data-tags="selenium java testng" data-timestamp="2025-01-20">
       <div class="article-row-date">
         <div class="month">Jan</div>
         <div class="year">2025</div>
@@ -313,79 +320,122 @@
       </div>
       <div class="article-row-arrow">→</div>
     </a>
+
     <!-- QA Processus -->
-<a href="article_qa_processus.html" class="article-row reveal" data-tags="qa,processus,methodologie" data-timestamp="2026-06-12">
-  <div class="article-row-date">
-    <div class="month">Jun</div>
-    <div class="year">2026</div>
-  </div>
-  <div class="article-row-body">
-    <div class="article-row-tags">
-      <span class="tag">QA</span>
-      <span class="tag blue">Processus</span>
-      <span class="tag amber">Méthodologie</span>
-    </div>
-    <div class="article-row-title">
-      <span class="en">The QA Process from Analysis to Delivery</span>
-      <span class="fr">Le processus QA de l'analyse à la livraison</span>
-    </div>
-    <div class="article-row-desc">
-      <span class="en">Requirement analysis · Test strategy · Test design · Execution · Defect tracking · Reporting · Continuous improvement</span>
-      <span class="fr">Analyse des exigences · Stratégie de test · Conception · Exécution · Suivi des défauts · Rapport · Amélioration continue</span>
-    </div>
-  </div>
-  <div class="article-row-arrow">→</div>
-</a>
+    <a href="article_qa_processus.html" class="article-row reveal" data-tags="qa processus methodologie" data-timestamp="2026-06-12">
+      <div class="article-row-date">
+        <div class="month">Jun</div>
+        <div class="year">2026</div>
+      </div>
+      <div class="article-row-body">
+        <div class="article-row-tags">
+          <span class="tag">QA</span>
+          <span class="tag blue">Processus</span>
+          <span class="tag amber">Méthodologie</span>
+        </div>
+        <div class="article-row-title">
+          <span class="en">The QA Process from Analysis to Delivery</span>
+          <span class="fr">Le processus QA de l'analyse à la livraison</span>
+        </div>
+        <div class="article-row-desc">
+          <span class="en">Requirement analysis · Test strategy · Test design · Execution · Defect tracking · Reporting · Continuous improvement</span>
+          <span class="fr">Analyse des exigences · Stratégie de test · Conception · Exécution · Suivi des défauts · Rapport · Amélioration continue</span>
+        </div>
+      </div>
+      <div class="article-row-arrow">→</div>
+    </a>
 
   </div><!-- /articles-list -->
 </div><!-- /page-wrapper -->
 
 <script>
-  /* Restore preferences */
-  (function(){var t=localStorage.getItem('theme')||'dark';var l=localStorage.getItem('lang')||'en';document.documentElement.setAttribute('data-theme',t);document.documentElement.setAttribute('data-lang',l);document.documentElement.setAttribute('lang',l);})();
-  document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');var l=document.documentElement.getAttribute('data-lang');document.getElementById('themeBtn').textContent=t==='dark'?'☀':'🌙';document.getElementById('langBtn').textContent=l==='en'?'FR':'EN';});
-  function toggleTheme(){var html=document.documentElement;var isDark=html.getAttribute('data-theme')==='dark';var next=isDark?'light':'dark';html.setAttribute('data-theme',next);document.getElementById('themeBtn').textContent=isDark?'🌙':'☀';localStorage.setItem('theme',next);}
-  function toggleLang(){var html=document.documentElement;var isEN=html.getAttribute('data-lang')==='en';var next=isEN?'fr':'en';html.setAttribute('data-lang',next);html.setAttribute('lang',next);document.getElementById('langBtn').textContent=isEN?'EN':'FR';localStorage.setItem('lang',next);}
+  /* ─── Restore preferences ─── */
+  (function(){
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'en';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+    
+    // Initial sort
+    applyFiltersAndSort();
+    updateStats();
+  });
+
+  function toggleTheme(){
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  function toggleLang(){
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
   
-  /* Filter */
+  /* ─── Global state ─── */
+  var currentFilter = 'all';
+  var currentSort = 'newest';
+
+  /* ─── Filter ─── */
   function filterArticles(tag, btn) {
-    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    currentFilter = tag;
+    document.querySelectorAll('.filter-btn').forEach(function(b){ 
+      b.classList.remove('active'); 
+    });
+    btn.classList.add('active');
+    applyFiltersAndSort();
+    updateStats();
+  }
+  
+  /* ─── Sort ─── */
+  function sortArticles(mode, btn) {
+    currentSort = mode;
+    document.querySelectorAll('.sort-btn').forEach(function(b){ 
+      b.classList.remove('active'); 
+    });
     btn.classList.add('active');
     applyFiltersAndSort();
   }
   
-  /* Sort */
-  function sortArticles(mode, btn) {
-    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    applyFiltersAndSort(mode);
-  }
-  
-  function applyFiltersAndSort(sortMode) {
-    var activeFilter = document.querySelector('.filter-btn.active');
-    var filterTag = activeFilter ? activeFilter.onclick.toString().match(/'([^']+)'/)?.[1] || 'all' : 'all';
-    if(!sortMode) {
-      var activeSort = document.querySelector('.sort-btn.active');
-      sortMode = activeSort ? activeSort.onclick.toString().match(/'([^']+)'/)?.[1] || 'newest' : 'newest';
-    }
-    
+  /* ─── Apply filters and sort ─── */
+  function applyFiltersAndSort() {
     var list = document.getElementById('articlesList');
     var articles = Array.from(list.querySelectorAll('.article-row'));
     
+    // Remove any existing "no results" message
+    var existingNoResults = list.querySelector('.no-results');
+    if (existingNoResults) existingNoResults.remove();
+    
     // Filter
     var filtered = articles.filter(function(row){
-      if(filterTag === 'all') return true;
-      var tags = row.dataset.tags || '';
-      return tags.includes(filterTag);
+      if(currentFilter === 'all') return true;
+      var tags = (row.dataset.tags || '').toLowerCase();
+      return tags.includes(currentFilter.toLowerCase());
     });
     
     // Sort
     filtered.sort(function(a, b){
-      if(sortMode === 'newest') {
+      if(currentSort === 'newest') {
         return new Date(b.dataset.timestamp) - new Date(a.dataset.timestamp);
-      } else if(sortMode === 'oldest') {
+      } else if(currentSort === 'oldest') {
         return new Date(a.dataset.timestamp) - new Date(b.dataset.timestamp);
-      } else if(sortMode === 'title') {
+      } else if(currentSort === 'title') {
         var titleA = a.querySelector('.article-row-title').textContent.trim().toLowerCase();
         var titleB = b.querySelector('.article-row-title').textContent.trim().toLowerCase();
         return titleA.localeCompare(titleB);
@@ -393,13 +443,48 @@
       return 0;
     });
     
-    // Reorder DOM
-    filtered.forEach(function(article){ list.appendChild(article); });
+    // Hide all articles first
+    articles.forEach(function(article){
+      article.style.display = 'none';
+    });
+    
+    // Show filtered articles in sorted order
+    filtered.forEach(function(article){
+      article.style.display = '';
+      list.appendChild(article);
+    });
+    
+    // Show "no results" message if needed
+    if (filtered.length === 0) {
+      var noResults = document.createElement('div');
+      noResults.className = 'no-results';
+      noResults.innerHTML = '<span class="en">No articles found for this filter.</span><span class="fr">Aucun article trouvé pour ce filtre.</span>';
+      list.appendChild(noResults);
+    }
+  }
+
+  /* ─── Update stats ─── */
+  function updateStats() {
+    var list = document.getElementById('articlesList');
+    var visibleArticles = Array.from(list.querySelectorAll('.article-row')).filter(function(a){
+      return a.style.display !== 'none';
+    });
+    var countElement = document.getElementById('articleCount');
+    if (countElement) {
+      countElement.textContent = visibleArticles.length;
+    }
   }
   
-  /* Scroll reveal */
-  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.08});
-  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+  /* ─── Scroll reveal ─── */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
 </script>
 </body>
 </html>
