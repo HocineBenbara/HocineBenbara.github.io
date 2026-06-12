@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mon approche du cycle de vie QA — analyse, préparation, exécution et automatisation des tests dans un contexte Agile/Scrum.">
+<meta name="author" content="Hocine Benbara">
+<title>Mon approche QA — Hocine Benbara</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Ton CSS existant — chemin relatif depuis articles/ -->
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --accent: #58a6ff;
+    --accent-dim: #1f6feb22;
+    --accent-bright: #79c0ff;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-sub: #6e7681;
+    --green: #3fb950;
+    --orange: #d29922;
+    --purple: #bc8cff;
+    --red: #f85149;
+    --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, #1f6feb33 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    background: var(--accent-dim);
+    border: 1px solid #1f6feb55;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+  }
+
+  .hero-eyebrow::before { content: '▸'; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.02em;
+    color: var(--text);
+    max-width: 700px;
+    margin: 0 auto 20px;
+  }
+
+  .hero h1 span.gradient {
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto 36px;
+  }
+
+  .article-meta {
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem; color: var(--text-muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .article-meta .sep { color: var(--border); }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    letter-spacing: .04em;
+  }
+
+  .tag.blue { border-color: #1f6feb55; color: var(--accent); background: var(--accent-dim); }
+  .tag.green { border-color: #3fb95044; color: var(--green); background: #3fb95011; }
+  .tag.purple { border-color: #bc8cff44; color: var(--purple); background: #bc8cff11; }
+  .tag.orange { border-color: #d2992244; color: var(--orange); background: #d2992211; }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── PHASE CARDS ─── */
+  .phases { display: flex; flex-direction: column; gap: 4px; margin: 48px 0; }
+
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+
+  .phase-card:hover { border-color: var(--accent); }
+
+  .phase-header {
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .phase-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--bg);
+    background: var(--accent);
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: .06em;
+    flex-shrink: 0;
+  }
+
+  .phase-num.green { background: var(--green); }
+  .phase-num.orange { background: var(--orange); }
+  .phase-num.purple { background: var(--purple); }
+  .phase-num.red { background: var(--red); }
+
+  .phase-title { font-weight: 600; font-size: 1rem; color: var(--text); }
+  .phase-title small { display: block; color: var(--text-muted); font-size: .8rem; font-weight: 400; margin-top: 2px; }
+
+  .phase-chevron {
+    color: var(--text-sub);
+    font-size: 12px;
+    transition: transform .25s;
+  }
+
+  .phase-card.open .phase-chevron { transform: rotate(90deg); }
+
+  .phase-body {
+    display: none;
+    padding: 0 24px 24px 90px;
+    border-top: 1px solid var(--border);
+  }
+
+  .phase-card.open .phase-body { display: block; }
+
+  .phase-body h4 {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-sub);
+    margin: 20px 0 10px;
+    font-family: var(--font-mono);
+  }
+
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: .9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .checklist li::before {
+    content: '✓';
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ─── SECTION TITLES ─── */
+  .section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    color: var(--text-muted);
+    font-size: .9rem;
+    margin-bottom: 28px;
+  }
+
+  .section-div {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 64px 0;
+  }
+
+  /* ─── STACK TABLE ─── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 64px;
+  }
+
+  .stack-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: border-color .2s, transform .15s;
+  }
+
+  .stack-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+  .stack-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .stack-name { font-weight: 600; font-size: .92rem; color: var(--text); margin-bottom: 2px; }
+  .stack-desc { font-size: .8rem; color: var(--text-muted); }
+
+  /* ─── AGILE ─── */
+  .agile-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 64px;
+  }
+
+  .agile-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    transition: border-color .2s;
+  }
+
+  .agile-card:hover { border-color: var(--accent); }
+
+  .agile-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .agile-name { font-weight: 600; font-size: .9rem; margin-bottom: 4px; }
+  .agile-desc { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ─── GOAL BANNER ─── */
+  .goal-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 32px 36px;
+    margin-bottom: 56px;
+  }
+
+  .goal-banner blockquote {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+
+  .goal-banner cite {
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    color: var(--text-muted);
+    font-style: normal;
+  }
+
+  /* ─── FOOTER ─── */
+  .article-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 32px 0 64px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-author { font-size: .95rem; color: var(--text-muted); line-height: 1.6; }
+
+  .footer-link {
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid #1f6feb55;
+    background: var(--accent-dim);
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: background .2s;
+  }
+
+  .footer-link:hover { background: #1f6feb44; }
+
+  /* ─── i18n helpers ─── */
+  [data-lang="en"] .fr { display: none; }
+  [data-lang="fr"] .en { display: none; }
+
+  @media (max-width: 600px) {
+    .agile-row { grid-template-columns: repeat(2, 1fr); }
+    .goal-banner { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="../index.html#articles" class="nav-back">← <span class="en">Articles</span><span class="fr">Articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span class="en">Article — Quality Assurance</span><span class="fr">Article — Assurance Qualité</span>
+    </div>
+    <h1>
+      <span class="en">My approach to the<br><span class="gradient">QA lifecycle</span></span>
+      <span class="fr">Mon approche du<br><span class="gradient">cycle de vie QA</span></span>
+    </h1>
+    <div class="article-meta">
+      <span class="en">June 12, 2026</span><span class="fr">12 juin 2026</span>
+      <span class="sep">·</span>
+      <span>Hocine Benbara</span>
+    </div>
+    <p class="hero-sub">
+      <span class="en">How I organize the analysis, preparation, execution, and automation of testing in an Agile/Scrum context.</span>
+      <span class="fr">Comment j'organise l'analyse, la préparation, l'exécution et l'automatisation des tests dans un contexte Agile/Scrum.</span>
+    </p>
+    <div class="tag-row">
+      <span class="tag blue">Playwright</span>
+      <span class="tag blue">FlaUI / C#</span>
+      <span class="tag green">Jira · Zephyr Scale</span>
+      <span class="tag green">bitbucket  Pipelines</span>
+      <span class="tag orange">Postman · API REST</span>
+      <span class="tag">Oracle SQL</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <p style="color: var(--text-muted); max-width: 680px; margin-bottom: 48px; line-height: 1.75;">
+    <span class="en">As a QA Specialist, I cover the entire quality lifecycle — from web applications to WPF desktop applications — with a methodical approach and tools suited to each software layer. Here's how I structure this work on a daily basis.</span>
+    <span class="fr">En tant que Spécialiste QA, je couvre l'ensemble du cycle de vie qualité —
+    des applications web aux bureautiques WPF — avec une approche méthodique et des outils adaptés à chaque couche logicielle.
+    Voici comment je structure ce travail au quotidien.</span>
+  </p>
+
+  <!-- PHASES -->
+  <div class="phases">
+
+    <div class="phase-card open reveal">
+      <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="phase-num">01</div>
+        <div class="phase-title">
+          <span class="en">Analysis</span><span class="fr">Analyse</span>
+          <small><span class="en">Understanding before testing</span><span class="fr">Comprendre avant de tester</span></small>
+        </div>
+        <span class="phase-chevron">▶</span>
+      </div>
+      <div class="phase-body">
+        <h4><span class="en">Documentation studied</span><span class="fr">Documentation étudiée</span></h4>
+        <ul class="checklist">
+          <li><span class="en">BEA, functional and technical specifications</span><span class="fr">BEA, spécifications fonctionnelles et techniques</span></li>
+          <li><span class="en">Operational workflows, diagrams, database schemas</span><span class="fr">Workflows opérationnels, diagrammes, schémas de base de données</span></li>
+          <li><span class="en">UI/UX mockups and supporting documentation</span><span class="fr">Maquettes UI/UX et documentation complémentaire</span></li>
+        </ul>
+        <h4><span class="en">Requirements validation</span><span class="fr">Validation des exigences</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Checking the clarity and consistency of requirements</span><span class="fr">Vérification de la clarté et cohérence des exigences</span></li>
+          <li><span class="en">Identifying ambiguities and missing information</span><span class="fr">Identification des ambiguïtés et informations manquantes</span></li>
+          <li><span class="en">Preparing questions for the kickoff and functional meetings</span><span class="fr">Préparation des questions pour le kick-off et les réunions fonctionnelles</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="phase-num green">02</div>
+        <div class="phase-title">
+          <span class="en">Preparation</span><span class="fr">Préparation</span>
+          <small><span class="en">Data, environments, test plans</span><span class="fr">Données, environnements, plans de test</span></small>
+        </div>
+        <span class="phase-chevron">▶</span>
+      </div>
+      <div class="phase-body">
+        <h4><span class="en">Test data</span><span class="fr">Données de test</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Creating data tailored to functional scenarios (CSV, TXT, SQL)</span><span class="fr">Création de données adaptées aux scénarios fonctionnels (CSV, TXT, SQL)</span></li>
+          <li><span class="en">Simulating realistic data for each environment</span><span class="fr">Simulation de données réalistes pour chaque environnement</span></li>
+        </ul>
+        <h4><span class="en">Environments</span><span class="fr">Environnements</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Installing application packages and versions</span><span class="fr">Installation des packages et versions applicatives</span></li>
+          <li><span class="en">Backups and snapshots before deployment</span><span class="fr">Sauvegardes et snapshots avant déploiement</span></li>
+        </ul>
+        <h4><span class="en">Test plan</span><span class="fr">Plan de test</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Developing the initial plan from documentation</span><span class="fr">Élaboration du plan initial depuis la documentation</span></li>
+          <li><span class="en">Test cases in Jira / Zephyr Scale with requirements ↔ defects traceability</span><span class="fr">Cas de test dans Jira / Zephyr Scale avec traçabilité exigences ↔ anomalies</span></li>
+          <li><span class="en">Continuous updates based on sprint changes</span><span class="fr">Mise à jour continue selon les évolutions du sprint</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="phase-num orange">03</div>
+        <div class="phase-title">
+          <span class="en">Manual Testing</span><span class="fr">Tests Manuels</span>
+          <small><span class="en">Execution, validation, regression</span><span class="fr">Exécution, validation, régression</span></small>
+        </div>
+        <span class="phase-chevron">▶</span>
+      </div>
+      <div class="phase-body">
+        <h4><span class="en">Types of tests performed</span><span class="fr">Types de tests réalisés</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Functional, exploratory, and validation testing</span><span class="fr">Tests fonctionnels, exploratoires, de validation</span></li>
+          <li><span class="en">Regression testing — stability after each release</span><span class="fr">Tests de régression — stabilité après chaque livraison</span></li>
+          <li><span class="en">Smoke tests — quick post-deployment checks</span><span class="fr">Smoke tests — vérification rapide post-déploiement</span></li>
+          <li><span class="en">Compatibility and UI/UX testing</span><span class="fr">Tests de compatibilité et UI/UX</span></li>
+          <li><span class="en">REST API testing via Postman</span><span class="fr">Tests API REST via Postman</span></li>
+        </ul>
+        <h4><span class="en">Execution</span><span class="fr">Exécution</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Execution based on releases and delivered versions</span><span class="fr">Exécution selon les releases et versions livrées</span></li>
+          <li><span class="en">Validation of modules developed by the integration team</span><span class="fr">Validation des modules développés par l'équipe d'intégration</span></li>
+          <li><span class="en">Confirming compliance with client expectations</span><span class="fr">Confirmation de la conformité aux attentes client</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="phase-num red">04</div>
+        <div class="phase-title">
+          <span class="en">Defect Tracking</span><span class="fr">Suivi des Anomalies</span>
+          <small><span class="en">Full bug lifecycle</span><span class="fr">Cycle de vie complet du bug</span></small>
+        </div>
+        <span class="phase-chevron">▶</span>
+      </div>
+      <div class="phase-body">
+        <h4><span class="en">Bug management</span><span class="fr">Gestion des bugs</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Identification, reproduction, and documentation in Jira</span><span class="fr">Identification, reproduction et documentation dans Jira</span></li>
+          <li><span class="en">Impact analysis and prioritization</span><span class="fr">Analyse des impacts et priorisation</span></li>
+          <li><span class="en">Communication with developers and business analysts</span><span class="fr">Communication avec les développeurs et analystes fonctionnels</span></li>
+        </ul>
+        <h4><span class="en">Fix validation</span><span class="fr">Validation des corrections</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Verifying the fixes implemented</span><span class="fr">Vérification des corrections apportées</span></li>
+          <li><span class="en">Reopening if the issue persists, closing after validation</span><span class="fr">Réouverture si le problème persiste, fermeture après validation</span></li>
+          <li><span class="en">Creating and tracking newly detected defects</span><span class="fr">Création et suivi des nouvelles anomalies détectées</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card reveal">
+      <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
+        <div class="phase-num purple">05</div>
+        <div class="phase-title">
+          <span class="en">Automation</span><span class="fr">Automatisation</span>
+          <small><span class="en">Scripts, CI/CD, results analysis</span><span class="fr">Scripts, CI/CD, analyse des résultats</span></small>
+        </div>
+        <span class="phase-chevron">▶</span>
+      </div>
+      <div class="phase-body">
+        <h4><span class="en">Script development</span><span class="fr">Développement des scripts</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Playwright scripts (TypeScript, Page Object Model) for the web</span><span class="fr">Scripts Playwright (TypeScript, Page Object Model) pour le web</span></li>
+          <li><span class="en">FlaUI / NUnit / C# scripts for WPF desktop applications</span><span class="fr">Scripts FlaUI / NUnit / C# pour les applications desktop WPF</span></li>
+          <li><span class="en">Automating regression scenarios</span><span class="fr">Automatisation des scénarios de régression</span></li>
+          <li><span class="en">Continuous updates based on application changes</span><span class="fr">Mise à jour continue selon les évolutions applicatives</span></li>
+        </ul>
+        <h4><span class="en">CI/CD and analysis</span><span class="fr">CI/CD et analyse</span></h4>
+        <ul class="checklist">
+          <li><span class="en">Automated test runs via Bitbucket Pipelines</span><span class="fr">Exécution automatisée des campagnes via bitbucket  Pipelines</span></li>
+          <li><span class="en">Results analysis and documentation of detected defects</span><span class="fr">Analyse des résultats et documentation des anomalies détectées</span></li>
+          <li><span class="en">Zephyr Scale integration (JWT) for automatic traceability</span><span class="fr">Intégration Zephyr Scale (JWT) pour la traçabilité automatique</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="section-div">
+
+  <!-- STACK -->
+  <h2 class="section-title"><span class="en">Tech stack</span><span class="fr">Stack technique</span></h2>
+  <p class="section-sub">
+    <span class="en">The tools I use daily, covering web, desktop, API, and project management.</span>
+    <span class="fr">Les outils que j'utilise au quotidien, couvrant web, desktop, API et gestion de projet.</span>
+  </p>
+
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#58a6ff;">⚡</div>
+      <div><div class="stack-name">Playwright</div><div class="stack-desc"><span class="en">Web E2E testing — TypeScript, Page Object Model</span><span class="fr">Tests E2E web — TypeScript, Page Object Model</span></div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#bc8cff;">🪟</div>
+      <div><div class="stack-name">FlaUI / NUnit / C#</div><div class="stack-desc"><span class="en">Automated WPF desktop testing</span><span class="fr">Tests automatisés desktop WPF</span></div></div>
+    </div>
+
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#d29922;">📮</div>
+      <div><div class="stack-name">Postman</div><div class="stack-desc"><span class="en">REST API testing, collections, environments</span><span class="fr">Tests API REST, collections, environnements</span></div></div>
+    </div>
+
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#f85149;">🐞</div>
+      <div><div class="stack-name">Jira + Zephyr Scale</div><div class="stack-desc"><span class="en">Bugs, test cases, JWT traceability</span><span class="fr">Bugs, cas de test, traçabilité JWT</span></div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#3fb950;">⚙️</div>
+      <div><div class="stack-name">bitbucket  Pipelines</div><div class="stack-desc"><span class="en">CI/CD — automated test execution</span><span class="fr">CI/CD — exécution automatisée des campagnes</span></div></div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-icon" style="color:#79c0ff;">🗄️</div>
+      <div><div class="stack-name">Oracle SQL</div><div class="stack-desc"><span class="en">Data validation, INSERT, FK constraints</span><span class="fr">Validation données, INSERT, contraintes FK</span></div></div>
+    </div>
+  </div>
+
+  <!-- AGILE -->
+  <h2 class="section-title"><span class="en">Agile Participation</span><span class="fr">Participation Agile</span></h2>
+  <p class="section-sub">
+    <span class="en">Quality assurance is fully integrated into the Scrum cycle.</span>
+    <span class="fr">L'assurance qualité s'intègre pleinement dans le cycle Scrum.</span>
+  </p>
+  <div class="agile-row">
+    <div class="agile-card">
+      <div class="agile-icon">🌅</div>
+      <div class="agile-name"><span class="en">Daily Scrum</span><span class="fr">Daily Scrum</span></div>
+      <div class="agile-desc"><span class="en">Daily follow-up, blockers, progress</span><span class="fr">Suivi quotidien, blocages, avancement</span></div>
+    </div>
+    <div class="agile-card">
+      <div class="agile-icon">📋</div>
+      <div class="agile-name"><span class="en">Sprint Planning</span><span class="fr">Sprint Planning</span></div>
+      <div class="agile-desc"><span class="en">Prioritizing test cases per sprint</span><span class="fr">Priorisation des cas de test par sprint</span></div>
+    </div>
+    <div class="agile-card">
+      <div class="agile-icon">🎯</div>
+      <div class="agile-name"><span class="en">Sprint Review</span><span class="fr">Sprint Review</span></div>
+      <div class="agile-desc"><span class="en">Demo, delivery validation</span><span class="fr">Démonstration, validation livraison</span></div>
+    </div>
+    <div class="agile-card">
+      <div class="agile-icon">🔄</div>
+      <div class="agile-name"><span class="en">Retrospective</span><span class="fr">Rétrospective</span></div>
+      <div class="agile-desc"><span class="en">Continuous process improvement</span><span class="fr">Amélioration continue du processus</span></div>
+    </div>
+  </div>
+
+  <!-- OBJECTIF BANNER -->
+  <div class="goal-banner">
+    <blockquote>
+      <span class="en">Ensuring the quality, stability, reliability, and compliance of delivered applications,
+      while providing an optimal user experience — for every sprint, every release.</span>
+      <span class="fr">Garantir la qualité, la stabilité, la fiabilité et la conformité des applications livrées,
+      tout en assurant une expérience utilisateur optimale — à chaque sprint, chaque release.</span>
+    </blockquote>
+    <cite><span class="en">— QA Objective · Hocine Benbara</span><span class="fr">— Objectif QA · Hocine Benbara</span></cite>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="article-footer">
+    <div class="footer-author">
+      <strong style="color: var(--text);">Hocine Benbara</strong><br>
+      <span style="font-size:.85rem;"><span class="en">QA Specialist — Montréal, Québec</span><span class="fr">Spécialiste QA — Montréal, Québec</span></span>
+    </div>
+    <a class="footer-link" href="https://hocinebenbara.github.io" target="_blank">↗ hocinebenbara.github.io</a>
+  </div>
+
+</div>
+
+<script>
+  /* Restore preferences before render */
+  (function () {
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'fr';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+  });
+
+  function toggleTheme() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  function toggleLang() {
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
+
+  /* Scroll reveal */
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(function (el) { obs.observe(el); });
+</script>
+
+</body>
+</html>
