@@ -883,8 +883,7 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
       </div>
       <div class="project-links" style="margin-top:1rem">
         <a href="https://github.com/HocineBenbara/FlowBoard" class="link-btn link-btn-primary" target="_blank">
-          <span class="en">↗ View Project</span>
-          <span class="fr">↗ Voir le projet</span>
+          <span class="en">↗ View Project</span><span class="fr">↗ Voir le projet</span>
         </a>
         <a href="https://github.com/HocineBenbara/FlowBoard" class="link-btn link-btn-secondary" target="_blank">↗ GitHub</a>
       </div>
@@ -1101,7 +1100,7 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
 </section>
 
 <!-- ══════════════════════════════════════════════════
-     07 – ARTICLES
+     07 – ARTICLES (CHARGEMENT DYNAMIQUE)
 ══════════════════════════════════════════════════ -->
 <section id="articles" class="section">
   <div class="section-header reveal">
@@ -1109,14 +1108,14 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
     <h2 class="section-title">
       <span class="en">Articles</span>
       <span class="fr">Articles</span>
-      <span class="article-count">(0)</span> <!-- Le JS mettra à jour ce chiffre -->
+      <span class="article-count" style="font-size: 0.6em; color: var(--text-muted); margin-left: 8px;">(0)</span>
     </h2>
     <div class="section-line"></div>
   </div>
 
-  <!-- Conteneur vide qui sera rempli automatiquement par le JS -->
+  <!-- Ce conteneur sera rempli automatiquement par le JavaScript -->
   <div id="articles-container" class="articles-grid">
-    <p style="text-align:center; color:var(--text-muted);">Chargement des articles...</p>
+    <p style="text-align:center; color: var(--text-muted); grid-column: 1 / -1;">Chargement des articles...</p>
   </div>
 
   <!-- Voir tous les articles -->
@@ -1171,5 +1170,88 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
 </footer>
 
 <script src="js/main.js"></script>
+
+<!-- ══════════════════════════════════════════════════
+     CHARGEMENT DYNAMIQUE DES ARTICLES
+══════════════════════════════════════════════════ -->
+<script>
+  // ─── CHARGEMENT DYNAMIQUE DES ARTICLES ───
+  async function loadArticles() {
+    try {
+      // 1. Récupérer le fichier JSON
+      const response = await fetch('articles/data.json');
+      if (!response.ok) throw new Error("Fichier JSON introuvable");
+      const articles = await response.json();
+
+      // 2. Trier les articles par date (du plus récent au plus ancien)
+      articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      // 3. Mettre à jour le compteur dans le titre de la section
+      const countElement = document.querySelector('.article-count');
+      if (countElement) {
+        countElement.textContent = `(${articles.length})`;
+      }
+
+      // 4. Générer le HTML en respectant votre structure .article-card
+      const container = document.getElementById('articles-container');
+      let html = '';
+
+      articles.forEach(article => {
+        html += `
+        <a href="articles/${article.slug}" class="article-card reveal" target="_blank" data-timestamp="${article.date}">
+          <div class="article-date">${article.month} ${article.year}</div>
+          <div>
+            <div class="article-title">
+              <span class="en">${article.title_en}</span>
+              <span class="fr">${article.title_fr}</span>
+            </div>
+            <div class="article-desc">
+              <span class="en">${article.desc_en}</span>
+              <span class="fr">${article.desc_fr}</span>
+            </div>
+          </div>
+          <div class="article-arrow">→</div>
+        </a>`;
+      });
+
+      // 5. Injecter le HTML dans la page
+      container.innerHTML = html;
+
+      // 6. Réactiver l'animation d'apparition au scroll pour les nouveaux éléments
+      initScrollReveal();
+
+    } catch (error) {
+      console.error("Erreur lors du chargement des articles :", error);
+      const container = document.getElementById('articles-container');
+      if (container) {
+        container.innerHTML = `<p style="text-align:center; color: var(--red); grid-column: 1 / -1;">Impossible de charger les articles. (Vérifiez que vous utilisez un serveur local ou GitHub Pages)</p>`;
+      }
+    }
+  }
+
+  // ─── GESTION DU SCROLL REVEAL ───
+  function initScrollReveal() {
+    if (window.scrollObserver) {
+      window.scrollObserver.disconnect();
+    }
+
+    window.scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible'); 
+          window.scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal:not(.visible)').forEach((el) => {
+      window.scrollObserver.observe(el);
+    });
+  }
+
+  // Lancer le chargement au démarrage de la page
+  document.addEventListener('DOMContentLoaded', loadArticles);
+</script>
+
 </body>
 </html>
