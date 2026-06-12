@@ -15,6 +15,12 @@
 
 <style>
   :root {
+    --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  /* ─── DARK THEME ─── */
+  [data-theme="dark"] {
     --bg: #0d1117;
     --surface: #161b22;
     --surface2: #21262d;
@@ -29,8 +35,24 @@
     --orange: #d29922;
     --purple: #bc8cff;
     --red: #f85149;
-    --font-mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  /* ─── LIGHT THEME ─── */
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface: #f6f8fa;
+    --surface2: #eaeef2;
+    --border: #d0d7de;
+    --accent: #0969da;
+    --accent-dim: #0969da1a;
+    --accent-bright: #0550ae;
+    --text: #1f2328;
+    --text-muted: #656d76;
+    --text-sub: #8c959f;
+    --green: #1a7f37;
+    --orange: #9a6700;
+    --purple: #8250df;
+    --red: #cf222e;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,6 +63,7 @@
     font-family: var(--font);
     font-size: 16px;
     line-height: 1.7;
+    transition: background .25s, color .25s;
   }
 
   /* ─── HERO ─── */
@@ -405,7 +428,7 @@
       <span class="tag blue">Playwright</span>
       <span class="tag blue">FlaUI / C#</span>
       <span class="tag green">Jira · Zephyr Scale</span>
-      <span class="tag green">bitbucket  Pipelines</span>
+      <span class="tag green">Bitbucket Pipelines</span>
       <span class="tag orange">Postman · API REST</span>
       <span class="tag">Oracle SQL</span>
     </div>
@@ -425,7 +448,7 @@
   <!-- PHASES -->
   <div class="phases">
 
-    <div class="phase-card open reveal">
+    <div class="phase-card reveal">
       <div class="phase-header" onclick="this.parentElement.classList.toggle('open')">
         <div class="phase-num">01</div>
         <div class="phase-title">
@@ -550,7 +573,7 @@
         </ul>
         <h4><span class="en">CI/CD and analysis</span><span class="fr">CI/CD et analyse</span></h4>
         <ul class="checklist">
-          <li><span class="en">Automated test runs via Bitbucket Pipelines</span><span class="fr">Exécution automatisée des campagnes via bitbucket  Pipelines</span></li>
+          <li><span class="en">Automated test runs via Bitbucket Pipelines</span><span class="fr">Exécution automatisée des campagnes via Bitbucket Pipelines</span></li>
           <li><span class="en">Results analysis and documentation of detected defects</span><span class="fr">Analyse des résultats et documentation des anomalies détectées</span></li>
           <li><span class="en">Zephyr Scale integration (JWT) for automatic traceability</span><span class="fr">Intégration Zephyr Scale (JWT) pour la traçabilité automatique</span></li>
         </ul>
@@ -589,7 +612,7 @@
     </div>
     <div class="stack-item">
       <div class="stack-icon" style="color:#3fb950;">⚙️</div>
-      <div><div class="stack-name">bitbucket  Pipelines</div><div class="stack-desc"><span class="en">CI/CD — automated test execution</span><span class="fr">CI/CD — exécution automatisée des campagnes</span></div></div>
+      <div><div class="stack-name">Bitbucket Pipelines</div><div class="stack-desc"><span class="en">CI/CD — automated test execution</span><span class="fr">CI/CD — exécution automatisée des campagnes</span></div></div>
     </div>
     <div class="stack-item">
       <div class="stack-icon" style="color:#79c0ff;">🗄️</div>
