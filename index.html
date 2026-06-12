@@ -7,9 +7,69 @@
   <meta name="author" content="Hocine Benbara">
   <title>Hocine Benbara – Software Quality Specialist</title>
 
+  <!-- ═══ RESTAURATION IMMÉDIATE DES PRÉFÉRENCES (avant le rendu) ═══ -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme') || 'dark';
+      var l = localStorage.getItem('lang')  || 'en';
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.setAttribute('data-lang',  l);
+      document.documentElement.setAttribute('lang', l);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- ═══ STYLES POUR LE BOUTON SCROLL TO TOP ═══ -->
+  <style>
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #080c10;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0, 229, 160, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
+      z-index: 999;
+    }
+    .scroll-top-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .scroll-top-btn:hover {
+      background: var(--text);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(0, 229, 160, 0.4);
+    }
+    [data-theme="light"] .scroll-top-btn {
+      color: #ffffff;
+    }
+    @media (max-width: 768px) {
+      .scroll-top-btn {
+        bottom: 1.25rem;
+        right: 1.25rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -1108,14 +1168,14 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
     <h2 class="section-title">
       <span class="en">Articles</span>
       <span class="fr">Articles</span>
-      <span class="article-count" style="font-size: 0.6em; color: var(--text-muted); margin-left: 8px;">(0)</span>
+      <span class="article-count" style="font-size: 0.6em; color: var(--muted); margin-left: 8px;">(0)</span>
     </h2>
     <div class="section-line"></div>
   </div>
 
   <!-- Ce conteneur sera rempli automatiquement par le JavaScript -->
   <div id="articles-container" class="articles-grid">
-    <p style="text-align:center; color: var(--text-muted); grid-column: 1 / -1;">Chargement des articles...</p>
+    <p style="text-align:center; color: var(--muted); grid-column: 1 / -1;">Chargement des articles...</p>
   </div>
 
   <!-- Voir tous les articles -->
@@ -1169,30 +1229,60 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
   </p>
 </footer>
 
+<!-- ══════════════════════════════════════════════════
+     BOUTON SCROLL TO TOP
+══════════════════════════════════════════════════ -->
+<button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()" title="Retour en haut">↑</button>
+
 <script src="js/main.js"></script>
 
 <!-- ══════════════════════════════════════════════════
-     CHARGEMENT DYNAMIQUE DES ARTICLES
+     SCRIPTS : THEME, LANG, ARTICLES, SCROLL TOP
 ══════════════════════════════════════════════════ -->
 <script>
-  // ─── CHARGEMENT DYNAMIQUE DES ARTICLES ───
+  /* ─── INITIALISATION DES BOUTONS AU CHARGEMENT ─── */
+  document.addEventListener('DOMContentLoaded', function () {
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+  });
+
+  /* ─── TOGGLE THEME ─── */
+  function toggleTheme() {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  /* ─── TOGGLE LANG ─── */
+  function toggleLang() {
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
+
+  /* ─── CHARGEMENT DYNAMIQUE DES ARTICLES ─── */
   async function loadArticles() {
     try {
-      // 1. Récupérer le fichier JSON
       const response = await fetch('articles/data.json');
       if (!response.ok) throw new Error("Fichier JSON introuvable");
       const articles = await response.json();
 
-      // 2. Trier les articles par date (du plus récent au plus ancien)
       articles.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      // 3. Mettre à jour le compteur dans le titre de la section
       const countElement = document.querySelector('.article-count');
       if (countElement) {
         countElement.textContent = `(${articles.length})`;
       }
 
-      // 4. Générer le HTML en respectant votre structure .article-card
       const container = document.getElementById('articles-container');
       let html = '';
 
@@ -1214,22 +1304,19 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
         </a>`;
       });
 
-      // 5. Injecter le HTML dans la page
       container.innerHTML = html;
-
-      // 6. Réactiver l'animation d'apparition au scroll pour les nouveaux éléments
       initScrollReveal();
 
     } catch (error) {
       console.error("Erreur lors du chargement des articles :", error);
       const container = document.getElementById('articles-container');
       if (container) {
-        container.innerHTML = `<p style="text-align:center; color: var(--red); grid-column: 1 / -1;">Impossible de charger les articles. (Vérifiez que vous utilisez un serveur local ou GitHub Pages)</p>`;
+        container.innerHTML = `<p style="text-align:center; color: var(--muted); grid-column: 1 / -1;">Impossible de charger les articles.</p>`;
       }
     }
   }
 
-  // ─── GESTION DU SCROLL REVEAL ───
+  /* ─── SCROLL REVEAL ─── */
   function initScrollReveal() {
     if (window.scrollObserver) {
       window.scrollObserver.disconnect();
@@ -1238,7 +1325,7 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
     window.scrollObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible'); 
+          entry.target.classList.add('visible');
           window.scrollObserver.unobserve(entry.target);
         }
       });
@@ -1249,7 +1336,21 @@ test.<span class="fn">describe</span>(<span class="str">'Login Tests'</span>, ()
     });
   }
 
-  // Lancer le chargement au démarrage de la page
+  /* ─── BOUTON SCROLL TO TOP ─── */
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.addEventListener('scroll', function () {
+    var btn = document.getElementById('scrollTopBtn');
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  /* ─── LANCEMENT ─── */
   document.addEventListener('DOMContentLoaded', loadArticles);
 </script>
 
