@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Guide pratique : Intégrer Playwright dans un pipeline Bamboo pour valider automatiquement chaque déploiement QA.">
+  <meta name="author" content="Hocine Benbara">
+  <title>Playwright in Bamboo CI/CD Pipeline – Hocine Benbara</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .article-wrapper { max-width: 900px; margin: 0 auto; padding: 7rem 2rem 6rem; position: relative; z-index: 1; }
+    .article-header { margin-bottom: 3rem; }
+    .article-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+      color: var(--accent); letter-spacing: .15em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem;
+    }
+    .article-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+    .article-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -.02em; margin-bottom: .75rem; }
+    .article-meta {
+      font-family: 'JetBrains Mono', monospace; font-size: .78rem;
+      color: var(--muted); display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem;
+    }
+    .article-meta-item { display: flex; align-items: center; gap: .5rem; }
+    .article-divider { height: 1px; background: var(--border); margin: 2.5rem 0; position: relative; }
+    .article-divider::before { content: ''; position: absolute; left: 0; top: -1px; width: 48px; height: 2px; background: var(--accent); }
+
+    /* CONTENT STYLING */
+    .article-content { line-height: 1.9; }
+    .article-content h2 {
+      font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem;
+      letter-spacing: -.01em; color: var(--text);
+    }
+    .article-content h3 {
+      font-size: 1.1rem; font-weight: 600; margin: 1.75rem 0 .75rem;
+      letter-spacing: -.01em; color: var(--text);
+    }
+    .article-content p {
+      margin-bottom: 1rem; color: var(--muted);
+    }
+    .article-content ul, .article-content ol {
+      margin-left: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .article-content li {
+      margin-bottom: .5rem; color: var(--muted);
+    }
+    .article-content strong { color: var(--accent); font-weight: 600; }
+
+    /* CODE BLOCKS */
+    .article-content pre {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem; margin: 1.5rem 0;
+      overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; line-height: 1.6; color: var(--text);
+    }
+    .article-content code {
+      font-family: 'JetBrains Mono', monospace; font-size: .9em;
+      color: var(--accent); background: rgba(0,229,160,.08); padding: 2px 6px; border-radius: 3px;
+    }
+    .article-content pre code { background: none; color: var(--text); padding: 0; }
+
+    /* TABLES */
+    .article-content table {
+      width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    }
+    .article-content th {
+      background: var(--surface2); padding: 1rem; text-align: left;
+      font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+      font-weight: 600; color: var(--accent); border-bottom: 1px solid var(--border);
+    }
+    .article-content td {
+      padding: .9rem 1rem; border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--muted);
+    }
+    .article-content tr:last-child td { border-bottom: none; }
+
+    /* CALLOUTS */
+    .callout {
+      background: linear-gradient(135deg, rgba(0,229,160,.08), transparent);
+      border-left: 3px solid var(--accent); padding: 1.25rem;
+      border-radius: 6px; margin: 1.5rem 0;
+    }
+    .callout-title { font-weight: 600; color: var(--accent); margin-bottom: .5rem; }
+    .callout p { margin: 0; }
+
+    /* DIRECTORY TREE */
+    .tree-block {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem; margin: 1.5rem 0;
+      font-family: 'JetBrains Mono', monospace; font-size: .85rem;
+      color: var(--text); overflow-x: auto;
+    }
+
+    /* TAGS */
+    .article-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1.5rem 0; }
+
+    /* NAV */
+    .nav-back {
+      font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    @media(max-width:600px){
+      .article-wrapper { padding: 6rem 1.25rem 4rem; }
+      .article-content h2 { font-size: 1.3rem; }
+      .article-content h3 { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <a href="../index.html" class="nav-logo">// hocine.benbara</a>
+  <a href="index.html" class="nav-back">← <span class="en">Back to Articles</span><span class="fr">Retour aux articles</span></a>
+  <div class="nav-controls">
+    <button class="ctrl-btn" id="langBtn"  onclick="toggleLang()">FR</button>
+    <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<div class="article-wrapper">
+
+  <header class="article-header reveal">
+    <div class="article-eyebrow">
+      <span class="en">QA Automation • CI/CD</span>
+      <span class="fr">QA Automation • CI/CD</span>
+    </div>
+    <h1 class="article-title">
+      <span class="en">Playwright in Bamboo CI/CD Pipeline</span>
+      <span class="fr">Intégration de tests Playwright dans un pipeline Bamboo</span>
+    </h1>
+    <p class="article-meta">
+      <span class="article-meta-item">
+        <span>📅</span>
+        <span class="en">June 2026</span>
+        <span class="fr">Juin 2026</span>
+      </span>
+      <span class="article-meta-item">
+        <span>⏱️</span>
+        <span class="en">12 min read</span>
+        <span class="fr">Lecture 12 min</span>
+      </span>
+      <span class="article-meta-item">
+        <span>🎯</span>
+        <span class="en">Intermediate</span>
+        <span class="fr">Intermédiaire</span>
+      </span>
+    </p>
+    <div class="article-tags">
+      <span class="tag">Playwright</span>
+      <span class="tag blue">Bamboo</span>
+      <span class="tag blue">CI/CD</span>
+      <span class="tag amber">Smoke Tests</span>
+    </div>
+  </header>
+
+  <div class="article-divider"></div>
+
+  <article class="article-content reveal">
+
+    <!-- INTRO -->
+    <h2><span class="en">Objective: Automated Validation After QA Deployment</span><span class="fr">Objectif : Valider automatiquement après chaque déploiement QA</span></h2>
+    
+    <p>
+      <span class="en">The goal is to show how to use Playwright as an automatic control after a QA deployment, while keeping a testing strategy simple, progressive and maintainable.</span>
+      <span class="fr">L'objectif est de montrer comment utiliser Playwright comme contrôle automatique après un déploiement QA, tout en gardant une stratégie de tests simple, progressive et maintenable.</span>
+    </p>
+
+    <p><strong><span class="en">Key skills:</span><span class="fr">Compétences illustrées :</span></strong> Playwright · TypeScript · Bamboo · Git · CI/CD · Test Strategy</p>
+
+    <!-- SECTION 1 -->
+    <h2><span class="en">1. Pipeline Objective</span><span class="fr">1. Objectif du pipeline</span></h2>
+
+    <p>
+      <span class="en">The principle is to automatically validate that an application deployed in the QA environment remains usable. After deployment, Bamboo runs a Playwright smoke test. If the test fails, the deployment is considered a failure.</span>
+      <span class="fr">Le principe est de valider automatiquement qu'une application déployée en environnement QA reste utilisable. Après le déploiement, Bamboo exécute un test de fumée Playwright. Si ce test échoue, le déploiement est considéré comme en échec.</span>
+    </p>
+
+    <h3><span class="en">General Flow</span><span class="fr">Flux général</span></h3>
+    <div class="tree-block">Git  →  Bamboo Build  →  QA Deployment  →  Playwright Test  →  Verdict</div>
+
+    <p>
+      <span class="en">This approach places the automated test as close as possible to deployment. It allows rapid detection of a critical regression, such as inability to log into the application.</span>
+      <span class="fr">Cette approche place le test automatisé au plus près du déploiement. Elle permet de détecter rapidement une régression critique, par exemple l'impossibilité de se connecter à l'application.</span>
+    </p>
+
+    <h3><span class="en">Architectural Principle</span><span class="fr">Principe d'architecture</span></h3>
+    <ul>
+      <li><span class="en">The application is deployed on the QA environment.</span><span class="fr">L'application est déployée sur l'environnement QA.</span></li>
+      <li><span class="en">Node.js and Playwright run on the Bamboo agent, not on the application VM.</span><span class="fr">Node.js et Playwright s'exécutent sur l'agent Bamboo, pas sur la VM applicative.</span></li>
+      <li><span class="en">The agent must be able to reach the QA application over HTTPS.</span><span class="fr">L'agent doit pouvoir joindre l'application QA en HTTPS.</span></li>
+      <li><span class="en">A single smoke test is enough to validate the mechanism before expanding coverage.</span><span class="fr">Un premier test de fumée suffit pour valider le mécanisme avant d'élargir la couverture.</span></li>
+    </ul>
+
+    <!-- SECTION 2 -->
+    <h2><span class="en">2. Recommended Test Organization</span><span class="fr">2. Organisation recommandée des tests</span></h2>
+
+    <p>
+      <span class="en">A clear structure separates test levels and reusable code. Unit tests remain with the application code; Playwright is used for tests that control the deployed application.</span>
+      <span class="fr">Une structure claire sépare les niveaux de tests et le code réutilisable. Les tests unitaires restent avec le code applicatif ; Playwright est utilisé pour les tests qui pilotent l'application déployée.</span>
+    </p>
+
+    <div class="tree-block">Tests/PlaywrightTests/
+├── src/
+│   ├── pages/              <span style="color: var(--muted);"># Page Objects</span>
+│   ├── fixtures/           <span style="color: var(--muted);"># Shared Fixtures</span>
+│   ├── api/                <span style="color: var(--muted);"># API Clients</span>
+│   └── utils/              <span style="color: var(--muted);"># Helpers</span>
+├── test-data/              <span style="color: var(--muted);"># Test Datasets</span>
+└── tests/
+    ├── 01-smoke/
+    ├── 02-integration/
+    ├── 03-system/
+    ├── 04-acceptance/
+    └── 05-non-functional/</div>
+
+    <h3><span class="en">Why this structure?</span><span class="fr">Pourquoi cette structure ?</span></h3>
+    <table>
+      <thead>
+        <tr>
+          <th><span class="en">Category</span><span class="fr">Catégorie</span></th>
+          <th><span class="en">Purpose</span><span class="fr">But</span></th>
+          <th><span class="en">Execution Timing</span><span class="fr">Moment d'exécution</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Smoke</td>
+          <td><span class="en">Verify vital functions</span><span class="fr">Vérifier les fonctions vitales</span></td>
+          <td><span class="en">After each QA deployment</span><span class="fr">Après chaque déploiement QA</span></td>
+        </tr>
+        <tr>
+          <td><span class="en">Integration</span><span class="fr">Intégration</span></td>
+          <td><span class="en">Verify exchanges between components</span><span class="fr">Vérifier les échanges entre composants</span></td>
+          <td><span class="en">According to service availability</span><span class="fr">Selon disponibilité des services</span></td>
+        </tr>
+        <tr>
+          <td><span class="en">System</span><span class="fr">Système</span></td>
+          <td><span class="en">Test complete features</span><span class="fr">Tester les fonctionnalités complètes</span></td>
+          <td><span class="en">Night / before release</span><span class="fr">Nuit / avant release</span></td>
+        </tr>
+        <tr>
+          <td><span class="en">Acceptance</span><span class="fr">Acceptation</span></td>
+          <td><span class="en">Validate a business journey</span><span class="fr">Valider un parcours métier</span></td>
+          <td><span class="en">Before release</span><span class="fr">Avant release</span></td>
+        </tr>
+        <tr>
+          <td><span class="en">Non-functional</span><span class="fr">Non-fonctionnel</span></td>
+          <td><span class="en">Accessibility, performance, security</span><span class="fr">Accessibilité, performance, sécurité</span></td>
+          <td><span class="en">As needed</span><span class="fr">Selon le besoin</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 3 -->
+    <h2><span class="en">3. Tags and Execution Strategy</span><span class="fr">3. Tags et stratégie d'exécution</span></h2>
+
+    <p>
+      <span class="en">Regression and re-test don't require separate folders. They can be selected with tags while keeping each scenario in its test level.</span>
+      <span class="fr">La régression et le re-test ne nécessitent pas de dossiers séparés. Ils peuvent être sélectionnés avec des tags tout en conservant chaque scénario dans son niveau de test.</span>
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><span class="en">Tag</span><span class="fr">Tag</span></th>
+          <th><span class="en">Usage</span><span class="fr">Usage</span></th>
+          <th><span class="en">Command</span><span class="fr">Commande</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>@smoke</code></td>
+          <td><span class="en">Vital functions</span><span class="fr">Fonctions vitales</span></td>
+          <td><code>npx playwright test --grep @smoke</code></td>
+        </tr>
+        <tr>
+          <td><code>@regression</code></td>
+          <td><span class="en">Non-regression suite</span><span class="fr">Suite de non-régression</span></td>
+          <td><code>npx playwright test --grep @regression</code></td>
+        </tr>
+        <tr>
+          <td><code>@confirmation</code></td>
+          <td><span class="en">Re-test a fixed anomaly</span><span class="fr">Re-test d'une anomalie corrigée</span></td>
+          <td><code>npx playwright test --grep @confirmation</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="callout-title">💡 <span class="en">Key Point</span><span class="fr">Point clé</span></div>
+      <p>
+        <span class="en">For a deployment pipeline, the @smoke suite must remain short and stable. Longer suites can be executed at night or before a release.</span>
+        <span class="fr">Pour un pipeline de déploiement, la suite @smoke doit rester courte et stable. Les suites plus longues peuvent être exécutées la nuit ou avant une release.</span>
+      </p>
+    </div>
+
+    <!-- SECTION 4 -->
+    <h2><span class="en">4. Integrating Playwright into Bamboo</span><span class="fr">4. Intégration Playwright dans Bamboo</span></h2>
+
+    <p>
+      <span class="en">The build publishes the Playwright project as an artifact. The QA deployment retrieves this artifact, installs necessary dependencies, then runs the test.</span>
+      <span class="fr">Le build publie le projet Playwright comme artifact. Le déploiement QA récupère cet artifact, installe les dépendances nécessaires puis exécute le test.</span>
+    </p>
+
+    <h3><span class="en">Essential Steps</span><span class="fr">Étapes essentielles</span></h3>
+    <ul>
+      <li><span class="en">Publish the Playwright folder as a build artifact.</span><span class="fr">Publier le dossier Playwright comme artifact du build.</span></li>
+      <li><span class="en">Download the artifact in the QA deployment.</span><span class="fr">Télécharger l'artifact dans le déploiement QA.</span></li>
+      <li><span class="en">Set necessary variables to target the QA environment.</span><span class="fr">Positionner les variables nécessaires pour viser l'environnement QA.</span></li>
+      <li><span class="en">Install dependencies with <code>npm ci</code>.</span><span class="fr">Installer les dépendances avec <code>npm ci</code>.</span></li>
+      <li><span class="en">Install Chromium if the agent doesn't already have it.</span><span class="fr">Installer Chromium si l'agent ne le possède pas déjà.</span></li>
+      <li><span class="en">Run the Playwright test.</span><span class="fr">Exécuter le test Playwright.</span></li>
+      <li><span class="en">Fail the deployment if the test fails.</span><span class="fr">Faire échouer le déploiement si le test échoue.</span></li>
+    </ul>
+
+    <h3><span class="en">Example Command</span><span class="fr">Exemple de commande</span></h3>
+    <pre>npx playwright test LoginLogout.spec.ts --no-deps --project=chromium</pre>
+
+    <p>
+      <span class="en">In this case, <code>--no-deps</code> avoids setup/cleanup projects that require a REST API not yet available in the environment. <code>--project=chromium</code> limits execution to the necessary browser in the pipeline.</span>
+      <span class="fr">Dans ce cas, <code>--no-deps</code> permet d'éviter les projets de setup/cleanup qui nécessitent une API REST non encore disponible. <code>--project=chromium</code> limite l'exécution au navigateur nécessaire dans le pipeline.</span>
+    </p>
+
+    <!-- SECTION 5 -->
+    <h2><span class="en">5. Example Smoke Test: Login/Logout</span><span class="fr">5. Exemple de smoke test : connexion / déconnexion</span></h2>
+
+    <p>
+      <span class="en">A Login/Logout test is a good first deployment control: it verifies that the application responds, authentication works, and the user can end their session.</span>
+      <span class="fr">Un test Login/Logout est un bon premier contrôle de déploiement : il vérifie que l'application répond, que l'authentification fonctionne et que l'utilisateur peut terminer sa session.</span>
+    </p>
+
+    <pre><code>test('Login then logout @smoke', async ({ page }) => {
+    await page.goto(process.env.APP_URL!);
+
+    // Authentication
+    await page.getByRole('textbox', { name: "Username" })
+        .fill(process.env.TEST_USERNAME!);
+    await page.getByRole('textbox', { name: 'Password' })
+        .fill(process.env.TEST_PASSWORD!);
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    // Wait for dashboard
+    await page.waitForLoadState('networkidle');
+    
+    // Verify logged in
+    await expect(page).toHaveTitle(/Dashboard/);
+    
+    // Logout
+    await page.getByRole('button', { name: 'Logout' }).click();
+    
+    // Verify redirected to login
+    await expect(page).toHaveTitle(/Login/);
+});</code></pre>
+
+    <div class="callout">
+      <div class="callout-title">🔒 <span class="en">Security Note</span><span class="fr">Note de sécurité</span></div>
+      <p>
+        <span class="en">Internal URLs, accounts, passwords and other infrastructure information must remain externalized in environment variables or in the CI/CD secret manager.</span>
+        <span class="fr">Les URL internes, comptes, mots de passe et autres informations d'infrastructure doivent rester externalisés dans des variables d'environnement ou dans le gestionnaire de secrets du CI/CD.</span>
+      </p>
+    </div>
+
+    <!-- SECTION 6 -->
+    <h2><span class="en">6. Local Validation Before Pipeline</span><span class="fr">6. Validation locale avant le pipeline</span></h2>
+
+    <p>
+      <span class="en">A test destined for Bamboo should first be validated locally with a command as close as possible to the one in the pipeline.</span>
+      <span class="fr">Un test destiné à Bamboo doit d'abord être validé localement avec une commande aussi proche que possible de celle du pipeline.</span>
+    </p>
+
+    <pre><code>npm ci
+npx playwright install chromium
+npx playwright test LoginLogout.spec.ts --no-deps --project=chromium</code></pre>
+
+    <p>
+      <span class="en">The expected result for the smoke test is simple: the scenario passes before the modification is pushed to Git and integrated into the pipeline.</span>
+      <span class="fr">Le résultat attendu pour le smoke test est simple : le scénario passe avant que la modification soit poussée dans Git et intégrée au pipeline.</span>
+    </p>
+
+    <!-- SECTION 7 -->
+    <h2><span class="en">7. Best Practices</span><span class="fr">7. Bonnes pratiques</span></h2>
+
+    <ul>
+      <li><strong><span class="en">Keep smoke tests short, independent and reliable.</span><span class="fr">Garder les smoke tests courts, indépendants et fiables.</span></strong></li>
+      <li><strong><span class="en">Use accessible selectors:</span><span class="fr">Utiliser des sélecteurs accessibles :</span></strong> <span class="en">role, label or data-testid rather than fragile CSS classes.</span><span class="fr">rôle, libellé ou data-testid plutôt que des classes CSS fragiles.</span></li>
+      <li><strong><span class="en">Do not commit</span><span class="fr">Ne pas commiter</span></strong> node_modules, <span class="en">Playwright reports or execution results.</span><span class="fr">les rapports Playwright ou les résultats d'exécution.</span></li>
+      <li><strong><span class="en">Do not expose passwords</span><span class="fr">Ne pas exposer de mots de passe</span></strong> <span class="en">in the repository or logs.</span><span class="fr">dans le dépôt ou les logs.</span></li>
+      <li><strong><span class="en">Use</span><span class="fr">Utiliser</span> <code>npm ci</code></strong> <span class="en">in the pipeline to rebuild dependencies from package-lock.json.</span><span class="fr">dans le pipeline afin de reconstruire les dépendances depuis package-lock.json.</span></li>
+      <li><strong><span class="en">Fix or remove</span><span class="fr">Corriger ou retirer du pipeline un test</span></strong> <span class="en">flaky tests from the pipeline that could unnecessarily block deployments.</span><span class="fr">flaky qui pourrait bloquer inutilement les déploiements.</span></li>
+      <li><strong><span class="en">Create and clean up data</span><span class="fr">Créer et nettoyer les données</span></strong> <span class="en">specific to each scenario when possible.</span><span class="fr">propres à chaque scénario lorsque cela est possible.</span></li>
+    </ul>
+
+    <!-- SECTION 8 -->
+    <h2><span class="en">8. Progressive Pipeline Evolution</span><span class="fr">8. Évolution progressive du pipeline</span></h2>
+
+    <p>
+      <span class="en">Automation can be enhanced progressively. The goal is not to run all tests after each deployment, but to place the right level of control at the right time.</span>
+      <span class="fr">L'automatisation peut être enrichie progressivement. L'objectif n'est pas d'exécuter tous les tests après chaque déploiement, mais de placer le bon niveau de contrôle au bon moment.</span>
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><span class="en">Step</span><span class="fr">Étape</span></th>
+          <th><span class="en">Focus</span><span class="fr">Axe</span></th>
+          <th><span class="en">Evolution</span><span class="fr">Évolution</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Smoke</td>
+          <td><span class="en">Move from a single LoginLogout to the entire @smoke suite.</span><span class="fr">Passer d'un seul LoginLogout à l'ensemble des tests @smoke.</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><span class="en">Results</span><span class="fr">Résultats</span></td>
+          <td><span class="en">Publish results with a JUnit reporter in Bamboo.</span><span class="fr">Publier les résultats avec un reporter JUnit dans Bamboo.</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><span class="en">Security</span><span class="fr">Sécurité</span></td>
+          <td><span class="en">Move secrets to secure Bamboo variables.</span><span class="fr">Déplacer les secrets vers des variables Bamboo sécurisées.</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><span class="en">Integration</span><span class="fr">Intégration</span></td>
+          <td><span class="en">Enable necessary services and reintroduce API setups.</span><span class="fr">Activer les services nécessaires et réintroduire les setups API.</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><span class="en">Regression</span><span class="fr">Régression</span></td>
+          <td><span class="en">Create a scheduled night run for @regression.</span><span class="fr">Créer une exécution planifiée de nuit pour @regression.</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><span class="en">Traceability</span><span class="fr">Traçabilité</span></td>
+          <td><span class="en">Link results to a test management tool, e.g. Zephyr Scale.</span><span class="fr">Relier les résultats à l'outil de gestion des tests, par exemple Zephyr Scale.</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 9 -->
+    <h2><span class="en">9. Key Takeaways</span><span class="fr">9. Points clés à retenir</span></h2>
+
+    <ul>
+      <li><strong><span class="en">Playwright can serve as a safety net immediately after a QA deployment.</span><span class="fr">Playwright peut servir de garde-fou immédiatement après un déploiement QA.</span></strong></li>
+      <li><strong><span class="en">The smoke test must be fast:</span><span class="fr">Le smoke test doit être rapide :</span></strong> <span class="en">it validates essential functions, not all regressions.</span><span class="fr">il valide les fonctions essentielles, pas toute la régression.</span></li>
+      <li><strong><span class="en">Separating smoke / integration / system / acceptance makes maintenance easier.</span><span class="fr">La séparation smoke / intégration / système / acceptation facilite la maintenance.</span></strong></li>
+      <li><strong><span class="en">The pipeline must reproduce execution already validated locally.</span><span class="fr">Le pipeline doit reproduire une exécution déjà validée localement.</span></strong></li>
+      <li><strong><span class="en">Secrets and environment parameters must be externalized.</span><span class="fr">Les secrets et paramètres d'environnement doivent être externalisés.</span></strong></li>
+      <li><strong><span class="en">Coverage expands progressively:</span><span class="fr">La couverture s'élargit progressivement :</span></strong> <span class="en">smoke → results → API → regression → traceability.</span><span class="fr">smoke → résultats → API → régression → traçabilité.</span></li>
+    </ul>
+
+    <!-- CONCLUSION -->
+    <h2><span class="en">Conclusion</span><span class="fr">Conclusion</span></h2>
+
+    <p>
+      <span class="en">This integration illustrates a CI/CD-oriented QA approach: start with a simple and useful control, make it reliable, then progressively expand coverage. The result is a pipeline capable of detecting a critical regression quickly while maintaining reasonable deployment times.</span>
+      <span class="fr">Cette intégration illustre une démarche QA orientée CI/CD : commencer par un contrôle simple et utile, le rendre fiable, puis enrichir progressivement la couverture. Le résultat est un pipeline capable de détecter rapidement une régression critique tout en conservant des temps de déploiement raisonnables.</span>
+    </p>
+
+    <div class="callout">
+      <div class="callout-title">✅ <span class="en">Final Thought</span><span class="fr">Pensée finale</span></div>
+      <p>
+        <span class="en">Start small, automate the essentials, and scale your test pyramid as your pipeline matures. Quality is not built all at once—it's built with intention, one test at a time.</span>
+        <span class="fr">Commencer petit, automatiser l'essentiel, et agrandir votre pyramide de tests au fur et à mesure que votre pipeline mûrit. La qualité ne se construit pas d'un coup — elle se construit avec intention, un test à la fois.</span>
+      </p>
+    </div>
+
+  </article>
+
+</div>
+
+<script>
+  /* ─── Restore preferences ─── */
+  (function(){
+    var t = localStorage.getItem('theme') || 'dark';
+    var l = localStorage.getItem('lang')  || 'en';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-lang',  l);
+    document.documentElement.setAttribute('lang', l);
+  })();
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var t = document.documentElement.getAttribute('data-theme');
+    var l = document.documentElement.getAttribute('data-lang');
+    document.getElementById('themeBtn').textContent = t === 'dark' ? '☀' : '🌙';
+    document.getElementById('langBtn').textContent  = l === 'en'   ? 'FR' : 'EN';
+  });
+
+  function toggleTheme(){
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    var next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀';
+    localStorage.setItem('theme', next);
+  }
+
+  function toggleLang(){
+    var html = document.documentElement;
+    var isEN = html.getAttribute('data-lang') === 'en';
+    var next = isEN ? 'fr' : 'en';
+    html.setAttribute('data-lang', next);
+    html.setAttribute('lang', next);
+    document.getElementById('langBtn').textContent = isEN ? 'EN' : 'FR';
+    localStorage.setItem('lang', next);
+  }
+
+  /* ─── Scroll reveal ─── */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+</script>
+</body>
+</html>
