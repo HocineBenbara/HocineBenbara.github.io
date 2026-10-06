@@ -1,641 +1,715 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark" data-lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hocine Benbara – Spécialiste en qualité logicielle. Automatisation de tests, détection d'anomalies, web, desktop et jeux vidéo.">
-  <meta name="author" content="Hocine Benbara">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hocine Benbara – Software Quality Specialist" />
+  <meta name="author" content="Hocine Benbara" />
   <title>Hocine Benbara – Software Quality Specialist</title>
-
-  <script>
-    (function () {
-      var t = localStorage.getItem('theme') || 'dark';
-      var l = localStorage.getItem('lang') || 'en';
-      document.documentElement.setAttribute('data-theme', t);
-      document.documentElement.setAttribute('data-lang', l);
-      document.documentElement.setAttribute('lang', l);
-    })();
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
+      --bg: #071018;
+      --bg-alt: #0b1720;
+      --surface: rgba(11, 22, 29, 0.9);
+      --surface-2: rgba(17, 29, 37, 0.9);
+      --border: rgba(166, 188, 201, 0.18);
+      --text: #e7f3f8;
+      --muted: #95a9b4;
       --accent: #00e5a0;
-      --accent2: #3b82f6;
-      --accent3: #f59e0b;
-      --tag-bg: rgba(0,229,160,0.08);
-      --tag-border: rgba(0,229,160,0.25);
+      --accent-2: #5ec8ff;
+      --accent-3: #ffc857;
+      --shadow: rgba(0, 0, 0, 0.28);
     }
 
+    [data-theme="light"] {
+      --bg: #edf5f8;
+      --bg-alt: #f8fbfd;
+      --surface: rgba(255,255,255,0.9);
+      --surface-2: rgba(244,249,252,0.9);
+      --border: rgba(17, 30, 36, 0.1);
+      --text: #12222d;
+      --muted: #496172;
+      --accent: #0dbb82;
+      --accent-2: #1b86d8;
+      --accent-3: #d78d00;
+      --shadow: rgba(59, 77, 89, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
+      margin: 0;
       font-family: 'Syne', sans-serif;
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(0,229,160,0.12), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(94,200,255,0.12), transparent 26%),
+        var(--bg);
       color: var(--text);
       line-height: 1.6;
     }
 
-    .page-shell {
-      position: relative;
-      z-index: 1;
-      width: min(1120px, calc(100% - 2.5rem));
-      margin: 0 auto;
-      padding-top: 8rem;
-      padding-bottom: 4rem;
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(7,16,24,0.7);
+      border-bottom: 1px solid var(--border);
     }
 
-    .section {
-      padding: 2.25rem 0 1rem;
-    }
-    .section-header {
+    [data-theme="light"] .topbar { background: rgba(237,245,248,0.8); }
+
+    .nav {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.75rem;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-height: 78px;
     }
-    .section-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
+    .brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      color: var(--text);
     }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.04em;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 1.4rem;
+      list-style: none;
+      padding: 0;
       margin: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
+    .nav-links a { transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-controls { display: flex; gap: 0.75rem; }
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
     }
+    .btn-icon:hover { color: var(--accent); border-color: var(--accent); }
 
     .hero {
-      padding: 2rem 0 1rem;
-    }
-    .hero-inner {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1fr 1fr;
       gap: 2rem;
       align-items: center;
+      padding: 3rem 0;
     }
+
+    .hero-text h1 {
+      margin: 0;
+      font-size: clamp(3rem, 8vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+    }
+    .hero-text .accent { color: var(--accent); }
+
     .hero-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      margin-bottom: 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1rem;
     }
-    .hero-name {
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      line-height: 0.9;
-      letter-spacing: -0.06em;
-      margin: 0 0 1rem;
-    }
-    .hero-name span { color: var(--accent); }
-    .hero-copy {
+
+    .hero-desc {
+      margin: 1rem 0 1.5rem;
       font-size: 1.05rem;
       color: var(--muted);
-      max-width: 640px;
-      margin-bottom: 1.25rem;
     }
-    .hero-copy strong { color: var(--text); }
-    .tag-row {
+    .hero-desc strong { color: var(--text); }
+
+    .tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.55rem;
-      margin: 0 0 1.6rem;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
     .tag {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
+      display: inline-block;
+      padding: 0.4rem 0.7rem;
+      border-radius: 6px;
       border: 1px solid var(--border);
-      background: var(--surface2);
-      color: var(--text);
-      padding: 0.42rem 0.72rem;
+      font-family: 'Space Mono', monospace;
       font-size: 0.7rem;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 0.04em;
+      color: var(--text);
+      background: transparent;
     }
-    .tag.accent { border-color: var(--tag-border); color: var(--accent); background: var(--tag-bg); }
-    .tag.alt { border-color: rgba(59,130,246,0.25); color: var(--accent2); }
-    .tag.warn { border-color: rgba(245,158,11,0.25); color: var(--accent3); }
+    .tag.accent { border-color: var(--accent); color: var(--accent); }
+    .tag.alt { border-color: var(--accent-2); color: var(--accent-2); }
 
-    .hero-actions {
+    .hero-cta {
       display: flex;
-      flex-wrap: wrap;
       gap: 1rem;
-      margin-top: 1rem;
+      flex-wrap: wrap;
     }
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.9rem 1.2rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      transition: all 0.2s ease;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      padding: 0.9rem 1.5rem;
+      border-radius: 8px;
+      border: 2px solid;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-    }
-    .btn.primary {
-      background: var(--accent);
-      color: #080c10;
-      border-color: var(--accent);
       font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .btn.secondary {
-      color: var(--text);
+    .btn-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
       background: transparent;
+      color: var(--accent);
     }
-    .btn:hover { transform: translateY(-2px); }
+    .btn-secondary {
+      border-color: var(--muted);
+      background: transparent;
+      color: var(--muted);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
     .hero-card {
-      padding: 1.2rem;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-    .code-box {
-      background: rgba(255,255,255,0.02);
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px var(--shadow);
+    }
+
+    .hero-card code {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
       line-height: 1.8;
       color: var(--text);
       overflow: auto;
     }
-    .kw { color: #f39bcb; }
-    .fn { color: #7dd3fc; }
-    .str { color: #a7f3d0; }
-    .cm { color: var(--muted); }
+
+    section {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3rem);
+      letter-spacing: -0.02em;
+    }
+
+    .section-header .eyebrow {
+      margin-bottom: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
 
     .about-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 1.5rem;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
     }
-    .panel {
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.6rem;
-      box-shadow: var(--shadow);
-    }
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      border-radius: 999px;
-      padding: 0.5rem 0.8rem;
-      background: rgba(0,229,160,0.08);
-      border: 1px solid rgba(0,229,160,0.25);
-      color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .dot {
-      width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 14px rgba(0,229,160,0.8);
-    }
-    .about-copy p {
+
+    .about-text p {
+      margin: 0 0 1rem;
       color: var(--muted);
-      margin-bottom: 1rem;
-      font-size: 1.02rem;
+      font-size: 1rem;
     }
-    .stats-grid {
+
+    .about-text p strong { color: var(--text); }
+
+    .stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
+
     .stat {
-      background: rgba(255,255,255,0.02);
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 1rem;
     }
+
     .stat strong {
       display: block;
-      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-size: 2rem;
       margin-bottom: 0.25rem;
-      letter-spacing: -0.05em;
     }
+
     .stat span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
       color: var(--muted);
     }
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
     }
+
     .skill-card {
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.2rem;
+      border-radius: 12px;
+      padding: 1.5rem;
     }
-    .skill-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
-    .skill-name {
-      font-weight: 700;
-      font-size: 1.05rem;
-      margin-bottom: 0.85rem;
+
+    .skill-card h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1.1rem;
     }
-    .skill-list {
+
+    .skill-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
-    .skill-list span {
-      display: inline-flex;
-      padding: 0.3rem 0.52rem;
-      border-radius: 999px;
+
+    .skill-pills span {
+      display: inline-block;
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
       border: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.64rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
       color: var(--muted);
-      background: rgba(255,255,255,0.02);
+      background: transparent;
     }
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
     }
-    .project {
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
+
+    .project-card {
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.2rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 1rem;
     }
-    .project.featured { grid-column: 1 / -1; }
+
+    .project-card.featured {
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr 1fr;
+      display: grid;
+      gap: 2rem;
+      align-items: center;
+    }
+
     .project-type {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Mono', monospace;
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
       color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
-    .project h3 {
+
+    .project-card h3 {
       margin: 0;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
     }
-    .project p {
+
+    .project-card p {
       margin: 0;
       color: var(--muted);
+      font-size: 0.95rem;
     }
+
     .project-stack {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
     }
+
+    .project-stack .tag {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.65rem;
+    }
+
     .project-links {
-      margin-top: auto;
       display: flex;
       gap: 0.7rem;
-      flex-wrap: wrap;
+      margin-top: auto;
     }
-    .link-btn {
+
+    .project-links a {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
       border: 1px solid var(--border);
-      padding: 0.72rem 0.9rem;
-      border-radius: 10px;
-      text-decoration: none;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
       color: var(--text);
-      background: rgba(255,255,255,0.02);
+      background: transparent;
+      transition: all 0.2s ease;
     }
-    .link-btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #080c10;
-      font-weight: 700;
-    }
-    .link-btn:hover { border-color: var(--accent); color: var(--accent); }
-    .link-btn.primary:hover { color: #080c10; }
 
-    .articles-list {
+    .project-links a:hover { border-color: var(--accent); color: var(--accent); }
+    .project-links a.primary {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .project-links a.primary:hover { color: var(--accent); background: transparent; }
+
+    .articles-grid {
       display: grid;
       gap: 1rem;
     }
-    .article-row {
+
+    .article-card {
       display: grid;
-      grid-template-columns: 90px 1fr auto;
-      gap: 1.2rem;
-      align-items: center;
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
+      grid-template-columns: 100px 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.4rem 1.5rem;
+      border-radius: 12px;
+      padding: 1.5rem;
       text-decoration: none;
       color: inherit;
-      box-shadow: var(--shadow);
-      transition: border-color 0.2s, transform 0.2s;
+      transition: all 0.2s ease;
     }
-    .article-row:hover {
-      border-color: var(--accent);
-      transform: translateX(4px);
-    }
-    .article-row.featured {
-      border-color: rgba(0,229,160,0.25);
-      background: linear-gradient(135deg, var(--surface), rgba(0,229,160,0.03));
-    }
+
+    .article-card:hover { border-color: var(--accent); }
+
     .article-date {
-      text-align: center;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
       color: var(--muted);
-      line-height: 1.5;
-      font-size: 0.66rem;
-      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.6;
     }
+
     .article-date strong {
       display: block;
-      color: var(--accent);
-      font-size: 0.9rem;
-    }
-    .article-row-body {
-      min-width: 0;
-    }
-    .article-row-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-bottom: 0.55rem;
-    }
-    .article-row-title {
-      margin: 0 0 0.35rem;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .article-row-desc {
-      margin: 0;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-    .article-row-arrow {
       font-size: 1.2rem;
-      color: var(--muted);
-    }
-    .article-row:hover .article-row-arrow { color: var(--accent); }
-
-    .contact-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      padding: 1.5rem 1.6rem;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--surface), var(--surface2));
-    }
-    .contact-box a {
       color: var(--accent);
-      font-family: 'JetBrains Mono', monospace;
-      text-decoration: none;
-      font-size: 0.8rem;
     }
+
+    .article-body h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .article-body p {
+      margin: 0;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .article-arrow {
+      font-size: 1.5rem;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .article-card:hover .article-arrow { color: var(--accent); }
+
+    .contact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      background: linear-gradient(135deg, var(--surface-2), rgba(11, 22, 29, 0.5));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .contact h2 { margin: 0; font-size: 2rem; }
+    .contact a { color: var(--accent); font-family: 'Space Mono', monospace; font-weight: 700; }
 
     @media (max-width: 900px) {
-      .hero-inner,
-      .about-grid,
-      .skills-grid,
-      .projects-grid {
+      .hero, .about-grid {
         grid-template-columns: 1fr;
       }
       .nav-links { display: none; }
-      .article-row { grid-template-columns: 1fr; }
+      .skills-grid, .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-card.featured {
+        grid-template-columns: 1fr;
+      }
+      .article-card {
+        grid-template-columns: 1fr;
+      }
+      .contact { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <div class="grid-bg"></div>
-
-  <nav>
-    <div class="nav-logo">// hocine.benbara</div>
-    <ul class="nav-links">
-      <li><a href="#about"><span class="en">About</span><span class="fr">À propos</span></a></li>
-      <li><a href="#skills"><span class="en">Skills</span><span class="fr">Compétences</span></a></li>
-      <li><a href="#projects"><span class="en">Projects</span><span class="fr">Projets QA</span></a></li>
-      <li><a href="#articles">Articles</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="nav-controls">
-      <button class="ctrl-btn" id="langBtn" onclick="toggleLang()" title="Switch language">FR</button>
-      <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">☀</button>
-    </div>
-  </nav>
-
-  <main class="page-shell">
-    <section class="hero" id="top">
-      <div class="hero-inner">
-        <div>
-          <div class="hero-eyebrow">Software Quality Specialist • Test Automation & Analysis</div>
-          <h1 class="hero-name">Hocine <span>Benbara</span></h1>
-          <p class="hero-copy"><strong>Detecting anomalies, automating test scenarios</strong> and ensuring software reliability across web, desktop and game applications.</p>
-          <div class="tag-row">
-            <span class="tag accent">Playwright / TypeScript</span>
-            <span class="tag alt">FlaUI / C#</span>
-            <span class="tag">Selenium</span>
-            <span class="tag alt">Postman / REST API</span>
-            <span class="tag warn">Zephyr Scale</span>
-            <span class="tag">CI/CD / GitHub Actions</span>
-          </div>
-          <div class="hero-actions">
-            <a class="btn primary" href="#projects">View Projects</a>
-            <a class="btn secondary" href="#contact">Get in Touch</a>
-          </div>
+  <div class="topbar">
+    <div class="container">
+      <nav class="nav">
+        <div class="brand">hocine.benbara</div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#articles">Articles</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-controls">
+          <button class="btn-icon" onclick="toggleTheme()">☀</button>
         </div>
+      </nav>
+    </div>
+  </div>
 
-        <div class="hero-card">
-          <div class="code-box">
-<span class="cm">// fixtures/baseTest.ts</span>
-<span class="kw">import</span> { test <span class="kw">as</span> base } <span class="kw">from</span> <span class="str">'@playwright/test'</span>;
-<span class="kw">import</span> { <span class="fn">LoginPage</span> } <span class="kw">from</span> <span class="str">'../pages/LoginPage'</span>;
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Software Quality Specialist</div>
+        <h1>Hocine <span class="accent">Benbara</span></h1>
+        <p class="hero-desc">
+          <strong>Detecting anomalies, automating test scenarios</strong> and ensuring software reliability across web, desktop and game applications.
+        </p>
+        <div class="tags">
+          <span class="tag accent">Playwright / TypeScript</span>
+          <span class="tag">FlaUI / C#</span>
+          <span class="tag alt">Selenium</span>
+          <span class="tag alt">Postman / REST API</span>
+          <span class="tag accent">Zephyr Scale</span>
+          <span class="tag">CI/CD</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+        </div>
+      </div>
 
-<span class="kw">export const</span> test = base.<span class="fn">extend</span>({
-  <span class="fn">loginPage</span>: <span class="kw">async</span> ({ page }, use) =&gt; {
-    <span class="kw">const</span> lp = <span class="kw">new</span> <span class="fn">LoginPage</span>(page);
-    <span class="kw">await</span> use(lp);
+      <div class="hero-card">
+        <code>
+<span style="color: var(--accent-2);">// fixtures/baseTest.ts</span>
+<span style="color: var(--accent-3);">import</span> { test <span style="color: var(--accent-3);">as</span> base } <span style="color: var(--accent-3);">from</span> <span style="color: var(--accent);">'@playwright/test'</span>;
+
+<span style="color: var(--accent-3);">export const</span> test = base.<span style="color: var(--accent-2);">extend</span>({
+  <span style="color: var(--accent-2);">loginPage</span>: <span style="color: var(--accent-3);">async</span> ({ page }, use) =&gt; {
+    <span style="color: var(--accent-2);">await use(loginPage)</span>;
   },
 });
+        </code>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-header">
+        <div class="eyebrow">01. About</div>
+        <h2>Software Quality Focus</h2>
+        <p>I specialize in detecting anomalies and building maintainable test automation frameworks.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text">
+          <p><strong>I'm a Software Quality Specialist</strong> focused on detecting anomalies and weaknesses in software, websites and games. I design, automate and execute test scenarios to ensure every release is reliable and robust.</p>
+          <p>I've built automation frameworks using <strong>Playwright (TypeScript)</strong> for web apps and <strong>FlaUI (C#/NUnit)</strong> for WPF desktop interfaces, both following the Page Object Model and connecting natively to <strong>Zephyr Scale</strong> for execution tracking.</p>
+          <p>I believe <strong>quality is a shared responsibility</strong>, and I focus on building maintainable, readable and reliable test suites that last.</p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>2+</strong>
+            <span>Years QA Experience</span>
+          </div>
+          <div class="stat">
+            <strong>2</strong>
+            <span>Automation Frameworks</span>
+          </div>
+          <div class="stat">
+            <strong>100%</strong>
+            <span>Zephyr Integration</span>
+          </div>
+          <div class="stat">
+            <strong>BDD</strong>
+            <span>First Approach</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="about">
+    <section id="skills">
       <div class="section-header">
-        <span class="section-number">01</span>
-        <h2 class="section-title">About Me</h2>
-        <div class="section-line"></div>
+        <div class="eyebrow">02. Skills</div>
+        <h2>Tools & Technologies</h2>
       </div>
-      <div class="about-grid">
-        <div class="panel about-copy">
-          <div class="status"><span class="dot"></span>Open to opportunities</div>
-          <p>I’m a Software Quality Specialist focused on detecting anomalies and weaknesses in software, websites and games. I design, automate and execute test scenarios to ensure every release is reliable and robust.</p>
-          <p>I’ve built automation frameworks using Playwright (TypeScript) for web apps and FlaUI (C#/NUnit) for WPF desktop interfaces, both following the Page Object Model and connecting natively to Zephyr Scale for execution tracking.</p>
-          <p>I believe quality is a shared responsibility, and I focus on building maintainable, readable and reliable test suites that last.</p>
-        </div>
-        <div class="stats-grid">
-          <div class="stat"><strong>2+</strong><span>Years QA Experience</span></div>
-          <div class="stat"><strong>2</strong><span>Automation Frameworks</span></div>
-          <div class="stat"><strong>100%</strong><span>Zephyr Integration</span></div>
-          <div class="stat"><strong>BDD</strong><span>First Approach</span></div>
-        </div>
-      </div>
-    </section>
 
-    <section class="section" id="skills">
-      <div class="section-header">
-        <span class="section-number">02</span>
-        <h2 class="section-title">Skills & Tools</h2>
-        <div class="section-line"></div>
-      </div>
       <div class="skills-grid">
         <div class="skill-card">
-          <div class="skill-icon">🤖</div>
-          <div class="skill-name">Test Automation</div>
-          <div class="skill-list">
-            <span>Playwright</span><span>TypeScript</span><span>FlaUI</span><span>C# / NUnit</span><span>Selenium</span><span>Robot Framework</span>
+          <h3>🤖 Test Automation</h3>
+          <div class="skill-pills">
+            <span>Playwright</span>
+            <span>TypeScript</span>
+            <span>FlaUI</span>
+            <span>C# / NUnit</span>
+            <span>Selenium</span>
+            <span>Robot Framework</span>
           </div>
         </div>
+
         <div class="skill-card">
-          <div class="skill-icon">🔌</div>
-          <div class="skill-name">API Testing</div>
-          <div class="skill-list">
-            <span>Postman</span><span>REST API</span><span>Bearer Token</span><span>JSON Schema</span><span>Playwright API</span>
+          <h3>🔌 API Testing</h3>
+          <div class="skill-pills">
+            <span>Postman</span>
+            <span>REST API</span>
+            <span>Bearer Token</span>
+            <span>JSON Schema</span>
+            <span>Playwright API</span>
           </div>
         </div>
+
         <div class="skill-card">
-          <div class="skill-icon">📋</div>
-          <div class="skill-name">Test Management</div>
-          <div class="skill-list">
-            <span>Zephyr Scale</span><span>Jira</span><span>BDD</span><span>Test Plans</span><span>Traceability</span>
+          <h3>📋 Test Management</h3>
+          <div class="skill-pills">
+            <span>Zephyr Scale</span>
+            <span>Jira</span>
+            <span>BDD</span>
+            <span>Test Plans</span>
+            <span>Traceability</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="projects">
+    <section id="projects">
       <div class="section-header">
-        <span class="section-number">03</span>
-        <h2 class="section-title">QA Projects</h2>
-        <div class="section-line"></div>
+        <div class="eyebrow">03. Projects</div>
+        <h2>QA Frameworks & Automation</h2>
       </div>
+
       <div class="projects-grid">
-        <article class="project featured">
-          <div class="project-type">🎭 Playwright • TypeScript • Web</div>
-          <h3>Playwright Web Test Framework</h3>
-          <p>Production-ready framework with TypeScript, Page Object Model, custom fixtures and Zephyr reporting.</p>
-          <div class="project-stack">
-            <span class="tag accent">Playwright</span>
-            <span class="tag alt">TypeScript</span>
-            <span class="tag">POM</span>
-            <span class="tag warn">Zephyr</span>
+        <div class="project-card featured">
+          <div>
+            <div class="project-type">🎭 Playwright • TypeScript • Web</div>
+            <h3>Playwright Web Test Framework</h3>
+            <p>Production-ready framework with TypeScript, Page Object Model, custom fixtures, data-driven testing via JSON and Zephyr reporting.</p>
+            <div class="project-stack">
+              <span class="tag accent">Playwright</span>
+              <span class="tag alt">TypeScript</span>
+              <span class="tag">POM</span>
+              <span class="tag accent">Zephyr</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="primary">View Details</a>
+              <a href="#">GitHub</a>
+            </div>
           </div>
-          <div class="project-links">
-            <a class="link-btn primary" href="#">View Details</a>
-            <a class="link-btn" href="#">GitHub</a>
-          </div>
-        </article>
-        <article class="project">
+        </div>
+
+        <div class="project-card">
           <div class="project-type">🖥️ FlaUI • C# • WPF</div>
           <h3>WPF Automation Framework</h3>
-          <p>NUnit automation for Windows apps with screenshots on failure and Zephyr integration.</p>
+          <p>NUnit-based automation for Windows WPF applications using FlaUI, with automatic screenshot capture on failure and Zephyr integration.</p>
           <div class="project-stack">
-            <span class="tag alt">FlaUI</span>
+            <span class="tag">FlaUI</span>
             <span class="tag">C#</span>
-            <span class="tag warn">Zephyr</span>
+            <span class="tag accent">Zephyr</span>
           </div>
           <div class="project-links">
-            <a class="link-btn primary" href="#">View Details</a>
+            <a href="#" class="primary">View Details</a>
           </div>
-        </article>
-        <article class="project">
+        </div>
+
+        <div class="project-card">
           <div class="project-type">🔌 Playwright • REST API</div>
           <h3>REST API Test Suite</h3>
-          <p>Automated API tests using Playwright API context, Bearer token auth and CRUD validation.</p>
+          <p>Automated API test suite using Playwright's API context. Tests Bearer token auth, CRUD operations and validates JSON responses.</p>
           <div class="project-stack">
             <span class="tag accent">Playwright API</span>
             <span class="tag alt">REST</span>
             <span class="tag">CRUD</span>
           </div>
           <div class="project-links">
-            <a class="link-btn primary" href="#">Read Article</a>
+            <a href="#">Read Article</a>
           </div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="articles">
+    <section id="articles">
       <div class="section-header">
-        <span class="section-number">04</span>
-        <h2 class="section-title">Articles</h2>
-        <div class="section-line"></div>
+        <div class="eyebrow">04. Articles</div>
+        <h2>QA Insights & Tutorials</h2>
       </div>
 
-      <div class="articles-list">
-        <a class="article-row featured" href="#playwright-bamboo" id="playwright-bamboo">
-          <div class="article-date"><span>Jun</span><strong>2026</strong></div>
-          <div class="article-row-body">
-            <div class="article-row-tags">
-              <span class="tag accent">Playwright</span>
-              <span class="tag alt">Bamboo</span>
-              <span class="tag">CI/CD</span>
-              <span class="tag warn">Smoke Tests</span>
-            </div>
-            <h3 class="article-row-title">Playwright in Bamboo CI/CD Pipeline</h3>
-            <p class="article-row-desc">Smoke tests • QA deployment validation • Progressive test pyramid • Zephyr integration</p>
+      <div class="articles-grid">
+        <a href="#" class="article-card">
+          <div class="article-date">
+            <span>May</span>
+            <strong>2025</strong>
           </div>
-          <div class="article-row-arrow">→</div>
-        </a>
-
-        <a class="article-row" href="#">
-          <div class="article-date"><span>May</span><strong>2025</strong></div>
-          <div class="article-row-body">
-            <div class="article-row-tags">
-              <span class="tag accent">Playwright</span>
-              <span class="tag alt">REST API</span>
-              <span class="tag warn">Zephyr</span>
-            </div>
-            <h3 class="article-row-title">How I Tested a REST API Using Playwright</h3>
-            <p class="article-row-desc">Bearer token auth • CRUD validation • Test isolation • Zephyr reporting</p>
+          <div class="article-body">
+            <h3>How I Tested a REST API Using Playwright</h3>
+            <p>Bearer token auth • CRUD validation • Test isolation • Zephyr reporting</p>
           </div>
-          <div class="article-row-arrow">→</div>
+          <div class="article-arrow">→</div>
         </a>
       </div>
     </section>
 
-    <section class="section" id="contact">
-      <div class="contact-box">
+    <section id="contact">
+      <div class="contact">
         <div>
-          <div class="hero-eyebrow" style="margin-bottom:0.4rem;">Contact</div>
-          <h3 style="margin:0; font-size: clamp(1.6rem, 3vw, 2.2rem);">Let’s build reliable software together.</h3>
+          <h2>Let's build reliable software together.</h2>
         </div>
         <a href="mailto:hocinebenbara@gmail.com">hocinebenbara@gmail.com</a>
       </div>
@@ -643,46 +717,16 @@
   </main>
 
   <script>
-    function toggleLang() {
-      var root = document.documentElement;
-      var current = root.getAttribute('data-lang') || 'en';
-      var next = current === 'en' ? 'fr' : 'en';
-      root.setAttribute('data-lang', next);
-      root.setAttribute('lang', next);
-      localStorage.setItem('lang', next);
-      document.querySelectorAll('.en, .fr').forEach(function (node) {
-        node.style.display = node.classList.contains(next) ? 'inline' : 'none';
-      });
-    }
-
     function toggleTheme() {
-      var root = document.documentElement;
-      var current = root.getAttribute('data-theme') || 'dark';
-      var next = current === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      var btn = document.getElementById('themeBtn');
-      btn.textContent = next === 'dark' ? '☀' : '☾';
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
     }
 
-    (function () {
-      var root = document.documentElement;
-      var theme = localStorage.getItem('theme') || 'dark';
-      var lang = localStorage.getItem('lang') || 'en';
-      root.setAttribute('data-theme', theme);
-      root.setAttribute('data-lang', lang);
-      root.setAttribute('lang', lang);
-      if (document.getElementById('themeBtn')) {
-        document.getElementById('themeBtn').textContent = theme === 'dark' ? '☀' : '☾';
-      }
-      document.querySelectorAll('.en, .fr').forEach(function (node) {
-        if (node.classList.contains(lang)) {
-          node.style.display = 'inline';
-        } else {
-          node.style.display = 'none';
-        }
-      });
-    })();
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
   </script>
 </body>
 </html>
