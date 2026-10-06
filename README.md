@@ -31,7 +31,7 @@ HocineBenbara.github.io/
     └── main.js
 ```
 
-## 🚀 Technologies
+##  Technologies
 
 - **Playwright / TypeScript** – Web E2E testing
 - **FlaUI / C# / NUnit** – WPF Desktop automation
@@ -40,7 +40,7 @@ HocineBenbara.github.io/
 - **Zephyr Scale** – Test management & reporting
 - **GitHub Actions** – CI/CD
 
-## 🌐 Fonctionnalités
+##  Fonctionnalités
 
 - Bilingue EN / FR (toggle)
 - Dark / Light mode (toggle)
@@ -48,7 +48,7 @@ HocineBenbara.github.io/
 - Responsive (mobile, tablette, desktop)
 - SEO-friendly (HTML statique, pas de JS côté serveur)
 
-## 📦 Déploiement
+##  Déploiement
 
 Ce site est hébergé sur **GitHub Pages** — aucune configuration serveur requise.
 Pousser sur la branche `main` suffit à mettre le site à jour.
