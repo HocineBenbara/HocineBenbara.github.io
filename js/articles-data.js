@@ -1,4 +1,6 @@
-[
+/* Liste des articles affichés sur la page d'accueil.
+   Pour ajouter un article : ajoute un bloc { ... } dans ce tableau. */
+window.ARTICLES = [
   {
     "slug": "playwright-bamboo-pipeline.html",
     "date": "2026-10-07",
@@ -119,4 +121,4 @@
     "desc_en": "Page Object Model · Reusable utilities · Data-Driven Testing · Full test isolation",
     "desc_fr": "Page Object Model · Utilitaires réutilisables · Tests data-driven · Isolation complète"
   }
-]
+];
